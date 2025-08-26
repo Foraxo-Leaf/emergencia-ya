@@ -15,14 +15,12 @@ export default function EducacionPage() {
             <p className="text-muted-foreground">Aprende técnicas de primeros auxilios que pueden salvar vidas</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {educationData.map((topic) => (
+          {educationData.slice(0, 6).map((topic) => (
             <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
               <Card className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg hover:bg-card/90">
-                <CardContent className="p-2 flex flex-col items-center justify-center gap-3">
-                  <div className={cn("w-16 h-16 rounded-full flex items-center justify-center", topic.color)}>
-                    <topic.icon className={cn("w-8 h-8", topic.iconColor)} />
-                  </div>
-                  <span className="text-sm font-semibold leading-tight text-center uppercase mt-2">{topic.shortTitle || topic.title}</span>
+                <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
+                    <topic.icon className="w-10 h-10 text-foreground" />
+                    <span className="text-sm font-medium leading-tight text-center uppercase mt-2 text-foreground">{topic.shortTitle || topic.title}</span>
                 </CardContent>
               </Card>
             </Link>
