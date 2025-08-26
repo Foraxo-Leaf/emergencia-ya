@@ -34,7 +34,7 @@ export default function Home() {
         </a>
       </div>
 
-      <footer className="p-4 md:p-6 space-y-4">
+      <footer className="p-4 md:p-6">
         <div className="grid grid-cols-2 gap-4">
           {navItems.map((item) => (
             <Link href={item.href} key={item.href} passHref>
@@ -48,7 +48,7 @@ export default function Home() {
           ))}
         </div>
         <Link href={bottomNavItem.href} passHref>
-          <div className={`${bottomNavItem.color} text-white flex items-center justify-center p-4 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl`}>
+          <div className={`${bottomNavItem.color} mt-4 text-white flex items-center justify-center p-4 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl`}>
               <div className="p-0 flex items-center justify-center gap-4">
                 <div className="w-12 h-12 flex items-center justify-center">
                     <bottomNavItem.icon className="w-8 h-8 text-white" />
