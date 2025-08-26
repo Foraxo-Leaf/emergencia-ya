@@ -4,13 +4,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Ambulance, Stethoscope, GraduationCap, Shield, Flame, MapPin } from "lucide-react";
 
 const navItems = [
-  { href: "/autoevaluacion", label: "AUTOEVALUACION (TRIAGE)", icon: Stethoscope },
-  { href: "/educacion", label: "EDUCACION COMUNITARIA", icon: GraduationCap },
-  { href: "/policia", label: "POLICIA", icon: Shield },
-  { href: "/bomberos", label: "BOMBEROS", icon: Flame },
+  { href: "/autoevaluacion", label: "AUTOEVALUACION (TRIAGE)", icon: Stethoscope, color: "bg-green-500" },
+  { href: "/educacion", label: "EDUCACION COMUNITARIA", icon: GraduationCap, color: "bg-indigo-500" },
+  { href: "/policia", label: "POLICIA", icon: Shield, color: "bg-blue-500" },
+  { href: "/bomberos", label: "BOMBEROS", icon: Flame, color: "bg-orange-400" },
 ];
 
-const bottomNavItem = { href: "/centros", label: "CENTROS DE ATENCION Y TELEFONOS UTILES", icon: MapPin };
+const bottomNavItem = { href: "/centros", label: "CENTROS DE ATENCION Y TELEFONOS UTILES", icon: MapPin, color: "bg-cyan-400" };
 
 export default function Home() {
   return (
@@ -38,9 +38,9 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-4">
           {navItems.map((item) => (
             <Link href={item.href} key={item.href} passHref>
-              <div className="bg-card border rounded-2xl aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg hover:bg-accent/10">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                    <item.icon className="w-6 h-6 text-accent-foreground" />
+              <div className={`${item.color} text-white border rounded-2xl aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg`}>
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <item.icon className="w-8 h-8 text-white" />
                   </div>
                   <span className="text-xs font-semibold mt-2 leading-tight text-center">{item.label}</span>
               </div>
@@ -48,10 +48,10 @@ export default function Home() {
           ))}
         </div>
         <Link href={bottomNavItem.href} passHref>
-          <div className="bg-card border flex items-center justify-center p-4 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl hover:bg-accent/10">
+          <div className={`${bottomNavItem.color} text-white flex items-center justify-center p-4 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl`}>
               <div className="p-0 flex items-center justify-center gap-4">
-                <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
-                    <bottomNavItem.icon className="w-6 h-6 text-accent-foreground" />
+                <div className="w-12 h-12 flex items-center justify-center">
+                    <bottomNavItem.icon className="w-8 h-8 text-white" />
                 </div>
                 <span className="text-sm font-semibold">{bottomNavItem.label}</span>
               </div>
