@@ -46,14 +46,21 @@ export default function EducacionDetallePage({ params }: { params: { slug: strin
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {steps.map((step, index) => (
-              <div key={index} className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
-                  {index + 1}
-                </div>
-                <p className="text-card-foreground/90">{step}</p>
-              </div>
-            ))}
+            {steps.map((step, index) => {
+                const parts = step.split('**');
+                return (
+                  <div key={index} className="flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                      {index + 1}
+                    </div>
+                    <p className="text-card-foreground/90">
+                      {parts.map((part, i) =>
+                        i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+                      )}
+                    </p>
+                  </div>
+                );
+            })}
           </CardContent>
         </Card>
       </main>
