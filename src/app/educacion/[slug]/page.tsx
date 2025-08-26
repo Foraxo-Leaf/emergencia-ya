@@ -2,7 +2,8 @@ import { educationData } from "@/lib/educationData";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { PlayCircle, FileText } from "lucide-react";
 
 export async function generateStaticParams() {
   return educationData.map((topic) => ({
@@ -17,38 +18,42 @@ export default function EducacionDetallePage({ params }: { params: { slug: strin
     notFound();
   }
 
+  const steps = topic.description.trim().split('\n').map(s => s.replace(/^\d+\.\s*/, ''));
+
   return (
     <div className="flex flex-col min-h-dvh bg-background">
-      <Header title={topic.title} backHref="/educacion" />
+      <Header title="Información" backHref="/educacion" />
       <main className="flex-grow p-4 md:p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-3xl">{topic.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <CardDescription className="text-base whitespace-pre-line">
-              {topic.description}
-            </CardDescription>
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold">{topic.title}</h1>
+          <p className="text-muted-foreground">{topic.subtitle}</p>
+        </div>
 
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Video Demostrativo</h3>
-              <div className="aspect-video bg-muted rounded-lg overflow-hidden relative flex items-center justify-center">
-                 <Image
-                    src="https://picsum.photos/1280/720"
-                    alt="Video placeholder"
-                    layout="fill"
-                    objectFit="cover"
-                    className="opacity-50"
-                    data-ai-hint="video tutorial"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-foreground/70">Video no disponible.</p>
-                  </div>
+        <div className="mb-6">
+          <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
+            <PlayCircle className="mr-2" /> Ver Video Tutorial
+          </Button>
+          <p className="text-sm text-muted-foreground mt-2 text-center">
+            El contenido de video estará disponible próximamente.
+          </p>
+        </div>
+
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center text-xl">
+              <FileText className="mr-2 text-blue-500" />
+              Pasos a Seguir
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {steps.map((step, index) => (
+              <div key={index} className="flex items-start">
+                <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                  {index + 1}
+                </div>
+                <p className="text-card-foreground/90">{step}</p>
               </div>
-               <p className="text-sm text-muted-foreground mt-2">
-                El contenido de video estará disponible próximamente.
-              </p>
-            </div>
+            ))}
           </CardContent>
         </Card>
       </main>
