@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Ambulance, Heart, GraduationCap, Shield, Flame, MapPin, Settings } from "lucide-react";
+import { Ambulance, Heart, GraduationCap, Shield, Flame, MapPin } from "lucide-react";
 
 const navItems = [
   { href: "/autoevaluacion", label: "AUTOEVALUACION (TRIAGE)", icon: Heart, color: "bg-green-500 hover:bg-green-600" },
@@ -21,13 +21,10 @@ export default function Home() {
           <p className="text-sm">EMERGENCIAS</p>
           <p className="text-sm">SUSAMCO</p>
         </div>
-        <Button variant="ghost" size="icon">
-          <Settings className="w-6 h-6" />
-        </Button>
       </header>
       
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-6 text-center">
-        <a href="tel:107" className="w-full max-w-sm flex justify-center">
+        <a href="tel:462111" className="w-full max-w-sm flex justify-center">
           <div
             className="w-48 h-48 rounded-full bg-primary hover:bg-red-700 dark:bg-primary dark:hover:bg-red-700 flex flex-col items-center justify-center text-primary-foreground shadow-2xl"
           >
