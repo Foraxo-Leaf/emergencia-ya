@@ -15,7 +15,7 @@ export default function EducacionPage() {
             <p className="text-muted-foreground">Aprende técnicas de primeros auxilios que pueden salvar vidas</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {educationData.slice(0, 6).map((topic) => (
+          {educationData.map((topic) => (
             <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
               <Card className={cn(
                 "aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg",
