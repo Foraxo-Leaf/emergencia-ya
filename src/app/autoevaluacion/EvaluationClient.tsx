@@ -77,11 +77,11 @@ export function EvaluationClient() {
                                 </CardDescription>
                                 {locationError && <p className="text-destructive text-sm mb-4">{locationError}</p>}
                                 <div className="flex flex-col gap-4">
-                                    <a href="tel:462111" className="w-full">
-                                        <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar al 462111</Button>
+                                    <a href="tel:107" className="w-full">
+                                        <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia (107)</Button>
                                     </a>
                                     {location && (
-                                     <a href={`sms:462111?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
+                                     <a href={`sms:107?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
                                         <Button size="lg" variant="secondary" className="w-full"><MessageSquare className="mr-2"/> Compartir Ubicación por SMS</Button>
                                      </a>
                                     )}
@@ -98,8 +98,8 @@ export function EvaluationClient() {
                                     <Link href="/centros" passHref>
                                         <Button size="lg" variant="secondary" className="w-full">Ver centros de atención / turnos</Button>
                                     </Link>
-                                    <a href="tel:462111" className="w-full">
-                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar a la ambulancia de todas formas</Button>
+                                    <a href="tel:107" className="w-full">
+                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar a la ambulancia (107)</Button>
                                     </a>
                                 </div>
                             </>

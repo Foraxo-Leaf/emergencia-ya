@@ -22,14 +22,14 @@ export default function Home() {
           Su asistente de emergencias. Presione el botón para ayuda inmediata o explore las opciones a continuación.
         </p>
         
-        <a href="tel:462111" className="w-full max-w-sm">
+        <a href="tel:107" className="w-full max-w-sm">
           <Button
             variant="default"
             size="lg"
             className="w-full h-32 md:h-40 rounded-full text-2xl md:text-3xl font-bold shadow-2xl animate-pulse bg-primary hover:bg-red-700 dark:bg-primary dark:hover:bg-red-700 flex flex-col gap-2"
           >
             <Ambulance className="w-12 h-12" />
-            LLAMAR AMBULANCIA
+            LLAMAR AMBULANCIA (107)
           </Button>
         </a>
       </div>

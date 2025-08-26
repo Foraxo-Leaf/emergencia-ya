@@ -8,13 +8,13 @@ const centers = [
     name: "Samco Armstrong - Guardia 24 hs",
     address: "Pasaje Pedro Rolando 1590, Armstrong, Santa Fe",
     mapsQuery: "SAMCO+Armstrong,+Pasaje+Pedro+Rolando+1590,+Armstrong,+Santa+Fe",
-    whatsapp: "5493471000000", // Placeholder number
+    whatsapp: "5493471533033",
   },
   {
     name: "Centro de Monitoreo",
-    address: "Ubicación del centro de monitoreo",
+    address: "Bv. Auden y Dante Alighieri",
     mapsQuery: "Centro+de+Monitoreo+Armstrong",
-    phone: "109", // Placeholder number
+    phone: "109",
   },
 ];
 

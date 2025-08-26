@@ -5,7 +5,7 @@ export const educationData = [
     description: `
 1. **Verificar seguridad:** Asegúrese de que el lugar sea seguro para usted y la víctima.
 2. **Evaluar respuesta:** Toque los hombros de la víctima y pregunte en voz alta: "¿Estás bien?".
-3. **Llamar a emergencias:** Si no responde, llame al 462111 o pida a alguien que lo haga.
+3. **Llamar a emergencias:** Si no responde, llame al 107 (Ambulancia) o pida a alguien que lo haga.
 4. **Abrir vía aérea:** Incline suavemente la cabeza hacia atrás y levante el mentón.
 5. **Verificar respiración:** Observe si el pecho se eleva durante no más de 10 segundos.
 6. **Iniciar compresiones:** Coloque el talón de una mano en el centro del pecho y la otra mano encima. Realice 30 compresiones fuertes y rápidas (a un ritmo de 100-120 por minuto).
