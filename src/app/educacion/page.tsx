@@ -18,12 +18,12 @@ export default function EducacionPage() {
           {educationData.map((topic) => (
             <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
               <Card className={cn(
-                "aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg",
+                "aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl",
                 topic.color
               )}>
                 <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
                     <topic.icon className={cn("w-10 h-10", topic.iconColor)} />
-                    <span className={cn("text-sm font-medium leading-tight text-center uppercase mt-2", topic.iconColor)}>{topic.shortTitle || topic.title}</span>
+                    <span className={cn("text-sm font-semibold leading-tight text-center uppercase mt-2", topic.iconColor)}>{topic.shortTitle || topic.title}</span>
                 </CardContent>
               </Card>
             </Link>
