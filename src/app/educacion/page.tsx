@@ -19,10 +19,10 @@ export default function EducacionPage() {
             <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
               <Card className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg hover:bg-card/90">
                 <CardContent className="p-2 flex flex-col items-center justify-center gap-3">
-                  <div className={cn("w-14 h-14 rounded-full flex items-center justify-center", topic.color)}>
-                    <topic.icon className={cn("w-7 h-7", topic.iconColor)} />
+                  <div className={cn("w-16 h-16 rounded-full flex items-center justify-center", topic.color)}>
+                    <topic.icon className={cn("w-8 h-8", topic.iconColor)} />
                   </div>
-                  <span className="text-xs font-semibold leading-tight text-center uppercase">{topic.shortTitle || topic.title}</span>
+                  <span className="text-sm font-semibold leading-tight text-center uppercase mt-2">{topic.shortTitle || topic.title}</span>
                 </CardContent>
               </Card>
             </Link>
