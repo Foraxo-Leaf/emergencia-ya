@@ -17,8 +17,8 @@ export const educationData = [
 8. **Continuar:** Siga con ciclos de 30 compresiones hasta que llegue la ayuda.`,
     videoUrl: 'https://example.com/rcp-adultos',
     icon: Heart,
-    color: 'bg-red-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-200/50',
+    iconColor: 'text-neutral-400',
   },
   {
     slug: 'rcp-ninos',
@@ -51,8 +51,8 @@ export const educationData = [
 5. **Alterne:** Continúe alternando 5 golpes en la espalda y 5 compresiones abdominales hasta que el objeto sea expulsado o llegue la ayuda.`,
     videoUrl: 'https://example.com/heimlich',
     icon: Wind,
-    color: 'bg-teal-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-200/50',
+    iconColor: 'text-neutral-400',
   },
   {
     slug: 'convulsiones',
@@ -81,8 +81,8 @@ export const educationData = [
 4. **Llame a emergencias:** Si el sangrado es severo o no se detiene.`,
     videoUrl: 'https://example.com/hemorragias',
     icon: Droplet,
-    color: 'bg-red-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-200/50',
+    iconColor: 'text-neutral-400',
   },
   {
     slug: 'quemaduras',
@@ -130,7 +130,7 @@ export const educationData = [
 4. **Llame a emergencias:** Si no recupera la conciencia en un minuto.`,
     videoUrl: 'https://example.com/desmayo',
     icon: UserMinus,
-    color: 'bg-purple-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-200/50',
+    iconColor: 'text-neutral-400',
   },
 ];
