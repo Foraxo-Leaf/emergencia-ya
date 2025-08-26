@@ -12,9 +12,9 @@ export default function PoliciaPage() {
         <p className="text-muted-foreground mb-8 max-w-md">
           Para emergencias que requieran a la policía, presione el botón para llamar.
         </p>
-        <a href="tel:911" className="w-full max-w-xs">
+        <a href="tel:101" className="w-full max-w-xs">
           <Button size="lg" className="w-full h-24 text-2xl font-bold">
-            Llamar 911
+            Llamar 101
           </Button>
         </a>
       </main>

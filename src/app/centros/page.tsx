@@ -8,13 +8,23 @@ const centers = [
     name: "Samco Armstrong - Guardia 24 hs",
     address: "Pasaje Pedro Rolando 1590, Armstrong, Santa Fe",
     mapsQuery: "SAMCO+Armstrong,+Pasaje+Pedro+Rolando+1590,+Armstrong,+Santa+Fe",
-    whatsapp: "5493471533033",
+    whatsapp: "543471533033",
   },
   {
     name: "Centro de Monitoreo",
     address: "Bv. Auden y Dante Alighieri",
     mapsQuery: "Centro+de+Monitoreo+Armstrong",
     phone: "109",
+  },
+  {
+    name: "Policía",
+    address: "Comando Radioeléctrico",
+    phone: "101",
+  },
+   {
+    name: "Bomberos Voluntarios",
+    address: "Dick y Fischer",
+    phone: "100",
   },
 ];
 
@@ -34,12 +44,14 @@ export default function CentrosPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <a href={`https://www.google.com/maps/search/?api=1&query=${center.mapsQuery}`} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="w-full">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    Cómo llegar
-                  </Button>
-                </a>
+                 {center.mapsQuery && (
+                  <a href={`https://www.google.com/maps/search/?api=1&query=${center.mapsQuery}`} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="w-full">
+                      <MapPin className="w-4 h-4 mr-2" />
+                      Cómo llegar
+                    </Button>
+                  </a>
+                 )}
                 {center.whatsapp && (
                   <a href={`https://wa.me/${center.whatsapp}`} target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="w-full">
