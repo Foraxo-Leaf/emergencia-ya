@@ -17,10 +17,13 @@ export default function EducacionPage() {
         <div className="grid grid-cols-2 gap-4">
           {educationData.slice(0, 6).map((topic) => (
             <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
-              <Card className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg hover:bg-card/90">
+              <Card className={cn(
+                "aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg",
+                topic.color
+              )}>
                 <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
-                    <topic.icon className="w-10 h-10 text-foreground" />
-                    <span className="text-sm font-medium leading-tight text-center uppercase mt-2 text-foreground">{topic.shortTitle || topic.title}</span>
+                    <topic.icon className={cn("w-10 h-10", topic.iconColor)} />
+                    <span className={cn("text-sm font-medium leading-tight text-center uppercase mt-2", topic.iconColor)}>{topic.shortTitle || topic.title}</span>
                 </CardContent>
               </Card>
             </Link>
