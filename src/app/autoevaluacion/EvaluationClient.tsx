@@ -4,21 +4,18 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { HeartPulse, Wind, AlertTriangle, Home, Stethoscope, Activity, Mic, Phone, MessageSquare, ChevronRight } from "lucide-react";
+import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope } from "lucide-react";
 import Link from 'next/link';
 
-const urgentSymptoms = [
-    { text: "Dolor de pecho", icon: HeartPulse },
-    { text: "Dificultad para respirar", icon: Wind },
-    { text: "Pérdida de conciencia o desmayo", icon: AlertTriangle },
-    { text: "Accidente de tránsito o doméstico", icon: Home },
+const allSymptoms = [
+    { text: "¿Tenés dolor de pecho?", isUrgent: true },
+    { text: "¿Tenés dificultad para respirar?", isUrgent: true },
+    { text: "¿Alguien se desmayó o perdió la conciencia?", isUrgent: true },
+    { text: "¿Sufriste o estás en presencia de un accidente de tránsito o doméstico?", isUrgent: true },
+    { text: "¿Tenés dolor abdominal leve o diarrea?", isUrgent: false },
+    { text: "¿Tenés dolor leve de más de una semana de evolución?", isUrgent: false },
 ];
 
-const nonUrgentSymptoms = [
-    { text: "Dolor abdominal leve o diarrea", icon: Stethoscope },
-    { text: "Dolor leve de más de una semana", icon: Activity },
-    { text: "Tos, resfrío o dolor de garganta", icon: Mic },
-]
 
 type ResultType = 'urgent' | 'non-urgent' | null;
 
@@ -34,10 +31,6 @@ export function EvaluationClient() {
             setResult('non-urgent');
         }
     };
-    
-    const handleNonUrgentConfirmation = () => {
-        setResult('non-urgent');
-    }
 
     useEffect(() => {
         if (result === 'urgent') {
@@ -50,6 +43,7 @@ export function EvaluationClient() {
                     setLocationError(null);
                 },
                 (error) => {
+                    console.error("Geolocation error:", error);
                     setLocationError("No se pudo obtener la ubicación. Por favor, actívela en su dispositivo.");
                 }
             );
@@ -115,54 +109,25 @@ export function EvaluationClient() {
     }
 
     return (
-        <div className="p-4 md:p-6">
-             <Card className="mb-6">
-                <CardHeader>
-                    <CardTitle>¿Es una emergencia?</CardTitle>
-                    <CardDescription>Si presenta alguno de estos síntomas, seleccione para continuar.</CardDescription>
-                </CardHeader>
-                <CardContent className="p-0">
-                    <div className="flex flex-col">
-                        {urgentSymptoms.map((symptom) => {
-                            const Icon = symptom.icon;
-                            return (
-                                <button key={symptom.text} onClick={() => handleSymptomClick(true)} className="flex items-center justify-between py-3 border-b last:border-b-0 hover:bg-accent/10 transition-colors duration-200 -mx-4 px-4 text-left w-full">
-                                    <div className="flex items-center">
-                                        <Icon className="w-6 h-6 mr-4 text-primary" />
-                                        <span className="text-lg font-medium">{symptom.text}</span>
-                                    </div>
-                                    <ChevronRight className="w-6 h-6 text-muted-foreground" />
-                                </button>
-                            );
-                        })}
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle>¿No es una emergencia?</CardTitle>
-                    <CardDescription>Si sus síntomas son leves o no son urgentes, puede buscar atención programada.</CardDescription>
-                </CardHeader>
-                <CardContent className="p-0">
-                   <div className="flex flex-col">
-                        {nonUrgentSymptoms.map((symptom) => {
-                             const Icon = symptom.icon;
-                            return (
-                                 <div key={symptom.text} className="flex items-center justify-between py-3 border-b last:border-b-0 -mx-4 px-4">
-                                    <div className="flex items-center">
-                                         <Icon className="w-6 h-6 mr-4 text-accent" />
-                                        <span className="text-lg font-medium">{symptom.text}</span>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                   </div>
-                   <div className="p-6">
-                     <Button onClick={handleNonUrgentConfirmation} size="lg" variant="secondary" className="w-full">No es urgente, mostrar opciones</Button>
-                   </div>
-                </CardContent>
-            </Card>
+        <div className="p-4 md:p-6 text-center">
+            <AlertTriangle className="w-12 h-12 mx-auto text-primary mb-2" />
+            <h1 className="text-2xl font-bold mb-1">Auto Evaluación Rápida</h1>
+            <p className="text-muted-foreground mb-6">Seleccioná la opción que mejor describe tu situación</p>
+            <div className="space-y-3 text-left">
+                {allSymptoms.map((symptom, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleSymptomClick(symptom.isUrgent)}
+                        className={`w-full p-4 rounded-lg shadow-md flex items-center justify-between transition-all duration-200 border-l-4 ${symptom.isUrgent ? 'border-primary bg-card hover:bg-red-50/50' : 'border-gray-300 bg-card hover:bg-gray-50/50'}`}
+                    >
+                        <div className="flex items-center">
+                            <span className={`font-bold mr-3 ${symptom.isUrgent ? 'text-primary' : 'text-blue-500'}`}>{index + 1}.</span>
+                            <span className="font-medium">{symptom.text}</span>
+                        </div>
+                        {symptom.isUrgent && <Ambulance className="w-5 h-5 text-primary" />}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 }
