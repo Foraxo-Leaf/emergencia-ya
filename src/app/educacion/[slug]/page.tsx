@@ -41,7 +41,7 @@ export default function EducacionDetallePage({ params }: { params: { slug: strin
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="flex items-center text-xl">
-              <FileText className="mr-2 text-blue-500" />
+              <FileText className="mr-2 text-accent" />
               Pasos a Seguir
             </CardTitle>
           </CardHeader>
@@ -50,7 +50,7 @@ export default function EducacionDetallePage({ params }: { params: { slug: strin
                 const parts = step.split('**');
                 return (
                   <div key={index} className="flex items-start">
-                    <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                    <div className="flex-shrink-0 w-6 h-6 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
                       {index + 1}
                     </div>
                     <p className="text-card-foreground/90">
