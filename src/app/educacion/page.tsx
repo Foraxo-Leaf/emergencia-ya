@@ -1,31 +1,33 @@
 import Link from "next/link";
 import { Header } from "@/components/shared/Header";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { educationData } from "@/lib/educationData";
-import { ChevronRight, Dot } from "lucide-react";
+import { cn } from "@/lib/utils";
+
 
 export default function EducacionPage() {
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title="Educación Comunitaria" backHref="/" />
       <main className="flex-grow p-4 md:p-6">
-        <Card>
-            <CardContent className="p-4">
-                <div className="flex flex-col">
-                  {educationData.map((topic) => (
-                    <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
-                      <div className="flex items-center justify-between py-3 border-b last:border-b-0 hover:bg-accent/10 transition-colors duration-200 -mx-4 px-4">
-                        <div className="flex items-center">
-                            <Dot className="w-8 h-8 text-muted-foreground" />
-                            <span className="text-lg font-medium">{topic.title}</span>
-                        </div>
-                        <ChevronRight className="w-6 h-6 text-muted-foreground" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-            </CardContent>
-        </Card>
+        <div className="text-left mb-6">
+            <h2 className="text-2xl font-bold">Educación Comunitaria</h2>
+            <p className="text-muted-foreground">Aprende técnicas de primeros auxilios que pueden salvar vidas</p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {educationData.map((topic) => (
+            <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
+              <Card className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg hover:bg-card/90">
+                <CardContent className="p-2 flex flex-col items-center justify-center gap-3">
+                  <div className={cn("w-14 h-14 rounded-full flex items-center justify-center", topic.color)}>
+                    <topic.icon className={cn("w-7 h-7", topic.iconColor)} />
+                  </div>
+                  <span className="text-xs font-semibold leading-tight text-center uppercase">{topic.shortTitle || topic.title}</span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
       </main>
     </div>
   );

@@ -1,7 +1,10 @@
+import { Heart, Baby, Wind, Brain, Droplet, Flame, BriefcaseMedical, UserMinus } from 'lucide-react';
+
 export const educationData = [
   {
     slug: 'rcp-adultos',
     title: 'RCP ADULTOS',
+    shortTitle: 'RCP ADULTOS',
     description: `
 1. **Verificar seguridad:** Asegúrese de que el lugar sea seguro para usted y la víctima.
 2. **Evaluar respuesta:** Toque los hombros de la víctima y pregunte en voz alta: "¿Estás bien?".
@@ -12,19 +15,46 @@ export const educationData = [
 7. **Ventilaciones (opcional):** Si está entrenado, dé 2 ventilaciones después de las 30 compresiones.
 8. **Continuar:** Siga con ciclos de 30 compresiones hasta que llegue la ayuda.`,
     videoUrl: 'https://example.com/rcp-adultos',
+    icon: Heart,
+    color: 'bg-red-100',
+    iconColor: 'text-red-500',
   },
   {
     slug: 'rcp-ninos',
     title: 'RCP NIÑOS',
+    shortTitle: 'RCP NIÑOS',
     description: `Similar a los adultos, pero con algunas diferencias:
 - Use una o dos manos para las compresiones, dependiendo del tamaño del niño.
 - No presione con tanta fuerza como en un adulto.
 - Las demás pautas son similares.`,
     videoUrl: 'https://example.com/rcp-ninos',
+    icon: Baby,
+    color: 'bg-cyan-100',
+    iconColor: 'text-cyan-500',
+  },
+   {
+    slug: 'atragantamiento',
+    title: 'ATRAGANTAMIENTO (MANIOBRA DE HEIMLICH)',
+    shortTitle: 'ATRAGANTAMIENTO',
+    description: `
+1. **Anime a toser:** Si la persona puede toser, anímela a que siga haciéndolo.
+2. **Pida ayuda:** Llame a emergencias si la persona no puede respirar, toser o hablar.
+3. **Dé 5 golpes en la espalda:** Incline a la persona hacia adelante y dé 5 golpes firmes entre los omóplatos con el talón de su mano.
+4. **Realice 5 compresiones abdominales (Maniobra de Heimlich):**
+   - Párese detrás de la persona.
+   - Rodee su cintura con sus brazos.
+   - Cierre un puño y colóquelo justo por encima del ombligo.
+   - Agarre el puño con la otra mano y presione bruscamente hacia adentro y hacia arriba.
+5. **Alterne:** Continúe alternando 5 golpes en la espalda y 5 compresiones abdominales hasta que el objeto sea expulsado o llegue la ayuda.`,
+    videoUrl: 'https://example.com/heimlich',
+    icon: Wind,
+    color: 'bg-teal-100',
+    iconColor: 'text-teal-500',
   },
   {
     slug: 'convulsiones',
     title: 'CONVULSIONES',
+    shortTitle: 'CONVULSIONES',
     description: `
 1. **Mantenga la calma y proteja a la persona:**
    - Aleje objetos duros o afilados.
@@ -40,20 +70,28 @@ export const educationData = [
    - Ocurre en el agua.
    - Es la primera vez que la persona tiene una convulsión.`,
     videoUrl: 'https://example.com/convulsiones',
+    icon: Brain,
+    color: 'bg-green-100',
+    iconColor: 'text-green-500',
   },
   {
     slug: 'control-hemorragias',
-    title: 'CONTROL HEMORRAGIA',
+    title: 'CONTROL DE HEMORRAGIAS',
+    shortTitle: 'CONTROL DE HEMORRAGIAS',
     description: `
 1. **Aplique presión directa:** Use un paño limpio o un vendaje y presione firmemente sobre la herida.
 2. **Eleve la extremidad:** Si la herida está en un brazo o una pierna, elévela por encima del nivel del corazón.
 3. **No retire el vendaje:** Si la sangre empapa el vendaje, no lo quite. Coloque otro encima y siga aplicando presión.
 4. **Llame a emergencias:** Si el sangrado es severo o no se detiene.`,
     videoUrl: 'https://example.com/hemorragias',
+    icon: Droplet,
+    color: 'bg-red-100',
+    iconColor: 'text-red-500',
   },
   {
     slug: 'quemaduras',
     title: 'QUEMADURAS',
+    shortTitle: 'QUEMADURAS',
     description: `Para quemaduras leves:
 1. **Enfríe la quemadura:** Ponga la zona bajo agua corriente fría (no helada) durante 10-15 minutos.
 2. **Cubra la quemadura:** Use un vendaje estéril y antiadherente.
@@ -63,10 +101,14 @@ export const educationData = [
    - No aplique mantequilla, aceites o ungüentos.
 4. **Busque atención médica:** Para quemaduras graves, grandes, en la cara, manos, pies o genitales.`,
     videoUrl: 'https://example.com/quemaduras',
+    icon: Flame,
+    color: 'bg-orange-100',
+    iconColor: 'text-orange-500',
   },
   {
     slug: 'botiquin-basico',
     title: 'BOTIQUIN BASICO',
+    shortTitle: 'BOTIQUIN BASICO',
     description: `Un buen botiquín de primeros auxilios debe contener:
 - Vendas de diferentes tamaños.
 - Gasas estériles.
@@ -79,10 +121,14 @@ export const educationData = [
 - Antihistamínicos para reacciones alérgicas.
 - Termómetro.`,
     videoUrl: 'https://example.com/botiquin',
+    icon: BriefcaseMedical,
+    color: 'bg-blue-100',
+    iconColor: 'text-blue-500',
   },
   {
     slug: 'hipotension-desmayo',
     title: 'HIPOTENSION / DESMAYO',
+    shortTitle: 'HIPOTENSION / DESMAYO',
     description: `Si alguien se siente mareado o a punto de desmayarse:
 1. **Acuéstelo:** Pídale que se acueste.
 2. **Eleve las piernas:** Levante sus piernas por encima del nivel del corazón.
@@ -91,20 +137,8 @@ Si alguien ya se ha desmayado:
 2. **Verifique la respiración:** Asegúrese de que respira.
 3. **Llame a emergencias:** Si no recupera la conciencia en un minuto.`,
     videoUrl: 'https://example.com/desmayo',
-  },
-  {
-    slug: 'atragantamiento',
-    title: 'ATRAGANTAMIENTO',
-    description: `
-1. **Anime a toser:** Si la persona puede toser, anímela a que siga haciéndolo.
-2. **Pida ayuda:** Llame a emergencias si la persona no puede respirar, toser o hablar.
-3. **Dé 5 golpes en la espalda:** Incline a la persona hacia adelante y dé 5 golpes firmes entre los omóplatos con el talón de su mano.
-4. **Realice 5 compresiones abdominales (Maniobra de Heimlich):**
-   - Párese detrás de la persona.
-   - Rodee su cintura con sus brazos.
-   - Cierre un puño y colóquelo justo por encima del ombligo.
-   - Agarre el puño con la otra mano y presione bruscamente hacia adentro y hacia arriba.
-5. **Alterne:** Continúe alternando 5 golpes en la espalda y 5 compresiones abdominales hasta que el objeto sea expulsado o llegue la ayuda.`,
-    videoUrl: 'https://example.com/heimlich',
+    icon: UserMinus,
+    color: 'bg-purple-100',
+    iconColor: 'text-purple-500',
   },
 ];
