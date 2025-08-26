@@ -1,41 +1,43 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { HeartPulse, Wind, AlertTriangle, Home, Stethoscope, Activity, Mic, Phone, MessageSquare } from "lucide-react";
+import { HeartPulse, Wind, AlertTriangle, Home, Stethoscope, Activity, Mic, Phone, MessageSquare, ChevronRight } from "lucide-react";
 import Link from 'next/link';
 
-const questions = [
-    { text: "¿Tenés Dolor de pecho?", icon: HeartPulse, type: 'urgent' },
-    { text: "¿Tenés dificultad para respirar?", icon: Wind, type: 'urgent' },
-    { text: "¿Alguien se desmayó o perdió la conciencia?", icon: AlertTriangle, type: 'urgent' },
-    { text: "¿Sufriste o estás en presencia de un accidente de tránsito o doméstico?", icon: Home, type: 'urgent' },
-    { text: "¿Tenés dolor abdominal leve o diarrea?", icon: Stethoscope, type: 'non-urgent' },
-    { text: "¿Tenés dolor leve de más de una semana de evolución?", icon: Activity, type: 'non-urgent' },
-    { text: "¿Tenés tos, resfrío o dolor de garganta?", icon: Mic, type: 'non-urgent' },
+const urgentSymptoms = [
+    { text: "Dolor de pecho", icon: HeartPulse },
+    { text: "Dificultad para respirar", icon: Wind },
+    { text: "Pérdida de conciencia o desmayo", icon: AlertTriangle },
+    { text: "Accidente de tránsito o doméstico", icon: Home },
 ];
+
+const nonUrgentSymptoms = [
+    { text: "Dolor abdominal leve o diarrea", icon: Stethoscope },
+    { text: "Dolor leve de más de una semana", icon: Activity },
+    { text: "Tos, resfrío o dolor de garganta", icon: Mic },
+]
 
 type ResultType = 'urgent' | 'non-urgent' | null;
 
 export function EvaluationClient() {
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [result, setResult] = useState<ResultType>(null);
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | null>(null);
     const [locationError, setLocationError] = useState<string | null>(null);
 
-    const handleAnswer = (answer: boolean) => {
-        if (answer) {
-            setResult(questions[currentQuestionIndex].type);
+    const handleSymptomClick = (isUrgent: boolean) => {
+        if (isUrgent) {
+            setResult('urgent');
         } else {
-            if (currentQuestionIndex < questions.length - 1) {
-                setCurrentQuestionIndex(currentQuestionIndex + 1);
-            } else {
-                // All questions answered with "No", maybe suggest going to a care center
-                setResult('non-urgent');
-            }
+            setResult('non-urgent');
         }
     };
+    
+    const handleNonUrgentConfirmation = () => {
+        setResult('non-urgent');
+    }
 
     useEffect(() => {
         if (result === 'urgent') {
@@ -55,7 +57,6 @@ export function EvaluationClient() {
     }, [result]);
     
     const restart = () => {
-        setCurrentQuestionIndex(0);
         setResult(null);
         setLocation(null);
         setLocationError(null);
@@ -113,21 +114,53 @@ export function EvaluationClient() {
         );
     }
 
-    const CurrentIcon = questions[currentQuestionIndex].icon;
-
     return (
-        <div className="p-4 md:p-8 flex items-center justify-center">
-            <Card className="w-full max-w-lg shadow-xl text-center">
+        <div className="p-4 md:p-6">
+             <Card className="mb-6">
                 <CardHeader>
-                    <CurrentIcon className="w-16 h-16 mx-auto text-accent mb-4" />
-                    <CardTitle className="text-2xl leading-tight">
-                        {questions[currentQuestionIndex].text}
-                    </CardTitle>
-                    <CardDescription>Pregunta {currentQuestionIndex + 1} de {questions.length}</CardDescription>
+                    <CardTitle>¿Es una emergencia?</CardTitle>
+                    <CardDescription>Si presenta alguno de estos síntomas, seleccione para continuar.</CardDescription>
                 </CardHeader>
-                <CardContent className="flex justify-center gap-4">
-                    <Button variant="default" size="lg" onClick={() => handleAnswer(true)} className="w-32 bg-primary hover:bg-primary/90">Sí</Button>
-                    <Button variant="secondary" size="lg" onClick={() => handleAnswer(false)} className="w-32">No</Button>
+                <CardContent className="p-0">
+                    <div className="flex flex-col">
+                        {urgentSymptoms.map((symptom) => {
+                            const Icon = symptom.icon;
+                            return (
+                                <button key={symptom.text} onClick={() => handleSymptomClick(true)} className="flex items-center justify-between py-3 border-b last:border-b-0 hover:bg-accent/10 transition-colors duration-200 -mx-4 px-4 text-left w-full">
+                                    <div className="flex items-center">
+                                        <Icon className="w-6 h-6 mr-4 text-primary" />
+                                        <span className="text-lg font-medium">{symptom.text}</span>
+                                    </div>
+                                    <ChevronRight className="w-6 h-6 text-muted-foreground" />
+                                </button>
+                            );
+                        })}
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>¿No es una emergencia?</CardTitle>
+                    <CardDescription>Si sus síntomas son leves o no son urgentes, puede buscar atención programada.</CardDescription>
+                </CardHeader>
+                <CardContent className="p-0">
+                   <div className="flex flex-col">
+                        {nonUrgentSymptoms.map((symptom) => {
+                             const Icon = symptom.icon;
+                            return (
+                                 <div key={symptom.text} className="flex items-center justify-between py-3 border-b last:border-b-0 -mx-4 px-4">
+                                    <div className="flex items-center">
+                                         <Icon className="w-6 h-6 mr-4 text-accent" />
+                                        <span className="text-lg font-medium">{symptom.text}</span>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                   </div>
+                   <div className="p-6">
+                     <Button onClick={handleNonUrgentConfirmation} size="lg" variant="secondary" className="w-full">No es urgente, mostrar opciones</Button>
+                   </div>
                 </CardContent>
             </Card>
         </div>
