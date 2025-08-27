@@ -36,6 +36,7 @@ async function seedEducationData() {
   const batch = writeBatch(db);
 
   educationTopics.forEach((topic) => {
+    // Usamos el slug como ID del documento para que sea predecible
     const docRef = doc(educationCollectionRef, topic.slug);
     batch.set(docRef, topic);
     console.log(`  -> Añadiendo '${topic.title}' al batch.`);
