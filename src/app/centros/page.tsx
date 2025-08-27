@@ -2,9 +2,15 @@ import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
-import { usefulCenters } from "@/lib/config";
+import { CONTACT_DATA } from "@/lib/config";
 
 export default function CentrosPage() {
+  const usefulCenters = [
+    CONTACT_DATA.samco,
+    CONTACT_DATA.monitoringCenter,
+    CONTACT_DATA.police,
+    CONTACT_DATA.firefighters,
+  ];
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title="Centros y Teléfonos Útiles" backHref="/" />
@@ -28,7 +34,7 @@ export default function CentrosPage() {
                     </Button>
                   </a>
                  )}
-                {center.whatsapp && (
+                {'whatsapp' in center && center.whatsapp && (
                   <a href={`https://wa.me/${center.whatsapp}`} target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="w-full">
                       <MessageCircle className="w-4 h-4 mr-2" />
@@ -36,7 +42,7 @@ export default function CentrosPage() {
                     </Button>
                   </a>
                 )}
-                 {center.phone && (
+                 {'phone' in center && center.phone && (
                   <a href={`tel:${center.phone}`}>
                     <Button variant="outline" className="w-full">
                       <Phone className="w-4 h-4 mr-2" />
