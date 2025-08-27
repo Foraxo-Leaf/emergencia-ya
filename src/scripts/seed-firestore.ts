@@ -1,7 +1,7 @@
 
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, doc, writeBatch, getDocs } from "firebase/firestore";
-// Usamos una ruta relativa directa porque este script se ejecuta fuera del entorno de Next.js
+// Usamos una ruta relativa directa que Node.js pueda resolver sin problemas.
 import { educationTopics } from "../lib/educationData";
 
 // IMPORTANTE: Copia aquí la configuración de tu proyecto de Firebase

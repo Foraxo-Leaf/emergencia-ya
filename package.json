@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "seed": "tsx --require tsconfig-paths/register src/scripts/seed-firestore.ts"
+    "seed": "tsx src/scripts/seed-firestore.ts"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
