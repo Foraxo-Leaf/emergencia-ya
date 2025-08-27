@@ -9,12 +9,13 @@ import Link from 'next/link';
 import type { ContactData } from '@/lib/config';
 
 const allSymptoms = [
-    { text: "¿Tenés dolor de pecho?", isUrgent: true },
+    { text: "¿Tenés Dolor de pecho?", isUrgent: true },
     { text: "¿Tenés dificultad para respirar?", isUrgent: true },
     { text: "¿Alguien se desmayó o perdió la conciencia?", isUrgent: true },
     { text: "¿Sufriste o estás en presencia de un accidente de tránsito o doméstico?", isUrgent: true },
     { text: "¿Tenés dolor abdominal leve o diarrea?", isUrgent: false },
     { text: "¿Tenés dolor leve de más de una semana de evolución?", isUrgent: false },
+    { text: "¿Tenés tos, resfrío o dolor de garganta?", isUrgent: false },
 ];
 
 type EvaluationClientProps = {
@@ -92,14 +93,14 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                             <>
                                 <Stethoscope className="w-16 h-16 mx-auto text-accent mb-4" />
                                 <CardDescription className="text-lg mb-4">
-                                    Parece que no es una urgencia médica grave. Le recomendamos:
+                                    Parece que no es una urgencia. Le recomendamos:
                                 </CardDescription>
                                 <div className="flex flex-col gap-4">
                                     <Link href="/centros" passHref>
                                         <Button size="lg" variant="secondary" className="w-full">Ver centros de atención / turnos</Button>
                                     </Link>
                                     <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
-                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar a la ambulancia ({emergencyPhoneNumber})</Button>
+                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar de todas formas a ambulancia</Button>
                                     </a>
                                 </div>
                             </>
