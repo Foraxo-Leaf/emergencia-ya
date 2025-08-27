@@ -25,14 +25,6 @@ type EducationTopic = {
 // A mapping from icon names (strings) to the actual Lucide components
 const iconComponents = Icons;
 
-const colorVariants: { [key: string]: string } = {
-  'bg-red-500': 'bg-red-500',
-  'bg-blue-500': 'bg-blue-500',
-  'bg-orange-500': 'bg-orange-500',
-  'bg-purple-500': 'bg-purple-500',
-  'bg-pink-500': 'bg-pink-500'
-};
-
 export default function EducacionPage() {
   const [educationData, setEducationData] = useState<EducationTopic[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,7 +39,6 @@ export default function EducacionPage() {
         setEducationData(educationList);
       } catch (error) {
         console.error("Error fetching education data from Firestore:", error);
-        // Handle error (e.g., show a message to the user)
       } finally {
         setLoading(false);
       }
@@ -66,7 +57,7 @@ export default function EducacionPage() {
         </div>
         {loading ? (
           <div className="grid grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <Card key={i} className="aspect-square flex flex-col items-center justify-center p-2 text-center rounded-2xl bg-muted animate-pulse">
                 <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
                   <div className="w-10 h-10 bg-muted-foreground/20 rounded-lg"></div>
@@ -79,13 +70,12 @@ export default function EducacionPage() {
           <div className="grid grid-cols-2 gap-4">
             {educationData.map((topic) => {
               const IconComponent = iconComponents[topic.icon] || Icons.HelpCircle;
-              const bgColor = colorVariants[topic.color] || 'bg-gray-500';
               return (
                 <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
-                  <Card className={cn(
-                    "aspect-square flex flex-col items-center justify-center p-2 text-center transition-colors duration-200 shadow-md hover:shadow-lg rounded-2xl",
-                    bgColor
-                  )}>
+                  <Card 
+                    className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-transform duration-200 shadow-md hover:shadow-lg hover:scale-105 rounded-2xl"
+                    style={{ backgroundColor: topic.color }}
+                  >
                     <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
                       <IconComponent className={cn("w-10 h-10", topic.iconColor)} />
                       <span className={cn("text-sm leading-tight text-center uppercase mt-2", topic.textColor)}>{topic.shortTitle || topic.title}</span>
