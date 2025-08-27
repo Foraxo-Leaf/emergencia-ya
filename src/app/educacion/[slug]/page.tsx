@@ -1,18 +1,64 @@
-import { educationData } from "@/lib/educationData";
-import { notFound } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from 'react';
+import { notFound, useParams } from "next/navigation";
 import { Header } from "@/components/shared/Header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, FileText } from "lucide-react";
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import { app } from "@/lib/firebase";
 
-export async function generateStaticParams() {
-  return educationData.map((topic) => ({
-    slug: topic.slug,
-  }));
-}
+type EducationTopic = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  videoUrl: string;
+};
 
-export default function EducacionDetallePage({ params }: { params: { slug: string } }) {
-  const topic = educationData.find((t) => t.slug === params.slug);
+export default function EducacionDetallePage() {
+  const params = useParams();
+  const slug = params.slug as string;
+  const [topic, setTopic] = useState<EducationTopic | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const fetchTopic = async () => {
+      try {
+        const db = getFirestore(app);
+        const educationCollection = collection(db, 'education');
+        const q = query(educationCollection, where("slug", "==", slug));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          setTopic(null);
+        } else {
+          setTopic({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as EducationTopic);
+        }
+      } catch (error) {
+        console.error("Error fetching topic:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopic();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-dvh bg-background">
+        <Header title="Información" backHref="/educacion" />
+        <main className="flex-grow p-4 md:p-6 text-center">
+          <p>Cargando...</p>
+        </main>
+      </div>
+    );
+  }
 
   if (!topic) {
     notFound();
@@ -47,19 +93,19 @@ export default function EducacionDetallePage({ params }: { params: { slug: strin
           </CardHeader>
           <CardContent className="space-y-4">
             {steps.map((step, index) => {
-                const parts = step.split('**');
-                return (
-                  <div key={index} className="flex items-start">
-                    <div className="flex-shrink-0 w-6 h-6 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
-                      {index + 1}
-                    </div>
-                    <p className="text-card-foreground/90">
-                      {parts.map((part, i) =>
-                        i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-                      )}
-                    </p>
+              const parts = step.split('**');
+              return (
+                <div key={index} className="flex items-start">
+                  <div className="flex-shrink-0 w-6 h-6 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-sm font-bold mr-3 mt-1">
+                    {index + 1}
                   </div>
-                );
+                  <p className="text-card-foreground/90">
+                    {parts.map((part, i) =>
+                      i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+                    )}
+                  </p>
+                </div>
+              );
             })}
           </CardContent>
         </Card>
