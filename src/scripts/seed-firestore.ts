@@ -1,7 +1,7 @@
 
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, doc, setDoc, getDocs, writeBatch } from "firebase/firestore";
-import { educationTopics } from "../lib/educationData";
+import { educationTopics } from "@/lib/educationData";
 
 // IMPORTANTE: Copia aquí la configuración de tu proyecto de Firebase
 // La puedes encontrar en src/lib/firebase.ts
