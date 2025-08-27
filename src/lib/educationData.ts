@@ -137,8 +137,8 @@ export const educationData = [
 4. **Llame a emergencias:** Si no recupera la conciencia en un minuto.`,
     videoUrl: 'https://example.com/desmayo',
     icon: UserMinus,
-    color: 'bg-purple-500',
-    iconColor: 'text-white',
-    textColor: 'text-white font-semibold',
+    color: 'bg-neutral-100',
+    iconColor: 'text-neutral-400',
+    textColor: 'text-neutral-500',
   },
 ];
