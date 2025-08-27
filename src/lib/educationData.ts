@@ -17,7 +17,7 @@ export const educationData = [
 8. **Continuar:** Siga con ciclos de 30 compresiones hasta que llegue la ayuda.`,
     videoUrl: 'https://example.com/rcp-adultos',
     icon: Heart,
-    color: 'bg-red-500',
+    color: 'bg-destructive',
     iconColor: 'text-white',
     textColor: 'text-white font-semibold',
   },
