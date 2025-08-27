@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope } from "lucide-react";
 import Link from 'next/link';
-import { CONTACT_DATA } from '@/lib/config';
+import type { ContactData } from '@/lib/config';
 
 const allSymptoms = [
     { text: "¿Tenés dolor de pecho?", isUrgent: true },
@@ -17,15 +17,17 @@ const allSymptoms = [
     { text: "¿Tenés dolor leve de más de una semana de evolución?", isUrgent: false },
 ];
 
-const emergencyPhoneNumber = CONTACT_DATA.ambulance.phone;
-const smsRecipientNumber = CONTACT_DATA.samco.whatsapp;
+type EvaluationClientProps = {
+  contactData: ContactData;
+};
 
-type ResultType = 'urgent' | 'non-urgent' | null;
-
-export function EvaluationClient() {
-    const [result, setResult] = useState<ResultType>(null);
+export function EvaluationClient({ contactData }: EvaluationClientProps) {
+    const [result, setResult] = useState<'urgent' | 'non-urgent' | null>(null);
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | null>(null);
     const [locationError, setLocationError] = useState<string | null>(null);
+
+    const emergencyPhoneNumber = contactData.ambulance.phone;
+    const smsRecipientNumber = contactData.samco.whatsapp;
 
     const handleSymptomClick = (isUrgent: boolean) => {
         if (isUrgent) {

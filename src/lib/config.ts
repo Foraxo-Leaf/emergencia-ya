@@ -10,9 +10,11 @@ export const remoteConfigKeys = {
     monitoring_center_phone: 'monitoring_center_phone',
     police_name: 'police_name',
     police_address: 'police_address',
+    police_maps_query: 'police_maps_query',
     police_phone: 'police_phone',
     firefighters_name: 'firefighters_name',
     firefighters_address: 'firefighters_address',
+    firefighters_maps_query: 'firefighters_maps_query',
     firefighters_phone: 'firefighters_phone',
     ambulance_phone: 'ambulance_phone',
 };
@@ -28,44 +30,67 @@ export const defaultConfig: Record<string, string> = {
     [remoteConfigKeys.monitoring_center_phone]: "109",
     [remoteConfigKeys.police_name]: "Policía",
     [remoteConfigKeys.police_address]: "Comando Radioeléctrico",
+    [remoteConfigKeys.police_maps_query]: "Comando+Radioeléctrico+Armstrong",
     [remoteConfigKeys.police_phone]: "101",
     [remoteConfigKeys.firefighters_name]: "Bomberos Voluntarios",
     [remoteConfigKeys.firefighters_address]: "Dick y Fischer",
+    [remoteConfigKeys.firefighters_maps_query]: "Bomberos+Voluntarios+Armstrong",
     [remoteConfigKeys.firefighters_phone]: "100",
     [remoteConfigKeys.ambulance_phone]: "107",
 };
 
-export const CONTACT_DATA = {
-    samco: {
-        name: defaultConfig[remoteConfigKeys.samco_name],
-        address: defaultConfig[remoteConfigKeys.samco_address],
-        mapsQuery: defaultConfig[remoteConfigKeys.samco_maps_query],
-        whatsapp: defaultConfig[remoteConfigKeys.samco_whatsapp],
-    },
-    monitoringCenter: {
-        name: defaultConfig[remoteConfigKeys.monitoring_center_name],
-        address: defaultConfig[remoteConfigKeys.monitoring_center_address],
-        mapsQuery: defaultConfig[remoteConfigKeys.monitoring_center_maps_query],
-        phone: defaultConfig[remoteConfigKeys.monitoring_center_phone],
-    },
-    police: {
-        name: defaultConfig[remoteConfigKeys.police_name],
-        address: defaultConfig[remoteConfigKeys.police_address],
-        phone: defaultConfig[remoteConfigKeys.police_phone],
-    },
-    firefighters: {
-        name: defaultConfig[remoteConfigKeys.firefighters_name],
-        address: defaultConfig[remoteConfigKeys.firefighters_address],
-        phone: defaultConfig[remoteConfigKeys.firefighters_phone],
-    },
+type SamcoData = {
+    name: string;
+    address: string;
+    mapsQuery: string;
+    whatsapp: string;
+};
+
+type CenterData = {
+    name: string;
+    address: string;
+    mapsQuery?: string;
+    phone: string;
+};
+
+export type ContactData = {
+    samco: SamcoData;
+    monitoringCenter: CenterData;
+    police: CenterData;
+    firefighters: CenterData;
     ambulance: {
-        phone: defaultConfig[remoteConfigKeys.ambulance_phone],
+        phone: string;
     }
 };
 
-export const usefulCenters = [
-    CONTACT_DATA.samco,
-    CONTACT_DATA.monitoringCenter,
-    CONTACT_DATA.police,
-    CONTACT_DATA.firefighters,
-];
+export const buildContactData = (config: Record<string, string>): ContactData => ({
+    samco: {
+        name: config[remoteConfigKeys.samco_name],
+        address: config[remoteConfigKeys.samco_address],
+        mapsQuery: config[remoteConfigKeys.samco_maps_query],
+        whatsapp: config[remoteConfigKeys.samco_whatsapp],
+    },
+    monitoringCenter: {
+        name: config[remoteConfigKeys.monitoring_center_name],
+        address: config[remoteConfigKeys.monitoring_center_address],
+        mapsQuery: config[remoteConfigKeys.monitoring_center_maps_query],
+        phone: config[remoteConfigKeys.monitoring_center_phone],
+    },
+    police: {
+        name: config[remoteConfigKeys.police_name],
+        address: config[remoteConfigKeys.police_address],
+        mapsQuery: config[remoteConfigKeys.police_maps_query],
+        phone: config[remoteConfigKeys.police_phone],
+    },
+    firefighters: {
+        name: config[remoteConfigKeys.firefighters_name],
+        address: config[remoteConfigKeys.firefighters_address],
+        mapsQuery: config[remoteConfigKeys.firefighters_maps_query],
+        phone: config[remoteConfigKeys.firefighters_phone],
+    },
+    ambulance: {
+        phone: config[remoteConfigKeys.ambulance_phone],
+    }
+});
+
+export const CONTACT_DATA = buildContactData(defaultConfig);

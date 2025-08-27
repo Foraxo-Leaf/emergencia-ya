@@ -1,16 +1,21 @@
+"use client";
+
 import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
-import { CONTACT_DATA } from "@/lib/config";
+import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 
 export default function CentrosPage() {
+  const { contactData } = useRemoteConfig();
+
   const usefulCenters = [
-    CONTACT_DATA.samco,
-    CONTACT_DATA.monitoringCenter,
-    CONTACT_DATA.police,
-    CONTACT_DATA.firefighters,
+    contactData.samco,
+    contactData.monitoringCenter,
+    contactData.police,
+    contactData.firefighters,
   ];
+  
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title="Centros y Teléfonos Útiles" backHref="/" />
