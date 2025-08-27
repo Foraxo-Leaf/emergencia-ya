@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, collection, doc, setDoc, getDocs, writeBatch } from "firebase/firestore";
 import { educationTopics } from '../lib/educationData';
 
@@ -15,8 +15,8 @@ const firebaseConfig = {
 };
 
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+// Inicializar Firebase de forma segura
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function seedEducationData() {
