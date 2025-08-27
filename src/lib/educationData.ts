@@ -85,7 +85,7 @@ export const educationData = [
 4. **Llame a emergencias:** Si el sangrado es severo o no se detiene.`,
     videoUrl: 'https://example.com/hemorragias',
     icon: Droplet,
-    color: 'bg-accent',
+    color: 'bg-pink',
     iconColor: 'text-white',
     textColor: 'text-white font-semibold',
   },
