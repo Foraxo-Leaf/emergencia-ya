@@ -16,6 +16,7 @@ const allSymptoms = [
     { text: "¿Tenés dolor leve de más de una semana de evolución?", isUrgent: false },
 ];
 
+const whatsappNumber = "543471533033";
 
 type ResultType = 'urgent' | 'non-urgent' | null;
 
@@ -76,7 +77,7 @@ export function EvaluationClient() {
                                         <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia (107)</Button>
                                     </a>
                                     {location && (
-                                     <a href={`sms:?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
+                                     <a href={`sms:${whatsappNumber}?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
                                         <Button size="lg" variant="secondary" className="w-full"><MessageSquare className="mr-2"/> Compartir Ubicación por SMS</Button>
                                      </a>
                                     )}
