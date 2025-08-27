@@ -2,31 +2,7 @@ import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
-
-const centers = [
-  {
-    name: "Samco Armstrong - Guardia 24 hs",
-    address: "Pasaje Pedro Rolando 1590, Armstrong, Santa Fe",
-    mapsQuery: "SAMCO+Armstrong,+Pasaje+Pedro+Rolando+1590,+Armstrong,+Santa+Fe",
-    whatsapp: "543471533033",
-  },
-  {
-    name: "Centro de Monitoreo",
-    address: "Bv. Auden y Dante Alighieri",
-    mapsQuery: "Centro+de+Monitoreo+Armstrong",
-    phone: "109",
-  },
-  {
-    name: "Policía",
-    address: "Comando Radioeléctrico",
-    phone: "101",
-  },
-   {
-    name: "Bomberos Voluntarios",
-    address: "Dick y Fischer",
-    phone: "100",
-  },
-];
+import { usefulCenters } from "@/lib/config";
 
 export default function CentrosPage() {
   return (
@@ -34,7 +10,7 @@ export default function CentrosPage() {
       <Header title="Centros y Teléfonos Útiles" backHref="/" />
       <main className="flex-grow p-4 md:p-6">
         <div className="space-y-6">
-          {centers.map((center) => (
+          {usefulCenters.map((center) => (
             <Card key={center.name} className="shadow-md">
               <CardHeader>
                 <CardTitle>{center.name}</CardTitle>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope } from "lucide-react";
 import Link from 'next/link';
+import { CONTACT_DATA } from '@/lib/config';
 
 const allSymptoms = [
     { text: "¿Tenés dolor de pecho?", isUrgent: true },
@@ -16,7 +17,8 @@ const allSymptoms = [
     { text: "¿Tenés dolor leve de más de una semana de evolución?", isUrgent: false },
 ];
 
-const whatsappNumber = "543471533033";
+const emergencyPhoneNumber = CONTACT_DATA.ambulance.phone;
+const smsRecipientNumber = CONTACT_DATA.samco.whatsapp;
 
 type ResultType = 'urgent' | 'non-urgent' | null;
 
@@ -73,11 +75,11 @@ export function EvaluationClient() {
                                 </CardDescription>
                                 {locationError && <p className="text-destructive text-sm mb-4">{locationError}</p>}
                                 <div className="flex flex-col gap-4">
-                                    <a href="tel:107" className="w-full">
-                                        <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia (107)</Button>
+                                    <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
+                                        <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia ({emergencyPhoneNumber})</Button>
                                     </a>
                                     {location && (
-                                     <a href={`sms:${whatsappNumber}?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
+                                     <a href={`sms:${smsRecipientNumber}?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
                                         <Button size="lg" variant="secondary" className="w-full"><MessageSquare className="mr-2"/> Compartir Ubicación por SMS</Button>
                                      </a>
                                     )}
@@ -94,8 +96,8 @@ export function EvaluationClient() {
                                     <Link href="/centros" passHref>
                                         <Button size="lg" variant="secondary" className="w-full">Ver centros de atención / turnos</Button>
                                     </Link>
-                                    <a href="tel:107" className="w-full">
-                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar a la ambulancia (107)</Button>
+                                    <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
+                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar a la ambulancia ({emergencyPhoneNumber})</Button>
                                     </a>
                                 </div>
                             </>
