@@ -17,8 +17,9 @@ export const educationData = [
 8. **Continuar:** Siga con ciclos de 30 compresiones hasta que llegue la ayuda.`,
     videoUrl: 'https://example.com/rcp-adultos',
     icon: Heart,
-    color: 'bg-red-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-100',
+    iconColor: 'text-neutral-400',
+    textColor: 'text-neutral-400 font-semibold',
   },
   {
     slug: 'rcp-ninos',
@@ -37,6 +38,7 @@ export const educationData = [
     icon: Baby,
     color: 'bg-cyan-400',
     iconColor: 'text-white',
+    textColor: 'text-white font-semibold',
   },
    {
     slug: 'atragantamiento',
@@ -53,6 +55,7 @@ export const educationData = [
     icon: Wind,
     color: 'bg-indigo-500',
     iconColor: 'text-white',
+    textColor: 'text-white font-semibold',
   },
   {
     slug: 'convulsiones',
@@ -68,6 +71,7 @@ export const educationData = [
     icon: Brain,
     color: 'bg-green-500',
     iconColor: 'text-white',
+    textColor: 'text-white font-semibold',
   },
   {
     slug: 'control-hemorragias',
@@ -81,8 +85,9 @@ export const educationData = [
 4. **Llame a emergencias:** Si el sangrado es severo o no se detiene.`,
     videoUrl: 'https://example.com/hemorragias',
     icon: Droplet,
-    color: 'bg-pink-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-100',
+    iconColor: 'text-neutral-400',
+    textColor: 'text-neutral-400 font-semibold',
   },
   {
     slug: 'quemaduras',
@@ -98,6 +103,7 @@ export const educationData = [
     icon: Flame,
     color: 'bg-orange-400',
     iconColor: 'text-white',
+    textColor: 'text-white font-semibold',
   },
   {
     slug: 'botiquin-basico',
@@ -117,6 +123,7 @@ export const educationData = [
     icon: BriefcaseMedical,
     color: 'bg-blue-500',
     iconColor: 'text-white',
+    textColor: 'text-white font-semibold',
   },
   {
     slug: 'hipotension-desmayo',
@@ -130,7 +137,8 @@ export const educationData = [
 4. **Llame a emergencias:** Si no recupera la conciencia en un minuto.`,
     videoUrl: 'https://example.com/desmayo',
     icon: UserMinus,
-    color: 'bg-teal-500',
-    iconColor: 'text-white',
+    color: 'bg-neutral-100',
+    iconColor: 'text-neutral-400',
+    textColor: 'text-neutral-400 font-semibold',
   },
 ];

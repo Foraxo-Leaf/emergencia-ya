@@ -23,7 +23,7 @@ export default function EducacionPage() {
               )}>
                 <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
                     <topic.icon className={cn("w-10 h-10", topic.iconColor)} />
-                    <span className={cn("text-sm font-semibold leading-tight text-center uppercase mt-2", topic.iconColor)}>{topic.shortTitle || topic.title}</span>
+                    <span className={cn("text-sm leading-tight text-center uppercase mt-2", topic.textColor)}>{topic.shortTitle || topic.title}</span>
                 </CardContent>
               </Card>
             </Link>
