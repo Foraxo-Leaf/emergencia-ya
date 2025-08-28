@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope } from "lucide-react";
+import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope, MessageCircle, MapPin } from "lucide-react";
 import Link from 'next/link';
 import type { ContactData } from '@/lib/config';
 
@@ -29,6 +29,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
 
     const emergencyPhoneNumber = contactData.ambulance.phone;
     const smsRecipientNumber = contactData.samco.whatsapp;
+    const whatsappTurnosNumber = contactData.samco.whatsapp;
 
     const handleSymptomClick = (isUrgent: boolean) => {
         if (isUrgent) {
@@ -96,8 +97,11 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                                     Parece que no es una urgencia. Le recomendamos:
                                 </CardDescription>
                                 <div className="flex flex-col gap-4">
+                                    <a href={`https://wa.me/${whatsappTurnosNumber}`} target="_blank" rel="noopener noreferrer" className="w-full">
+                                        <Button size="lg" variant="secondary" className="w-full"><MessageCircle className="mr-2"/>Pedir turno por WhatsApp</Button>
+                                    </a>
                                     <Link href="/centros" passHref>
-                                        <Button size="lg" variant="secondary" className="w-full">Ver centros de atención / turnos</Button>
+                                        <Button size="lg" variant="outline" className="w-full"><MapPin className="mr-2"/>Ver otros centros útiles</Button>
                                     </Link>
                                     <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
                                         <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar de todas formas a ambulancia</Button>
