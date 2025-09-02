@@ -7,7 +7,7 @@ import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, FileText } from "lucide-react";
-import { educationTopics } from "../educationData";
+import { educationTopics } from "@/lib/data/educationData";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -22,7 +22,8 @@ export default function EducacionDetallePage() {
     notFound();
   }
 
-  const videoUrl = contactData.educationVideos[slug] || "";
+  const videoSlug = slug.replace(/-/g, '_');
+  const videoUrl = contactData.educationVideos[videoSlug] || "";
   const steps = topic.description.trim().split('\n').map(s => s.replace(/^\d+\.\s*/, ''));
 
   return (

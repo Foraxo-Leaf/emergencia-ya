@@ -1,6 +1,16 @@
 
 
-import { educationTopics } from "@/app/educacion/educationData";
+import { educationTopics } from "@/lib/data/educationData";
+
+// Generates keys with underscores for Firebase parameter names
+const generateEducationVideoKeys = () => {
+    const keys: Record<string, string> = {};
+    educationTopics.forEach(topic => {
+        const key = `education_video_${topic.slug.replace(/-/g, '_')}`;
+        keys[key] = key;
+    });
+    return keys;
+};
 
 export const remoteConfigKeys = {
     samco_name: 'samco_name',
@@ -20,10 +30,7 @@ export const remoteConfigKeys = {
     firefighters_maps_query: 'firefighters_maps_query',
     firefighters_phone: 'firefighters_phone',
     ambulance_phone: 'ambulance_phone',
-    ...educationTopics.reduce((acc, topic) => {
-        acc[`education_video_${topic.slug}`] = `education_video_${topic.slug}`;
-        return acc;
-    }, {} as Record<string, string>)
+    ...generateEducationVideoKeys()
 };
 
 export const defaultConfig: Record<string, string> = {
@@ -45,7 +52,8 @@ export const defaultConfig: Record<string, string> = {
     [remoteConfigKeys.firefighters_phone]: "100",
     [remoteConfigKeys.ambulance_phone]: "107",
     ...educationTopics.reduce((acc, topic) => {
-        acc[`education_video_${topic.slug}`] = ""; // Default to empty string
+        const key = `education_video_${topic.slug.replace(/-/g, '_')}`;
+        acc[key] = ""; // Default to empty string
         return acc;
     }, {} as Record<string, string>)
 };
@@ -104,7 +112,9 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
         phone: config[remoteConfigKeys.ambulance_phone],
     },
     educationVideos: educationTopics.reduce((acc, topic) => {
-        acc[topic.slug] = config[`education_video_${topic.slug}`] || "";
+        const videoKey = topic.slug.replace(/-/g, '_');
+        const remoteConfigKey = `education_video_${videoKey}`;
+        acc[videoKey] = config[remoteConfigKey] || "";
         return acc;
     }, {} as Record<string, string>)
 });
