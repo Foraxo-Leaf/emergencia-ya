@@ -1,6 +1,6 @@
 
 
-import { educationTopics } from "./educationData";
+import { educationTopics } from "@/app/educacion/educationData";
 
 export const remoteConfigKeys = {
     samco_name: 'samco_name',

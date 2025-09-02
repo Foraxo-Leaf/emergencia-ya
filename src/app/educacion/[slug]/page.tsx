@@ -6,7 +6,7 @@ import { Header } from "@/components/shared/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayCircle, FileText } from "lucide-react";
-import { educationTopics } from "@/lib/educationData";
+import { educationTopics } from "../educationData";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 import { Skeleton } from "@/components/ui/skeleton";
 

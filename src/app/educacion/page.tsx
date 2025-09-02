@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Header } from "@/components/shared/Header";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { educationTopics } from "@/lib/educationData";
+import { educationTopics } from "./educationData";
 import * as Icons from 'lucide-react';
 
 // A mapping from icon names (strings) to the actual Lucide components
