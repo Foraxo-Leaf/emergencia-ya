@@ -1,7 +1,7 @@
 
 export const educationTopics = [
     {
-      "slug": "rcp-adultos",
+      "slug": "rcp_adultos",
       "title": "RCP (Reanimación Cardiopulmonar) en Adultos",
       "shortTitle": "RCP Adultos",
       "subtitle": "Pasos para realizar RCP en una persona mayor de 8 años.",
@@ -12,7 +12,7 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "rcp-ninos",
+      "slug": "rcp_ninos",
       "title": "RCP (Reanimación Cardiopulmonar) en Niños",
       "shortTitle": "RCP Niños",
       "subtitle": "Cómo realizar RCP en niños de 1 a 8 años.",
@@ -23,7 +23,7 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "maniobra-heimlich",
+      "slug": "maniobra_heimlich",
       "title": "Atragantamiento (Maniobra de Heimlich)",
       "shortTitle": "Atragantamiento",
       "subtitle": "Cómo actuar si alguien se está ahogando.",
@@ -45,7 +45,7 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "control-hemorragias",
+      "slug": "control_hemorragias",
       "title": "Control de Hemorragias",
       "shortTitle": "Hemorragias",
       "subtitle": "Cómo detener un sangrado externo.",
@@ -56,7 +56,7 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "manejo-quemaduras",
+      "slug": "manejo_quemaduras",
       "title": "Manejo de Quemaduras",
       "shortTitle": "Quemaduras",
       "subtitle": "Primeros auxilios para quemaduras leves.",
@@ -78,7 +78,7 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "botiquin-basico",
+      "slug": "botiquin_basico",
       "title": "Botiquín Básico Domiciliario",
       "shortTitle": "Botiquín",
       "subtitle": "Elementos esenciales para un botiquín en casa.",
