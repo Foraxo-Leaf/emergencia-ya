@@ -28,7 +28,7 @@ export const educationTopics = [
       "shortTitle": "Atragantamiento",
       "subtitle": "Cómo actuar si alguien se está ahogando.",
       "description": "1. **Evaluar:** Si la persona tose, animarla a seguir tosiendo. Si no puede toser, respirar o hablar, actuar.\n2. **Posicionarse:** Pararse detrás de la persona y rodearla con los brazos por la cintura.\n3. **Formar un puño:** Hacer un puño con una mano y colocarlo por el lado del pulgar justo por encima del ombligo.\n4. **Comprimir:** Agarrar el puño con la otra mano y presionar hacia adentro y hacia arriba con fuerza.\n5. **Repetir:** Continuar con las compresiones hasta que el objeto sea expulsado o la persona pierda el conocimiento (en ese caso, iniciar RCP).",
-      "icon": "HeartHandshake",
+      "icon": "HelpingHand",
       "color": "#3B82F6",
       "iconColor": "text-white",
       "textColor": "text-white"
