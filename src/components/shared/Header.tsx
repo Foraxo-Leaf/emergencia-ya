@@ -1,6 +1,6 @@
+
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,17 @@ export function Header({ title, backHref }: HeaderProps) {
   const router = useRouter();
 
   const handleBack = () => {
+    // If a specific back destination is provided, use it.
     if (backHref) {
       router.push(backHref);
-    } else {
+    } 
+    // Otherwise, if there's history to go back to, go back.
+    else if (window.history.length > 1) {
       router.back();
+    } 
+    // If there's no history, go to the homepage as a fallback.
+    else {
+      router.push('/');
     }
   };
 

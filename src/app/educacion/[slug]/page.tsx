@@ -8,19 +8,20 @@ import { Button } from "@/components/ui/button";
 import { PlayCircle, FileText } from "lucide-react";
 import { educationTopics } from "@/lib/educationData";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EducacionDetallePage() {
   const params = useParams();
   const slug = params.slug as string;
-  const { contactData } = useRemoteConfig();
+  const { contactData, loading } = useRemoteConfig();
 
   const topic = educationTopics.find((t) => t.slug === slug);
-  const videoUrl = contactData.educationVideos[slug] || "";
-
+  
   if (!topic) {
     notFound();
   }
 
+  const videoUrl = contactData.educationVideos[slug] || "";
   const steps = topic.description.trim().split('\n').map(s => s.replace(/^\d+\.\s*/, ''));
 
   return (
@@ -33,12 +34,16 @@ export default function EducacionDetallePage() {
         </div>
 
         <div className="mb-6">
-          <a href={videoUrl} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="w-full bg-primary hover:bg-primary/90" disabled={!videoUrl}>
-              <PlayCircle className="mr-2" /> Ver Video Tutorial
-            </Button>
-          </a>
-          {!videoUrl && (
+          {loading ? (
+            <Skeleton className="h-11 w-full" />
+          ) : (
+            <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="w-full bg-primary hover:bg-primary/90" disabled={!videoUrl}>
+                <PlayCircle className="mr-2" /> Ver Video Tutorial
+              </Button>
+            </a>
+          )}
+          {!loading && !videoUrl && (
             <p className="text-sm text-muted-foreground mt-2 text-center">
               El contenido de video estará disponible próximamente.
             </p>

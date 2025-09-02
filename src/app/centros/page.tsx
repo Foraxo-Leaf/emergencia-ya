@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CentrosPage() {
-  const { contactData } = useRemoteConfig();
+  const { contactData, loading } = useRemoteConfig();
 
   const usefulCenters = [
     contactData.samco,
@@ -16,6 +17,19 @@ export default function CentrosPage() {
     contactData.firefighters,
   ];
   
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-dvh bg-background">
+        <Header title="Centros y Teléfonos Útiles" backHref="/" />
+        <main className="flex-grow p-4 md:p-6 space-y-6">
+          <Skeleton className="h-32 w-full rounded-lg" />
+          <Skeleton className="h-32 w-full rounded-lg" />
+          <Skeleton className="h-32 w-full rounded-lg" />
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title="Centros y Teléfonos Útiles" backHref="/" />
