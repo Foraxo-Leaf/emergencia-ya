@@ -24,11 +24,14 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
 
     async function loadRemoteConfig() {
       try {
+        console.log("[RemoteConfig] Initializing...");
         await initialize();
+        console.log("[RemoteConfig] Fetching and activating...");
         await fetchAndActivate();
         
         if (isMounted) {
           const remoteValues = getAll();
+          console.log("[RemoteConfig] Raw values fetched:", remoteValues);
           
           const newConfig: Record<string, string> = {};
           for (const key in remoteValues) {
@@ -39,14 +42,16 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
 
           // Merge remote config with defaults, remote wins
           const finalConfig = { ...defaultConfig, ...newConfig };
+           console.log("[RemoteConfig] Final merged config:", finalConfig);
           
           setContactData(buildContactData(finalConfig));
         }
       } catch (error) {
-        console.error("Error loading remote config:", error);
+        console.error("[RemoteConfig] Error loading remote config:", error);
         // In case of error, we'll just use the default config already set
       } finally {
         if (isMounted) {
+          console.log("[RemoteConfig] Loading finished.");
           setLoading(false);
         }
       }
