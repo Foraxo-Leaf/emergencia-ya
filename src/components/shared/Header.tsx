@@ -14,16 +14,9 @@ export function Header({ title, backHref }: HeaderProps) {
   const router = useRouter();
 
   const handleBack = () => {
-    // If a specific back destination is provided, use it.
     if (backHref) {
       router.push(backHref);
-    } 
-    // Otherwise, if there's history to go back to, go back.
-    else if (window.history.length > 1) {
-      router.back();
-    } 
-    // If there's no history, go to the homepage as a fallback.
-    else {
+    } else {
       router.push('/');
     }
   };
