@@ -1,10 +1,11 @@
 
+
 "use client";
 import Link from "next/link";
 import { Header } from "@/components/shared/Header";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { educationTopics } from "./educationData";
+import { educationTopics } from "@/app/educacion/educationData";
 import * as Icons from 'lucide-react';
 
 // A mapping from icon names (strings) to the actual Lucide components
@@ -22,7 +23,7 @@ export default function EducacionPage() {
         </div>
           <div className="grid grid-cols-2 gap-4">
             {educationTopics.map((topic) => {
-              const IconComponent = iconComponents[topic.icon] || Icons.HelpCircle;
+              const IconComponent = iconComponents[topic.icon as keyof typeof iconComponents] || Icons.HelpCircle;
               return (
                 <Link href={`/educacion/${topic.slug}`} key={topic.slug} passHref>
                   <Card 
