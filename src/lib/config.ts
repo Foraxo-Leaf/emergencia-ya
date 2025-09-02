@@ -1,4 +1,6 @@
 
+import { educationTopics } from "./educationData";
+
 export const remoteConfigKeys = {
     samco_name: 'samco_name',
     samco_address: 'samco_address',
@@ -17,6 +19,10 @@ export const remoteConfigKeys = {
     firefighters_maps_query: 'firefighters_maps_query',
     firefighters_phone: 'firefighters_phone',
     ambulance_phone: 'ambulance_phone',
+    ...educationTopics.reduce((acc, topic) => {
+        acc[`education_video_${topic.slug}`] = `education_video_${topic.slug}`;
+        return acc;
+    }, {} as Record<string, string>)
 };
 
 export const defaultConfig: Record<string, string> = {
@@ -37,6 +43,10 @@ export const defaultConfig: Record<string, string> = {
     [remoteConfigKeys.firefighters_maps_query]: "Bomberos+Voluntarios+Armstrong",
     [remoteConfigKeys.firefighters_phone]: "100",
     [remoteConfigKeys.ambulance_phone]: "107",
+    ...educationTopics.reduce((acc, topic) => {
+        acc[`education_video_${topic.slug}`] = ""; // Default to empty string
+        return acc;
+    }, {} as Record<string, string>)
 };
 
 type SamcoData = {
@@ -60,7 +70,8 @@ export type ContactData = {
     firefighters: CenterData;
     ambulance: {
         phone: string;
-    }
+    },
+    educationVideos: Record<string, string>;
 };
 
 export const buildContactData = (config: Record<string, string>): ContactData => ({
@@ -90,7 +101,11 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
     },
     ambulance: {
         phone: config[remoteConfigKeys.ambulance_phone],
-    }
+    },
+    educationVideos: educationTopics.reduce((acc, topic) => {
+        acc[topic.slug] = config[`education_video_${topic.slug}`] || "";
+        return acc;
+    }, {} as Record<string, string>)
 });
 
 export const CONTACT_DATA = buildContactData(defaultConfig);

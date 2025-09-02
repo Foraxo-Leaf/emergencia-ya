@@ -1,11 +1,10 @@
 
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore, collection, doc, writeBatch, getDocs } from "firebase/firestore";
-// Usamos una ruta relativa directa que Node.js pueda resolver sin problemas.
-import { educationTopics } from "../lib/educationData";
+import { getFirestore, collection, doc, writeBatch, getDocs, deleteDoc } from "firebase/firestore";
 
-// IMPORTANTE: Copia aquí la configuración de tu proyecto de Firebase
-// La puedes encontrar en src/lib/firebase.ts
+// Esta data ahora está en el código de la app, el script ya no la necesita.
+// import { educationTopics } from "../lib/educationData"; 
+
 const firebaseConfig = {
   "projectId": "emergencia-ya",
   "appId": "1:487397458821:web:d0267ceef85c9650d87aec",
@@ -16,44 +15,43 @@ const firebaseConfig = {
   "messagingSenderId": "487397458821"
 };
 
-
-// Inicializar Firebase de forma segura
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function seedEducationData() {
+async function clearEducationData() {
   const educationCollectionRef = collection(db, "education");
-
-  console.log("Verificando si ya existen datos...");
+  console.log("Limpiando datos antiguos de la colección 'education'...");
+  
   const existingDocs = await getDocs(educationCollectionRef);
-  if (!existingDocs.empty) {
-    console.log("La colección 'education' ya contiene datos. Para evitar duplicados, el script se detendrá.");
-    console.log("Si quieres volver a cargar los datos, borra los documentos existentes en la consola de Firebase y ejecuta el script de nuevo.");
+  if (existingDocs.empty) {
+    console.log("La colección 'education' ya está vacía. No se necesita limpieza.");
     return;
   }
 
-  console.log("Comenzando a subir datos a Firestore...");
-
-  // Usamos un batch para subir todos los documentos en una sola operación
   const batch = writeBatch(db);
-
-  educationTopics.forEach((topic) => {
-    // Usamos el slug como ID del documento para que sea predecible
-    const docRef = doc(educationCollectionRef, topic.slug);
-    batch.set(docRef, topic);
-    console.log(`  -> Añadiendo '${topic.title}' al batch.`);
+  existingDocs.docs.forEach((doc) => {
+    batch.delete(doc.ref);
   });
 
   try {
     await batch.commit();
-    console.log("\n¡Éxito! Todos los temas de educación se han subido correctamente a Firestore.");
+    console.log("Colección 'education' limpiada con éxito.");
   } catch (error) {
-    console.error("\nError al subir los datos a Firestore:", error);
+    console.error("Error limpiando la colección 'education':", error);
+    // Termina el script si no se puede limpiar, para evitar datos inconsistentes.
+    throw error;
   }
 }
 
-seedEducationData().then(() => {
-  console.log("\nProceso finalizado.");
-  // Forzamos la salida del proceso ya que la conexión con Firebase lo mantiene activo.
+async function main() {
+    console.log("Este script ya no es necesario para los datos de educación, ya que ahora están hardcodeados en la aplicación.");
+    console.log("Ejecutando una última limpieza de la colección 'education' en Firestore para completar la migración.");
+    await clearEducationData();
+    console.log("\nProceso finalizado. Puedes eliminar este script del proyecto si lo deseas.");
+}
+
+main().then(() => {
   process.exit(0);
+}).catch(() => {
+  process.exit(1);
 });
