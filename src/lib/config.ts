@@ -121,3 +121,4 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
 
 export const CONTACT_DATA = buildContactData(defaultConfig);
 
+
