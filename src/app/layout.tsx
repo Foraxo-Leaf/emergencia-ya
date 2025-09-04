@@ -8,10 +8,27 @@ import { RemoteConfigProvider } from "@/hooks/useRemoteConfig.tsx";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
+const manifest = {
+  name: "Emergencia Ya",
+  short_name: "Emergencia Ya",
+  description: "Aplicación de emergencias SUSAMCO",
+  start_url: "/",
+  display: "standalone",
+  background_color: "#FFFFFF",
+  theme_color: "#DC2626",
+  icons: [
+    {
+      src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /></svg>",
+      sizes: "any",
+      type: "image/svg+xml"
+    }
+  ]
+};
+
 export const metadata: Metadata = {
   title: "Emergencia Ya",
   description: "Aplicación de emergencias SUSAMCO",
-  manifest: "/manifest.webmanifest",
+  manifest: `data:application/manifest+json,${encodeURIComponent(JSON.stringify(manifest))}`
 };
 
 export default function RootLayout({
