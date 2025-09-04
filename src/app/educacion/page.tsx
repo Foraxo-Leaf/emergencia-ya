@@ -1,5 +1,4 @@
 
-
 "use client";
 import Link from "next/link";
 import { Header } from "@/components/shared/Header";
@@ -14,7 +13,7 @@ import { PlayCircle } from "lucide-react";
 const iconComponents = Icons;
 
 export default function EducacionPage() {
-  const { contactData, loading } = useRemoteConfig();
+  const { loading } = useRemoteConfig();
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
@@ -22,7 +21,7 @@ export default function EducacionPage() {
       <main className="flex-grow p-4 md:p-6">
         <div className="text-left mb-6">
           <h2 className="text-2xl font-bold">Educación Comunitaria</h2>
-          <p className="text-muted-foreground">Aprendé técnicas de primeros auxilios que pueden salvar vidas. Tocá para ver el video.</p>
+          <p className="text-muted-foreground">Aprendé técnicas de primeros auxilios que pueden salvar vidas.</p>
         </div>
           {loading ? (
             <div className="grid grid-cols-2 gap-4">
@@ -34,38 +33,19 @@ export default function EducacionPage() {
             <div className="grid grid-cols-2 gap-4">
               {educationTopics.map((topic) => {
                 const IconComponent = iconComponents[topic.icon as keyof typeof iconComponents] || Icons.HelpCircle;
-                const videoSlug = topic.slug.replace(/-/g, '_');
-                const videoUrl = contactData.educationVideos[videoSlug];
-
-                const content = (
-                  <Card 
-                    className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-transform duration-200 shadow-md hover:shadow-lg hover:scale-105 rounded-2xl relative group"
-                    style={{ backgroundColor: topic.color }}
-                  >
-                    <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
-                      <IconComponent className={cn("w-10 h-10", topic.iconColor)} />
-                      <span className={cn("text-sm leading-tight text-center uppercase mt-2", topic.textColor)}>{topic.shortTitle || topic.title}</span>
-                    </CardContent>
-                     {videoUrl && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl">
-                            <PlayCircle className="w-12 h-12 text-white" />
-                        </div>
-                    )}
-                  </Card>
-                );
-
-                if (videoUrl) {
-                    return (
-                        <a href={videoUrl} key={topic.slug} target="_blank" rel="noopener noreferrer">
-                           {content}
-                        </a>
-                    );
-                }
-
+                
                 return (
-                   <div key={topic.slug} className="cursor-not-allowed opacity-60">
-                     {content}
-                   </div>
+                  <Link href={`/educacion/${topic.slug}`} key={topic.slug}>
+                    <Card 
+                      className="aspect-square flex flex-col items-center justify-center p-2 text-center transition-transform duration-200 shadow-md hover:shadow-lg hover:scale-105 rounded-2xl relative group"
+                      style={{ backgroundColor: topic.color }}
+                    >
+                      <CardContent className="p-0 flex flex-col items-center justify-center gap-3">
+                        <IconComponent className={cn("w-10 h-10", topic.iconColor)} />
+                        <span className={cn("text-sm leading-tight text-center uppercase mt-2", topic.textColor)}>{topic.shortTitle || topic.title}</span>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 );
               })}
             </div>
