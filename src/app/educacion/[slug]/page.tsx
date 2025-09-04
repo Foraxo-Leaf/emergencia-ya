@@ -9,11 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from '@/hooks/useRemoteConfig';
-import { PlayCircle, AlertTriangle } from 'lucide-react';
-import * as Icons from 'lucide-react';
+import { PlayCircle, AlertTriangle, FileText } from 'lucide-react';
 import { cn } from "@/lib/utils";
-
-const iconComponents = Icons;
 
 type Topic = typeof educationTopics[0];
 
@@ -67,47 +64,51 @@ export default function EducationDetailPage() {
        </div>
     );
   }
-  
-  const IconComponent = iconComponents[topic.icon as keyof typeof iconComponents] || Icons.HelpCircle;
-
-  const formattedDescription = topic.description.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
-      <Header title={topic.shortTitle || topic.title} backHref="/educacion" />
-      <main className="flex-grow p-4 md:p-6">
-        <Card className="w-full max-w-2xl mx-auto shadow-lg">
-          <CardHeader>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-lg" style={{ backgroundColor: topic.color }}>
-                 <IconComponent className={cn("w-8 h-8", topic.iconColor)} />
-              </div>
-              <div className="flex-1">
-                <CardTitle className="text-2xl">{topic.title}</CardTitle>
-                <CardDescription className="text-base pt-1">{topic.subtitle}</CardDescription>
-              </div>
+      <Header title="Información" backHref="/educacion" />
+      <main className="flex-grow p-4 md:p-6 space-y-6">
+        
+        <div className="text-left">
+            <h1 className="text-2xl font-bold uppercase">{topic.title}</h1>
+            <p className="text-muted-foreground">{topic.subtitle}</p>
+        </div>
+
+        {videoUrl ? (
+             <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="block">
+                <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
+                    <PlayCircle className="mr-2"/>
+                    Ver Video Tutorial
+                </Button>
+            </a>
+        ) : (
+            <div className="p-3 text-center bg-muted rounded-md">
+                <p className="text-muted-foreground text-sm">Video no disponible por el momento.</p>
             </div>
+        )}
+
+        <Card className="w-full shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <FileText className="w-5 h-5 text-accent" />
+              Pasos a Seguir
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div 
-              className="prose prose-sm max-w-none whitespace-pre-line"
-              dangerouslySetInnerHTML={{ __html: formattedDescription }}
-            />
-            
-            {videoUrl ? (
-                 <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="mt-6 block">
-                    <Button size="lg" className="w-full">
-                        <PlayCircle className="mr-2"/>
-                        Ver video explicativo
-                    </Button>
-                </a>
-            ) : (
-                <div className="mt-6 p-3 text-center bg-muted rounded-md">
-                    <p className="text-muted-foreground text-sm">Video no disponible por el momento.</p>
+            <div className="space-y-4">
+              {topic.steps.map((step, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <p className="flex-1 text-sm text-muted-foreground">{step}</p>
                 </div>
-            )}
+              ))}
+            </div>
           </CardContent>
         </Card>
+
       </main>
     </div>
   );
