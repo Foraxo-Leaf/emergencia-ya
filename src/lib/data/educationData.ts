@@ -6,12 +6,12 @@ export const educationTopics = [
       "shortTitle": "RCP Adultos",
       "subtitle": "Pasos para realizar RCP en una persona mayor de 8 años.",
       "steps": [
-        "Verificar seguridad: Asegurarse de que el entorno es seguro para usted y la víctima.",
-        "Evaluar respuesta: Tocar los hombros de la persona y preguntar en voz alta '¿Estás bien?'.",
-        "Llamar a emergencias: Si no hay respuesta, llamar al 107 o pedir a alguien que lo haga.",
-        "Verificar respiración: Acercar la mejilla a la boca de la persona y mirar si el pecho se mueve (no más de 10 segundos).",
-        "Iniciar compresiones: Colocar el talón de una mano en el centro del pecho y la otra mano encima. Comprimir fuerte y rápido (100-120 por minuto).",
-        "Continuar: Seguir con las compresiones hasta que llegue la ayuda o la persona muestre signos de vida."
+        "<b>Verificar seguridad:</b> Asegurarse de que el entorno es seguro para usted y la víctima.",
+        "<b>Evaluar respuesta:</b> Tocar los hombros de la persona y preguntar en voz alta '¿Estás bien?'.",
+        "<b>Llamar a emergencias:</b> Si no hay respuesta, llamar al 107 o pedir a alguien que lo haga.",
+        "<b>Verificar respiración:</b> Acercar la mejilla a la boca de la persona y mirar si el pecho se mueve (no más de 10 segundos).",
+        "<b>Iniciar compresiones:</b> Colocar el talón de una mano en el centro del pecho y la otra mano encima. Comprimir fuerte y rápido (100-120 por minuto).",
+        "<b>Continuar:</b> Seguir con las compresiones hasta que llegue la ayuda o la persona muestre signos de vida."
       ],
       "icon": "HeartPulse",
       "color": "#EF4444",
@@ -24,11 +24,11 @@ export const educationTopics = [
       "shortTitle": "RCP Niños",
       "subtitle": "Cómo realizar RCP en niños de 1 a 8 años.",
       "steps": [
-        "Seguridad y Respuesta: Asegure el área y verifique si el niño responde.",
-        "Llamar al 107: Si está solo, realice 5 ciclos de RCP antes de llamar. Si hay alguien más, pídale que llame.",
-        "Compresiones: Use una o dos manos en el centro del pecho. Comprima a una profundidad de 5 cm, a un ritmo de 100-120 por minuto.",
-        "Ventilaciones: Después de 30 compresiones, dé 2 ventilaciones (boca a boca), asegurándose de que el pecho se eleve.",
-        "Continuar: Siga con los ciclos de 30 compresiones y 2 ventilaciones hasta que llegue la ayuda."
+        "<b>Seguridad y Respuesta:</b> Asegure el área y verifique si el niño responde.",
+        "<b>Llamar al 107:</b> Si está solo, realice 5 ciclos de RCP antes de llamar. Si hay alguien más, pídale que llame.",
+        "<b>Compresiones:</b> Use una o dos manos en el centro del pecho. Comprima a una profundidad de 5 cm, a un ritmo de 100-120 por minuto.",
+        "<b>Ventilaciones:</b> Después de 30 compresiones, dé 2 ventilaciones (boca a boca), asegurándose de que el pecho se eleve.",
+        "<b>Continuar:</b> Siga con los ciclos de 30 compresiones y 2 ventilaciones hasta que llegue la ayuda."
       ],
       "icon": "HeartPulse",
       "color": "#EC4899",
@@ -36,16 +36,16 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
-      "slug": "maniobra-heimlich",
-      "title": "Atragantamiento (Maniobra de Heimlich)",
-      "shortTitle": "Atragantamiento",
-      "subtitle": "Cómo actuar si alguien se está ahogando.",
+      "slug": "atragantamiento-adultos",
+      "title": "Atragantamiento en Adultos (Maniobra de Heimlich)",
+      "shortTitle": "Atragantamiento Adultos",
+      "subtitle": "Cómo actuar si un adulto se está ahogando.",
       "steps": [
-        "Evaluar: Si la persona tose, animarla a seguir tosiendo. Si no puede toser, respirar o hablar, actuar.",
-        "Posicionarse: Pararse detrás de la persona y rodearla con los brazos por la cintura.",
-        "Formar un puño: Hacer un puño con una mano y colocarlo por el lado del pulgar justo por encima del ombligo.",
-        "Comprimir: Agarrar el puño con la otra mano y presionar hacia adentro y hacia arriba con fuerza.",
-        "Repetir: Continuar con las compresiones hasta que el objeto sea expulsado o la persona pierda el conocimiento (en ese caso, iniciar RCP)."
+        "<b>Evaluar:</b> Si la persona tose, animarla a seguir tosiendo. Si no puede toser, respirar o hablar, debe actuar de inmediato.",
+        "<b>Posicionarse:</b> Pararse detrás de la persona y rodearla con los brazos por la cintura.",
+        "<b>Formar un puño:</b> Hacer un puño con una mano y colocarlo por el lado del pulgar justo por encima del ombligo, debajo del esternón.",
+        "<b>Comprimir:</b> Agarrar el puño con la otra mano y realizar compresiones abdominales rápidas, hacia adentro y hacia arriba, con fuerza.",
+        "<b>Repetir:</b> Continuar con las compresiones hasta que el objeto sea expulsado o la persona pierda el conocimiento (en ese caso, iniciar RCP)."
       ],
       "icon": "HandHelping",
       "color": "#3B82F6",
@@ -53,17 +53,34 @@ export const educationTopics = [
       "textColor": "text-white"
     },
     {
+        "slug": "atragantamiento-ninos",
+        "title": "Atragantamiento en Niños (Mayores de 1 año)",
+        "shortTitle": "Atragantamiento Niños",
+        "subtitle": "Cómo actuar si un niño o niña se está ahogando.",
+        "steps": [
+          "<b>Evaluar la tos:</b> Si el niño tose con fuerza, anímelo a seguir tosiendo. No intervenga.",
+          "<b>Dar 5 golpes en la espalda:</b> Si la tos es débil o no puede respirar, inclínelo hacia adelante y dé 5 golpes firmes entre los omóplatos con el talón de la mano.",
+          "<b>Realizar 5 compresiones abdominales:</b> Si los golpes no funcionan, colóquese detrás del niño, rodee su cintura con sus brazos y realice 5 compresiones (Maniobra de Heimlich) como en un adulto, pero con menos fuerza.",
+          "<b>Alternar:</b> Continúe alternando 5 golpes en la espalda y 5 compresiones abdominales.",
+          "<b>Llamar al 107:</b> Si el niño pierde el conocimiento, inicie RCP y llame a emergencias inmediatamente."
+        ],
+        "icon": "HandHelping",
+        "color": "#60A5FA",
+        "iconColor": "text-white",
+        "textColor": "text-white"
+    },
+    {
       "slug": "convulsiones",
       "title": "Cómo Actuar ante Convulsiones",
       "shortTitle": "Convulsiones",
       "subtitle": "Pasos a seguir durante un episodio convulsivo.",
       "steps": [
-        "Mantener la calma: La mayoría de las convulsiones terminan en pocos minutos.",
-        "Proteger a la persona: Alejar objetos duros o afilados. Colocar algo blando debajo de su cabeza.",
-        "Poner de costado: Girar a la persona suavemente hacia un lado para ayudarla a respirar.",
-        "No sujetar: No intentar sujetar a la persona ni detener sus movimientos.",
-        "No poner nada en la boca: Esto puede causar lesiones en los dientes o la mandíbula.",
-        "Cronometrar: Medir la duración de la convulsión. Llamar a emergencias si dura más de 5 minutos."
+        "<b>Mantener la calma:</b> La mayoría de las convulsiones terminan en pocos minutos.",
+        "<b>Proteger a la persona:</b> Alejar objetos duros o afilados. Colocar algo blando debajo de su cabeza.",
+        "<b>Poner de costado:</b> Girar a la persona suavemente hacia un lado para ayudarla a respirar.",
+        "<b>No sujetar:</b> No intentar sujetar a la persona ni detener sus movimientos.",
+        "<b>No poner nada en la boca:</b> Esto puede causar lesiones en los dientes o la mandíbula.",
+        "<b>Cronometrar:</b> Medir la duración de la convulsión. Llamar a emergencias si dura más de 5 minutos."
       ],
       "icon": "BrainCircuit",
       "color": "#8B5CF6",
@@ -76,11 +93,11 @@ export const educationTopics = [
       "shortTitle": "Hemorragias",
       "subtitle": "Cómo detener un sangrado externo.",
       "steps": [
-        "Llamar al 107: Si la herida es grave, buscar ayuda médica de inmediato.",
-        "Presión Directa: Usando un paño limpio o gasa, aplicar presión firme y constante directamente sobre la herida.",
-        "Elevar la extremidad: Si la herida está en un brazo o una pierna, elevarla por encima del nivel del corazón.",
-        "No retirar objetos: Si hay un objeto clavado en la herida, no lo retire. Aplique presión alrededor del objeto.",
-        "Mantener la presión: Continuar aplicando presión hasta que llegue la ayuda médica."
+        "<b>Llamar al 107:</b> Si la herida es grave, buscar ayuda médica de inmediato.",
+        "<b>Presión Directa:</b> Usando un paño limpio o gasa, aplicar presión firme y constante directamente sobre la herida.",
+        "<b>Elevar la extremidad:</b> Si la herida está en un brazo o una pierna, elevarla por encima del nivel del corazón.",
+        "<b>No retirar objetos:</b> Si hay un objeto clavado en la herida, no lo retire. Aplique presión alrededor del objeto.",
+        "<b>Mantener la presión:</b> Continuar aplicando presión hasta que llegue la ayuda médica."
       ],
       "icon": "Bandage",
       "color": "#F59E0B",
@@ -93,15 +110,32 @@ export const educationTopics = [
       "shortTitle": "Quemaduras",
       "subtitle": "Primeros auxilios para quemaduras leves.",
       "steps": [
-        "Enfriar la quemadura: Poner la zona bajo agua corriente fría (no helada) durante 10-15 minutos.",
-        "No usar hielo: El hielo puede dañar más la piel.",
-        "Quitar joyas: Retirar anillos u otros objetos ajustados de la zona afectada antes de que se hinche.",
-        "No romper ampollas: Si se forman ampollas, no las reviente para evitar infecciones.",
-        "Cubrir la quemadura: Usar una venda estéril o un paño limpio. No usar algodón.",
-        "Buscar ayuda: Si la quemadura es grande, profunda o en áreas sensibles (cara, manos, genitales), buscar atención médica."
+        "<b>Enfriar la quemadura:</b> Poner la zona bajo agua corriente fría (no helada) durante 10-15 minutos.",
+        "<b>No usar hielo:</b> El hielo puede dañar más la piel.",
+        "<b>Quitar joyas:</b> Retirar anillos u otros objetos ajustados de la zona afectada antes de que se hinche.",
+        "<b>No romper ampollas:</b> Si se forman ampollas, no las reviente para evitar infecciones.",
+        "<b>Cubrir la quemadura:</b> Usar una venda estéril o un paño limpio. No usar algodón.",
+        "<b>Buscar ayuda:</b> Si la quemadura es grande, profunda o en áreas sensibles (cara, manos, genitales), buscar atención médica."
       ],
       "icon": "Flame",
       "color": "#F97316",
+      "iconColor": "text-white",
+      "textColor": "text-white"
+    },
+    {
+      "slug": "uso-matafuegos",
+      "title": "Uso de Matafuegos (Extintores)",
+      "shortTitle": "Matafuegos",
+      "subtitle": "Cómo usar un extintor de incendios de forma segura.",
+      "steps": [
+        "<b>Paso 1: Tirar del pasador:</b> Sostenga el extintor en posición vertical y tire del anillo o pasador de seguridad que evita el accionamiento accidental.",
+        "<b>Paso 2: Apuntar a la base:</b> Apunte la boquilla del extintor hacia la base del fuego, no a las llamas. El objetivo es apagar el combustible.",
+        "<b>Paso 3: Apretar la palanca:</b> Apriete las palancas de forma firme y constante para liberar el agente extintor.",
+        "<b>Paso 4: Mover en zigzag:</b> Mueva la boquilla de lado a lado (en un movimiento de barrido o zigzag) sobre la base del fuego hasta que se apague por completo.",
+        "<b>Importante:</b> Asegúrese de tener siempre una vía de escape a su espalda. Si el fuego es muy grande, no intente apagarlo. Evacúe y llame a los bomberos (100)."
+      ],
+      "icon": "FireExtinguisher",
+      "color": "#D946EF",
       "iconColor": "text-white",
       "textColor": "text-white"
     },
@@ -111,12 +145,12 @@ export const educationTopics = [
       "shortTitle": "Desmayos",
       "subtitle": "Qué hacer cuando alguien se siente mareado o se desmaya.",
       "steps": [
-        "Si se siente mareado: Sentar a la persona y hacer que incline la cabeza hacia adelante, entre las rodillas. O acostarla con las piernas elevadas.",
-        "Si se desmaya: Acostar a la persona boca arriba y levantarle las piernas unos 30 cm por encima del nivel del corazón.",
-        "Aflojar ropa apretada: Aflojar cinturones, cuellos o cualquier prenda ajustada.",
-        "Verificar respiración: Asegurarse de que la persona respira con normalidad.",
-        "Recuperación: La persona debería recuperar la conciencia en menos de un minuto. Si no lo hace, llamar al 107.",
-        "No dar nada de comer o beber: Esperar a que se recupere completamente."
+        "<b>Si se siente mareado:</b> Sentar a la persona y hacer que incline la cabeza hacia adelante, entre las rodillas. O acostarla con las piernas elevadas.",
+        "<b>Si se desmaya:</b> Acostar a la persona boca arriba y levantarle las piernas unos 30 cm por encima del nivel del corazón.",
+        "<b>Aflojar ropa apretada:</b> Aflojar cinturones, cuellos o cualquier prenda ajustada.",
+        "<b>Verificar respiración:</b> Asegurarse de que la persona respira con normalidad.",
+        "<b>Recuperación:</b> La persona debería recuperar la conciencia en menos de un minuto. Si no lo hace, llamar al 107.",
+        "<b>No dar nada de comer o beber:</b> Esperar a que se recupere completamente."
       ],
       "icon": "UserRoundMinus",
       "color": "#14B8A6",
@@ -129,12 +163,12 @@ export const educationTopics = [
       "shortTitle": "Botiquín",
       "subtitle": "Elementos esenciales para un botiquín en casa.",
       "steps": [
-        "Material de curación: Gasas estériles, vendas, cinta adhesiva hipoalergénica, curitas de varios tamaños.",
-        "Antisépticos: Agua oxigenada, alcohol o toallitas antisépticas para limpiar heridas o instrumental.",
-        "Instrumental: Tijeras de punta redonda, pinzas.",
-        "Analgésicos y antifebriles: Paracetamol o ibuprofeno.",
-        "Guantes descartables: Para protegerse al curar heridas.",
-        "Otros: Termómetro, solución salina para limpieza de ojos o heridas."
+        "<b>Material de curación:</b> Gasas estériles, vendas, cinta adhesiva hipoalergénica, curitas de varios tamaños.",
+        "<b>Antisépticos:</b> Agua oxigenada, alcohol o toallitas antisépticas para limpiar heridas o instrumental.",
+        "<b>Instrumental:</b> Tijeras de punta redonda, pinzas.",
+        "<b>Analgésicos y antifebriles:</b> Paracetamol o ibuprofeno.",
+        "<b>Guantes descartables:</b> Para protegerse al curar heridas.",
+        "<b>Otros:</b> Termómetro, solución salina para limpieza de ojos o heridas."
       ],
       "icon": "PlusSquare",
       "color": "#22C55E",
@@ -142,3 +176,5 @@ export const educationTopics = [
       "textColor": "text-white"
     }
   ]
+
+    
