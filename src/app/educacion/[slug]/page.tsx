@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Header } from "@/components/shared/Header";
 import { educationTopics } from "@/lib/data/educationData";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from '@/hooks/useRemoteConfig';
@@ -31,8 +31,8 @@ export default function EducationDetailPage() {
 
   useEffect(() => {
     if (topic && !configLoading) {
-      const videoSlug = topic.slug.replace(/-/g, '_');
-      const url = contactData.educationVideos[videoSlug];
+      // Get the video URL from the remote config contactData
+      const url = contactData.educationVideos[topic.slug];
       setVideoUrl(url);
       setLoading(false);
     }
@@ -75,17 +75,13 @@ export default function EducationDetailPage() {
             <p className="text-muted-foreground">{topic.subtitle}</p>
         </div>
 
-        {videoUrl ? (
+        {videoUrl && (
              <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="block">
                 <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
                     <PlayCircle className="mr-2"/>
                     Ver Video Tutorial
                 </Button>
             </a>
-        ) : (
-            <div className="p-3 text-center bg-muted rounded-md">
-                <p className="text-muted-foreground text-sm">Video no disponible por el momento.</p>
-            </div>
         )}
 
         <Card className="w-full shadow-lg">
@@ -102,7 +98,10 @@ export default function EducationDetailPage() {
                   <div className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     {index + 1}
                   </div>
-                  <p className="flex-1 text-sm text-muted-foreground">{step}</p>
+                  <p 
+                    className="flex-1 text-sm text-muted-foreground"
+                    dangerouslySetInnerHTML={{ __html: step }}
+                  />
                 </div>
               ))}
             </div>
