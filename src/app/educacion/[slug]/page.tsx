@@ -70,6 +70,8 @@ export default function EducationDetailPage() {
   
   const IconComponent = iconComponents[topic.icon as keyof typeof iconComponents] || Icons.HelpCircle;
 
+  const formattedDescription = topic.description.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title={topic.shortTitle || topic.title} backHref="/educacion" />
@@ -89,7 +91,7 @@ export default function EducationDetailPage() {
           <CardContent>
             <div 
               className="prose prose-sm max-w-none whitespace-pre-line"
-              dangerouslySetInnerHTML={{ __html: topic.description }}
+              dangerouslySetInnerHTML={{ __html: formattedDescription }}
             />
             
             {videoUrl ? (
