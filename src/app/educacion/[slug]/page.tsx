@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from '@/hooks/useRemoteConfig';
 import { PlayCircle, AlertTriangle } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import { cn } from "@/lib/utils";
 
 const iconComponents = Icons;
 
