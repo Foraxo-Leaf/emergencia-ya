@@ -7,10 +7,11 @@ const generateEducationVideoKeys = () => {
     const keys: Record<string, string> = {};
     educationTopics.forEach(topic => {
         const key = `education_video_${topic.slug.replace(/-/g, '_')}`;
-        keys[key] = key;
+        keys[key] = key; // The key and value are the same here, just for consistency
     });
     return keys;
 };
+
 
 export const remoteConfigKeys = {
     samco_name: 'samco_name',
@@ -112,13 +113,13 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
         phone: config[remoteConfigKeys.ambulance_phone],
     },
     educationVideos: educationTopics.reduce((acc, topic) => {
-        const videoKey = topic.slug;
-        const remoteConfigKey = `education_video_${videoKey.replace(/-/g, '_')}`;
-        acc[videoKey] = config[remoteConfigKey] || "";
+        const remoteConfigKey = `education_video_${topic.slug.replace(/-/g, '_')}`;
+        acc[topic.slug] = config[remoteConfigKey] || "";
         return acc;
     }, {} as Record<string, string>)
 });
 
 export const CONTACT_DATA = buildContactData(defaultConfig);
+
 
 
