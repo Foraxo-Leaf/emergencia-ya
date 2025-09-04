@@ -1,32 +1,21 @@
 {
-  "theme_color": "#ef4444",
-  "background_color": "#f8fafc",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
   "name": "Emergencia Ya",
   "short_name": "EmergenciaYa",
-  "description": "Aplicaci\u00f3n de emergencias SUSAMCO",
+  "description": "Aplicación de emergencias SUSAMCO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
   "icons": [
     {
-      "src": "/icon-192x192.png",
+      "src": "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='20' fill='white' /%3e%3cpath d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /%3e%3c/svg%3e",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-512x512.png",
+      "src": "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3crect width='100' height='100' rx='20' fill='white' /%3e%3cpath d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /%3e%3c/svg%3e",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ]
 }
