@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext, ReactNode } from "react";
-import { initialize, fetchAndActivate, getAll } from "@/lib/remoteConfig";
+import { initialize, fetchAndActivate, getAll, activate } from "@/lib/remoteConfig";
 import { defaultConfig, buildContactData, ContactData } from "@/lib/config";
 
 type RemoteConfigContextType = {
@@ -26,12 +26,20 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
       try {
         console.log("[RemoteConfig] Initializing...");
         await initialize();
-        console.log("[RemoteConfig] Fetching and activating...");
-        await fetchAndActivate();
+
+        console.log("[RemoteConfig] Fetching latest values...");
+        // Fetch new values, but don't worry if it fails (e.g., offline)
+        await fetchAndActivate().catch(err => {
+          console.warn("[RemoteConfig] Fetch failed, will use cached values if available.", err);
+        });
+        
+        // Always try to activate the config (it will use fetched or cached)
+        await activate();
+        console.log("[RemoteConfig] Config activated (fetched or cached).");
         
         if (isMounted) {
           const remoteValues = getAll();
-          console.log("[RemoteConfig] Raw values fetched:", remoteValues);
+          console.log("[RemoteConfig] Raw values from config:", remoteValues);
           
           const newConfig: Record<string, string> = {};
           for (const key in remoteValues) {
