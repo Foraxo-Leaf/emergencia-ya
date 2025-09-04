@@ -112,11 +112,12 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
         phone: config[remoteConfigKeys.ambulance_phone],
     },
     educationVideos: educationTopics.reduce((acc, topic) => {
-        const videoKey = topic.slug.replace(/-/g, '_');
-        const remoteConfigKey = `education_video_${videoKey}`;
+        const videoKey = topic.slug;
+        const remoteConfigKey = `education_video_${videoKey.replace(/-/g, '_')}`;
         acc[videoKey] = config[remoteConfigKey] || "";
         return acc;
     }, {} as Record<string, string>)
 });
 
 export const CONTACT_DATA = buildContactData(defaultConfig);
+
