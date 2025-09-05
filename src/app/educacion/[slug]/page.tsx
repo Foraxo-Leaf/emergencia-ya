@@ -8,7 +8,7 @@ import { educationTopics } from "@/lib/data/educationData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from '@/hooks/useRemoteConfig';
-import { AlertTriangle, FileText } from 'lucide-react';
+import { AlertTriangle, FileText, VideoOff } from 'lucide-react';
 
 type Topic = typeof educationTopics[0];
 
@@ -17,9 +17,6 @@ export default function EducationDetailPage() {
   const { contactData, loading: configLoading } = useRemoteConfig();
   const [topic, setTopic] = useState<Topic | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
-  const [cachedVideo, setCachedVideo] = useState<string | null>(null);
-  const [videoError, setVideoError] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params.slug) {
@@ -34,51 +31,20 @@ export default function EducationDetailPage() {
       // Get the video URL from the remote config contactData
       const url = contactData.educationVideos[topic.slug];
       setVideoUrl(url);
-      setLoading(false);
     }
   }, [topic, contactData, configLoading]);
 
-  useEffect(() => {
-    if (!videoUrl) return;
+  const isLoading = configLoading || topic === null;
 
-    let active = true;
-
-    const loadVideo = async () => {
-      try {
-        if (!('caches' in window)) throw new Error('cache not supported');
-        const cache = await caches.open('video-cache');
-        const cached = await cache.match(videoUrl);
-        if (cached) {
-          const blob = await cached.blob();
-          if (active) setCachedVideo(URL.createObjectURL(blob));
-          return;
-        }
-        const response = await fetch(videoUrl);
-        if (!response.ok) throw new Error('Network response was not ok');
-        await cache.put(videoUrl, response.clone());
-        const blob = await response.blob();
-        if (active) setCachedVideo(URL.createObjectURL(blob));
-      } catch (err) {
-        if (active) setVideoError(true);
-      }
-    };
-
-    loadVideo();
-
-    return () => {
-      active = false;
-    };
-  }, [videoUrl]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex flex-col min-h-dvh bg-background">
         <Header title="Cargando..." backHref="/educacion" />
         <main className="flex-grow p-4 md:p-6 space-y-4">
           <Skeleton className="h-8 w-3/4" />
           <Skeleton className="h-4 w-1/2" />
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-12 w-full" />
+          <Skeleton className="aspect-video w-full" />
+          <Skeleton className="h-48 w-full" />
         </main>
       </div>
     );
@@ -107,20 +73,20 @@ export default function EducationDetailPage() {
             <p className="text-muted-foreground">{topic.subtitle}</p>
         </div>
 
-        {cachedVideo && (
+        {videoUrl ? (
           <video
             controls
-            className="w-full rounded-lg"
-            src={cachedVideo}
+            src={videoUrl}
+            className="w-full rounded-lg aspect-video bg-black"
+            playsInline
+            preload="metadata"
           />
-        )}
-        {!cachedVideo && !videoError && (
-          <Skeleton className="h-40 w-full" />
-        )}
-        {videoError && (
-          <p className="text-sm text-destructive">
-            No se pudo cargar el video. Verifica tu conexión.
-          </p>
+        ) : (
+          <div className="w-full aspect-video bg-muted rounded-lg flex flex-col items-center justify-center text-center p-4">
+            <VideoOff className="w-12 h-12 text-muted-foreground mb-2" />
+            <p className="text-muted-foreground font-medium">Video no disponible</p>
+            <p className="text-xs text-muted-foreground">No se ha configurado un video para este tema.</p>
+          </div>
         )}
 
         <Card className="w-full shadow-lg">
