@@ -12,11 +12,28 @@ type RemoteConfigContextType = {
 
 const RemoteConfigContext = createContext<RemoteConfigContextType | undefined>(undefined);
 
-// Initial state with default data
-const initialContactData = buildContactData(defaultConfig);
+// Key used to persist the remote config locally
+const STORAGE_KEY = "remoteConfig";
+
+// Initial state with data from localStorage if available
+const getInitialContactData = () => {
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Record<string, string>;
+        const initialConfig = { ...defaultConfig, ...parsed };
+        return buildContactData(initialConfig);
+      } catch (e) {
+        console.warn("[RemoteConfig] Failed to parse stored config", e);
+      }
+    }
+  }
+  return buildContactData(defaultConfig);
+};
 
 export function RemoteConfigProvider({ children }: { children: ReactNode }) {
-  const [contactData, setContactData] = useState<ContactData>(initialContactData);
+  const [contactData, setContactData] = useState<ContactData>(getInitialContactData);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,6 +41,22 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
 
     async function loadRemoteConfig() {
       try {
+        // Use persisted data first if available
+        if (typeof window !== "undefined") {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored) {
+            try {
+              const parsed = JSON.parse(stored) as Record<string, string>;
+              const merged = { ...defaultConfig, ...parsed };
+              if (isMounted) {
+                setContactData(buildContactData(merged));
+              }
+            } catch (e) {
+              console.warn("[RemoteConfig] Failed to parse stored config", e);
+            }
+          }
+        }
+
         console.log("[RemoteConfig] Initializing...");
         await initialize();
 
@@ -32,27 +65,33 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
         await fetchAndActivate().catch(err => {
           console.warn("[RemoteConfig] Fetch failed, will use cached values if available.", err);
         });
-        
+
         // Always try to activate the config (it will use fetched or cached)
         await activate();
         console.log("[RemoteConfig] Config activated (fetched or cached).");
-        
+
         if (isMounted) {
           const remoteValues = getAll();
           console.log("[RemoteConfig] Raw values from config:", remoteValues);
-          
+
           const newConfig: Record<string, string> = {};
           for (const key in remoteValues) {
             if (Object.prototype.hasOwnProperty.call(remoteValues, key)) {
-                newConfig[key] = remoteValues[key].asString();
+              newConfig[key] = remoteValues[key].asString();
             }
           }
 
           // Merge remote config with defaults, remote wins
           const finalConfig = { ...defaultConfig, ...newConfig };
-           console.log("[RemoteConfig] Final merged config:", finalConfig);
-          
-          setContactData(buildContactData(finalConfig));
+          console.log("[RemoteConfig] Final merged config:", finalConfig);
+
+          const finalContactData = buildContactData(finalConfig);
+          setContactData(finalContactData);
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(finalConfig));
+          } catch (e) {
+            console.warn("[RemoteConfig] Failed to persist config", e);
+          }
         }
       } catch (error) {
         console.error("[RemoteConfig] Error loading remote config:", error);
