@@ -28,7 +28,7 @@ const withPWA = withPWAInit({
       // Strategy: Network First (for dynamic data from Firebase)
       // Tries the network first, then falls back to cache.
       // Essential for keeping phone numbers, etc., up-to-date.
-      urlPattern: /^https?:\/\/(?:www\.)?firebasestorage\.googleapis\.com\/.*|https?:\/\/(?:www\.)?firebaseapp\.com\/.*$/,
+      urlPattern: /^https?:\/\/(?:www\.)?firebasestorage\.googleapis\.com\/.*|https?:\/\/(?:www\n\.)?firebaseapp\.com\/.*$/,
       handler: 'NetworkFirst',
       options: {
         cacheName: 'firebase-data',
