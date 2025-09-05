@@ -11,24 +11,76 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const manifest = {
   name: "Emergencia Ya",
   short_name: "Emergencia Ya",
-  description: "Aplicación de emergencias SUSAMCO",
+  description: "Aplicación de emergencias SUSAMCO para acceso rápido a números y guías de primeros auxilios.",
   start_url: "/",
   display: "standalone",
   background_color: "#FFFFFF",
   theme_color: "#DC2626",
   icons: [
     {
-      src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /></svg>",
-      sizes: "any",
-      type: "image/svg+xml"
+      src: "/icons/icon-192x192.png",
+      sizes: "192x192",
+      type: "image/png"
+    },
+    {
+      src: "/icons/icon-512x512.png",
+      sizes: "512x512",
+      type: "image/png"
+    },
+    {
+      src: "/icons/icon-192x192.png",
+      sizes: "192x192",
+      type: "image/png",
+      purpose: "maskable"
+    },
+    {
+      src: "/icons/icon-512x512.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "maskable"
     }
   ]
 };
 
+const APP_NAME = "Emergencia Ya";
+const APP_DEFAULT_TITLE = "Emergencia Ya";
+const APP_TITLE_TEMPLATE = "%s - Emergencia Ya";
+const APP_DESCRIPTION = "Aplicación de emergencias SUSAMCO para acceso rápido a números y guías de primeros auxilios.";
+
 export const metadata: Metadata = {
-  title: "Emergencia Ya",
-  description: "Aplicación de emergencias SUSAMCO",
-  manifest: `data:application/manifest+json,${encodeURIComponent(JSON.stringify(manifest))}`
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  manifest: `data:application/manifest+json,${encodeURIComponent(JSON.stringify(manifest))}`,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -39,7 +91,8 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /></svg>" />
+         <meta name="viewport" content="width=device-width, initial-scale=1" />
+         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M50 10 L50 90 M10 50 L90 50' stroke='%23DC2626' stroke-width='20' stroke-linecap='round' /></svg>" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
