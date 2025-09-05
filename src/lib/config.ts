@@ -31,6 +31,9 @@ export const remoteConfigKeys = {
     firefighters_maps_query: 'firefighters_maps_query',
     firefighters_phone: 'firefighters_phone',
     ambulance_phone: 'ambulance_phone',
+    geofence_center_lat: 'geofence_center_lat',
+    geofence_center_lon: 'geofence_center_lon',
+    geofence_radius_km: 'geofence_radius_km',
     ...generateEducationVideoKeys()
 };
 
@@ -52,6 +55,9 @@ export const defaultConfig: Record<string, string> = {
     [remoteConfigKeys.firefighters_maps_query]: "Bomberos+Voluntarios+Armstrong",
     [remoteConfigKeys.firefighters_phone]: "100",
     [remoteConfigKeys.ambulance_phone]: "107",
+    [remoteConfigKeys.geofence_center_lat]: "-32.7833", // Centro de Armstrong
+    [remoteConfigKeys.geofence_center_lon]: "-61.6",
+    [remoteConfigKeys.geofence_radius_km]: "10",
     ...educationTopics.reduce((acc, topic) => {
         const key = `education_video_${topic.slug.replace(/-/g, '_')}`;
         acc[key] = ""; // Default to empty string
@@ -73,6 +79,11 @@ type CenterData = {
     phone: string;
 };
 
+type GeofenceData = {
+    center: { lat: number; lon: number; };
+    radiusKm: number;
+}
+
 export type ContactData = {
     samco: SamcoData;
     monitoringCenter: CenterData;
@@ -82,6 +93,7 @@ export type ContactData = {
         phone: string;
     },
     educationVideos: Record<string, string>;
+    geofence: GeofenceData;
 };
 
 export const buildContactData = (config: Record<string, string>): ContactData => ({
@@ -116,10 +128,14 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
         const remoteConfigKey = `education_video_${topic.slug.replace(/-/g, '_')}`;
         acc[topic.slug] = config[remoteConfigKey] || "";
         return acc;
-    }, {} as Record<string, string>)
+    }, {} as Record<string, string>),
+    geofence: {
+        center: {
+            lat: parseFloat(config[remoteConfigKeys.geofence_center_lat]),
+            lon: parseFloat(config[remoteConfigKeys.geofence_center_lon]),
+        },
+        radiusKm: parseInt(config[remoteConfigKeys.geofence_radius_km], 10),
+    }
 });
 
 export const CONTACT_DATA = buildContactData(defaultConfig);
-
-
-

@@ -4,9 +4,11 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope, MessageCircle, MapPin } from "lucide-react";
+import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope, MessageCircle, MapPin, Loader2, LocateFixed } from "lucide-react";
 import Link from 'next/link';
 import type { ContactData } from '@/lib/config';
+import { getDistance } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const allSymptoms = [
     { text: "¿Tenés Dolor de pecho?", isUrgent: true },
@@ -22,45 +24,63 @@ type EvaluationClientProps = {
   contactData: ContactData;
 };
 
+type GeolocationStatus = 'pending' | 'loading' | 'success' | 'denied' | 'unsupported' | 'error' | 'outside';
+
 export function EvaluationClient({ contactData }: EvaluationClientProps) {
     const [result, setResult] = useState<'urgent' | 'non-urgent' | null>(null);
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | null>(null);
-    const [locationError, setLocationError] = useState<string | null>(null);
-
+    const [geoStatus, setGeoStatus] = useState<GeolocationStatus>('pending');
+    
     const emergencyPhoneNumber = contactData.ambulance.phone;
     const smsRecipientNumber = contactData.samco.whatsapp;
     const whatsappTurnosNumber = contactData.samco.whatsapp;
+    const centerPoint = contactData.geofence.center;
+    const radiusKm = contactData.geofence.radiusKm;
 
-    const handleSymptomClick = (isUrgent: boolean) => {
-        if (isUrgent) {
-            setResult('urgent');
-        } else {
-            setResult('non-urgent');
+    const checkLocation = () => {
+        setGeoStatus('loading');
+        if (!navigator.geolocation) {
+            setGeoStatus('unsupported');
+            return;
         }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                const distance = getDistance(
+                    { lat: latitude, lon: longitude },
+                    { lat: centerPoint.lat, lon: centerPoint.lon }
+                );
+
+                if (distance <= radiusKm) {
+                    setLocation({ latitude, longitude });
+                    setGeoStatus('success');
+                } else {
+                    setGeoStatus('outside');
+                }
+            },
+            (error) => {
+                if (error.code === error.PERMISSION_DENIED) {
+                    setGeoStatus('denied');
+                } else {
+                    setGeoStatus('error');
+                }
+            },
+            { timeout: 10000, enableHighAccuracy: true }
+        );
     };
 
     useEffect(() => {
-        if (result === 'urgent') {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    setLocation({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    });
-                    setLocationError(null);
-                },
-                (error) => {
-                    console.error("Geolocation error:", error);
-                    setLocationError("No se pudo obtener la ubicación. Por favor, actívela en su dispositivo.");
-                }
-            );
-        }
-    }, [result]);
+       checkLocation();
+    }, []);
+
+    const handleSymptomClick = (isUrgent: boolean) => {
+        setResult(isUrgent ? 'urgent' : 'non-urgent');
+    };
     
     const restart = () => {
         setResult(null);
-        setLocation(null);
-        setLocationError(null);
+        checkLocation();
     }
 
     if (result) {
@@ -77,7 +97,6 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                                 <CardDescription className="text-lg mb-4">
                                     Parece ser una emergencia. Por favor, actúe de inmediato.
                                 </CardDescription>
-                                {locationError && <p className="text-destructive text-sm mb-4">{locationError}</p>}
                                 <div className="flex flex-col gap-4">
                                     <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
                                         <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia ({emergencyPhoneNumber})</Button>
@@ -116,6 +135,33 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                 </Card>
             </div>
         );
+    }
+    
+    if (geoStatus === 'loading' || geoStatus === 'pending') {
+        return (
+            <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
+                 <Loader2 className="w-16 h-16 text-primary animate-spin" />
+                 <p className="text-lg font-medium text-muted-foreground">Verificando tu ubicación...</p>
+                 <p className="text-sm text-muted-foreground">Esta función solo está disponible en el área de cobertura.</p>
+            </div>
+        )
+    }
+
+    if (geoStatus !== 'success') {
+       return (
+            <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
+                <AlertTriangle className="w-16 h-16 text-destructive" />
+                <h2 className="text-xl font-bold">Función no disponible</h2>
+                {geoStatus === 'outside' && <p className="text-muted-foreground">Te encuentras fuera del área de cobertura de 10 km para esta función.</p>}
+                {geoStatus === 'denied' && <p className="text-muted-foreground">No has dado permiso para acceder a tu ubicación. Es necesaria para usar esta función.</p>}
+                {geoStatus === 'unsupported' && <p className="text-muted-foreground">Tu navegador no soporta la geolocalización.</p>}
+                {geoStatus === 'error' && <p className="text-muted-foreground">No se pudo obtener tu ubicación. Revisa la configuración de tu dispositivo.</p>}
+                <Button onClick={checkLocation}>
+                    <LocateFixed className="mr-2" />
+                    Reintentar
+                </Button>
+            </div>
+       )
     }
 
     return (
