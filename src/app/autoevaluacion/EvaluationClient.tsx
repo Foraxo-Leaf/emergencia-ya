@@ -152,7 +152,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
             <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
                 <AlertTriangle className="w-16 h-16 text-destructive" />
                 <h2 className="text-xl font-bold">Función no disponible</h2>
-                {geoStatus === 'outside' && <p className="text-muted-foreground">Te encuentras fuera del área de cobertura de 10 km para esta función.</p>}
+                {geoStatus === 'outside' && <p className="text-muted-foreground">Te encuentras fuera del área de cobertura de {radiusKm} km para esta función.</p>}
                 {geoStatus === 'denied' && <p className="text-muted-foreground">No has dado permiso para acceder a tu ubicación. Es necesaria para usar esta función.</p>}
                 {geoStatus === 'unsupported' && <p className="text-muted-foreground">Tu navegador no soporta la geolocalización.</p>}
                 {geoStatus === 'error' && <p className="text-muted-foreground">No se pudo obtener tu ubicación. Revisa la configuración de tu dispositivo.</p>}
