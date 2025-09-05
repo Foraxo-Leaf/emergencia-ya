@@ -9,6 +9,22 @@ const withPWA = withPWAInit({
   skipWaiting: true,
   runtimeCaching: [
     {
+      // Strategy: Cache First (for Firebase-hosted videos)
+      // Stores tutorial videos for offline replay when available.
+      urlPattern: /^https?:\/\/firebasestorage\.googleapis\.com\/.*\.(?:mp4|webm|ogg)$/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'video-cache',
+        expiration: {
+          maxEntries: 20,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+    {
       // Strategy: Network First (for dynamic data from Firebase)
       // Tries the network first, then falls back to cache.
       // Essential for keeping phone numbers, etc., up-to-date.
