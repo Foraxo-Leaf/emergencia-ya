@@ -6,11 +6,9 @@ import { useParams } from 'next/navigation';
 import { Header } from "@/components/shared/Header";
 import { educationTopics } from "@/lib/data/educationData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from '@/hooks/useRemoteConfig';
-import { PlayCircle, AlertTriangle, FileText } from 'lucide-react';
-import { cn } from "@/lib/utils";
+import { AlertTriangle, FileText } from 'lucide-react';
 
 type Topic = typeof educationTopics[0];
 
@@ -19,6 +17,8 @@ export default function EducationDetailPage() {
   const { contactData, loading: configLoading } = useRemoteConfig();
   const [topic, setTopic] = useState<Topic | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [cachedVideo, setCachedVideo] = useState<string | null>(null);
+  const [videoError, setVideoError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,6 +37,38 @@ export default function EducationDetailPage() {
       setLoading(false);
     }
   }, [topic, contactData, configLoading]);
+
+  useEffect(() => {
+    if (!videoUrl) return;
+
+    let active = true;
+
+    const loadVideo = async () => {
+      try {
+        if (!('caches' in window)) throw new Error('cache not supported');
+        const cache = await caches.open('video-cache');
+        const cached = await cache.match(videoUrl);
+        if (cached) {
+          const blob = await cached.blob();
+          if (active) setCachedVideo(URL.createObjectURL(blob));
+          return;
+        }
+        const response = await fetch(videoUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        await cache.put(videoUrl, response.clone());
+        const blob = await response.blob();
+        if (active) setCachedVideo(URL.createObjectURL(blob));
+      } catch (err) {
+        if (active) setVideoError(true);
+      }
+    };
+
+    loadVideo();
+
+    return () => {
+      active = false;
+    };
+  }, [videoUrl]);
 
   if (loading) {
     return (
@@ -75,13 +107,20 @@ export default function EducationDetailPage() {
             <p className="text-muted-foreground">{topic.subtitle}</p>
         </div>
 
-        {videoUrl && (
-             <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="block">
-                <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
-                    <PlayCircle className="mr-2"/>
-                    Ver Video Tutorial
-                </Button>
-            </a>
+        {cachedVideo && (
+          <video
+            controls
+            className="w-full rounded-lg"
+            src={cachedVideo}
+          />
+        )}
+        {!cachedVideo && !videoError && (
+          <Skeleton className="h-40 w-full" />
+        )}
+        {videoError && (
+          <p className="text-sm text-destructive">
+            No se pudo cargar el video. Verifica tu conexión.
+          </p>
         )}
 
         <Card className="w-full shadow-lg">
