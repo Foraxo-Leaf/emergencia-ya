@@ -80,8 +80,8 @@ const withPWA = withPWAInit({
      },
   ],
   fallbacks: {
-    // Optional: a custom offline page
-    // document: '/offline.html', 
+    // Página personalizada para usar cuando no hay conexión
+    document: '/offline.html',
   }
 });
 
