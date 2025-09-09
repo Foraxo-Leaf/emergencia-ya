@@ -1,13 +1,10 @@
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { RemoteConfigProvider } from "@/hooks/useRemoteConfig.tsx";
 import { SeedDB } from "@/components/SeedDB";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const manifest = {
   name: "Emergencia Ya",
@@ -94,11 +91,9 @@ export default function RootLayout({
       <head>
          <meta name="viewport" content="width=device-width, initial-scale=1" />
          <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M50 10 L50 90 M10 50 L90 50' stroke='%23DC2626' stroke-width='20' stroke-linecap='round' /></svg>" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="/fonts/inter.css" />
       </head>
-      <body className={cn("min-h-screen bg-background font-body antialiased", inter.variable)}>
+      <body className={cn("min-h-screen bg-background font-body antialiased")}> 
         <SeedDB />
         <RemoteConfigProvider>
           {children}
