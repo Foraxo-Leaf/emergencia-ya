@@ -12,6 +12,15 @@ db.version(1).stores({
   outbox: "++id,type,payload,created_at",
 });
 
+db.version(2).stores({
+  contacts: "id,updated_at,deleted",
+  protocols: "id,updated_at,deleted",
+  incidents: "id,updated_at,deleted",
+  attachments: "id,incidentId,updated_at,deleted",
+  outbox: "++id,type,payload,created_at",
+  secure: "id",
+});
+
 const CONTACT_DATA_ARRAY = [
   { id: "samco", ...CONTACT_DATA.samco },
   { id: "monitoringCenter", ...CONTACT_DATA.monitoringCenter },
