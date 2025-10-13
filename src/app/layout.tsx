@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+import { Inter } from 'next/font/google';
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
@@ -47,6 +48,8 @@ export const metadata: Metadata = {
   },
 };
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -56,10 +59,10 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
          <meta name="viewport" content="width=device-width, initial-scale=1" />
-         <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M50 10 L50 90 M10 50 L90 50' stroke='%23DC2626' stroke-width='20' stroke-linecap='round' /></svg>" />
-        <link rel="stylesheet" href="/fonts/inter.css" />
+         <link rel="icon" href="/favicon.ico" sizes="any" />
+         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
-      <body className={cn("min-h-screen bg-background font-body antialiased")}> 
+      <body className={cn("min-h-screen bg-background font-body antialiased", inter.variable)}> 
         <SeedDB />
         <RemoteConfigProvider>
           {children}
