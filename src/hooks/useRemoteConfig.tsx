@@ -14,39 +14,41 @@ const RemoteConfigContext = createContext<RemoteConfigContextType | undefined>(u
 
 const STORAGE_KEY = "remoteConfig";
 
-// Synchronously get initial data from localStorage for instant boot-up
-const getInitialContactData = (): ContactData => {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as Record<string, string>;
-        // Merge with defaults to ensure all keys are present
-        const initialConfig = { ...defaultConfig, ...parsed };
-        return buildContactData(initialConfig);
-      } catch (e) {
-        console.warn("[RemoteConfig] Failed to parse stored config. Falling back to defaults.", e);
-      }
-    }
-  }
-  // Return default data if nothing is stored or if running on server
-  return buildContactData(defaultConfig);
-};
+// Build contact data from default values initially.
+// This ensures server and client render the same initial HTML.
+const initialDefaultData = buildContactData(defaultConfig);
 
 export function RemoteConfigProvider({ children }: { children: ReactNode }) {
-  // Initialize state directly from localStorage for a fast initial render
-  const [contactData, setContactData] = useState<ContactData>(getInitialContactData);
-  // Loading is false initially, as we render with stored/default data instantly.
-  const [loading, setLoading] = useState(false);
+  // Start with default data to prevent hydration mismatch.
+  const [contactData, setContactData] = useState<ContactData>(initialDefaultData);
+  // Loading is true initially until we can check localStorage.
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
 
-    async function updateRemoteConfig() {
+    async function loadAndSyncConfig() {
+      // Step 1: Immediately try to hydrate from localStorage for a fast UI update.
+      const storedConfig = localStorage.getItem(STORAGE_KEY);
+      if (storedConfig) {
+        try {
+          const parsed = JSON.parse(storedConfig) as Record<string, string>;
+          const fromStorageData = buildContactData({ ...defaultConfig, ...parsed });
+          if (isMounted) {
+            setContactData(fromStorageData);
+          }
+        } catch (e) {
+          console.warn("[RemoteConfig] Failed to parse stored config.", e);
+        }
+      }
+      
+      if (isMounted) {
+        setLoading(false); // We have either storage or default data, so UI is ready.
+      }
+
+      // Step 2: Fetch latest from Firebase in the background.
       try {
         await initialize();
-        
-        // Fetch new values in the background
         await fetchAndActivate();
         
         if (isMounted) {
@@ -58,11 +60,9 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
             }
           }
 
-          // Merge remote with defaults to create the final, complete config
           const finalConfig = { ...defaultConfig, ...newConfig };
           const finalContactData = buildContactData(finalConfig);
 
-          // Update state and localStorage with fresh data
           setContactData(finalContactData);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(finalConfig));
           console.log("[RemoteConfig] Background update successful.");
@@ -72,8 +72,7 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    // Run the background update after the initial render
-    updateRemoteConfig();
+    loadAndSyncConfig();
 
     return () => {
       isMounted = false;
