@@ -25,17 +25,16 @@ const withPWA = withPWAInit({
       },
     },
     {
-      // Strategy: Network First (for dynamic data from Firebase)
+      // Strategy: Network First (for dynamic data from Firebase Remote Config)
       // Tries the network first, then falls back to cache.
       // Essential for keeping phone numbers, etc., up-to-date.
-      urlPattern: /^https?:\/\/(?:www\.)?firebasestorage\.googleapis\.com\/.*|https?:\/\/(?:www\n\.)?firebaseapp\.com\/.*$/,
+      urlPattern: /^https?:\/\/firebaseremoteconfig\.googleapis\.com\/v1\/projects\/.*$/,
       handler: 'NetworkFirst',
       options: {
-        cacheName: 'firebase-data',
+        cacheName: 'firebase-remote-config',
         networkTimeoutSeconds: 3, // Fail fast if network is slow
         expiration: {
-          maxEntries: 20,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+          maxAgeSeconds: 24 * 60 * 60, // 1 Day
         },
         cacheableResponse: {
           statuses: [0, 200],
@@ -55,24 +54,15 @@ const withPWA = withPWAInit({
         },
       },
     },
-    {
-      // Strategy: Cache First (for local images and icons)
-      // Once cached, they are served from cache, ideal for static assets.
-      urlPattern: /\/_next\/image\?url=.+$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'next-images',
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-        },
-      },
-    },
      {
       // Strategy: Cache First (for app pages and assets)
       // This is the most important rule for offline functionality.
       // It caches all navigation requests and static assets.
-      urlPattern: /\.(?:css|js|png|jpg|jpeg|svg|gif|ico|webp|avif)$|^\/$/,
+      urlPattern: ({request}) =>
+        request.mode === 'navigate' ||
+        request.destination === 'style' ||
+        request.destination === 'script' ||
+        request.destination === 'image',
       handler: 'CacheFirst',
       options: {
         cacheName: 'app-assets-and-pages',
@@ -82,18 +72,6 @@ const withPWA = withPWAInit({
         },
       },
     },
-     {
-      // Strategy: Cache First for all navigations
-      urlPattern: ({request}) => request.mode === 'navigate',
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'app-pages-navigation',
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-        },
-      },
-     },
   ],
   fallbacks: {
     // Página personalizada para usar cuando no hay conexión

@@ -6,40 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { RemoteConfigProvider } from "@/hooks/useRemoteConfig.tsx";
 import { SeedDB } from "@/components/SeedDB";
 
-const manifest = {
-  name: "Emergencia Ya",
-  short_name: "Emergencia Ya",
-  description: "Aplicación de emergencias SUSAMCO para acceso rápido a números y guías de primeros auxilios.",
-  start_url: "/",
-  display: "standalone",
-  background_color: "#FFFFFF",
-  theme_color: "#DC2626",
-  icons: [
-    {
-      src: "/icons/icon-192x192.png",
-      sizes: "192x192",
-      type: "image/png"
-    },
-    {
-      src: "/icons/icon-512x512.png",
-      sizes: "512x512",
-      type: "image/png"
-    },
-    {
-      src: "/icons/icon-192x192.png",
-      sizes: "192x192",
-      type: "image/png",
-      purpose: "maskable"
-    },
-    {
-      src: "/icons/icon-512x512.png",
-      sizes: "512x512",
-      type: "image/png",
-      purpose: "maskable"
-    }
-  ]
-};
-
 const APP_NAME = "Emergencia Ya";
 const APP_DEFAULT_TITLE = "Emergencia Ya";
 const APP_TITLE_TEMPLATE = "%s - Emergencia Ya";
@@ -52,7 +18,7 @@ export const metadata: Metadata = {
     template: APP_TITLE_TEMPLATE,
   },
   description: APP_DESCRIPTION,
-  manifest: `data:application/manifest+json,${encodeURIComponent(JSON.stringify(manifest))}`,
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
