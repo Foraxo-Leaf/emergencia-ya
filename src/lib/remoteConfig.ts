@@ -14,10 +14,15 @@ let remoteConfig: any;
 export async function initialize() {
   if (app && (await isSupported())) {
     remoteConfig = getRemoteConfig(app);
-    // Set a long interval to fetch from network, but a short timeout.
-    // This prioritizes loading cached data quickly if offline.
-    remoteConfig.settings.minimumFetchIntervalMillis = 3600000; // 1 hour
-    remoteConfig.settings.fetchTimeoutMillis = 5000; // 5 seconds
+    
+    // In development, fetch frequently. In production, use a longer interval.
+    if (process.env.NODE_ENV === 'development') {
+      remoteConfig.settings.minimumFetchIntervalMillis = 0; // Fetch every time on development
+    } else {
+      remoteConfig.settings.minimumFetchIntervalMillis = 3600000; // 1 hour for production
+    }
+    
+    remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
     remoteConfig.defaultConfig = defaultConfig;
   }
 }
