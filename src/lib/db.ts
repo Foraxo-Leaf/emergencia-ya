@@ -1,6 +1,6 @@
 import Dexie from "dexie";
-import { CONTACT_DATA } from "@/lib/config";
-import { educationTopics } from "@/lib/data/educationData";
+// CONTACT_DATA and educationTopics are no longer seeded into Dexie
+// as they are handled by Remote Config and a local JSON file respectively.
 
 export const db = new Dexie("emergencia");
 
@@ -21,19 +21,10 @@ db.version(2).stores({
   secure: "id",
 });
 
-const CONTACT_DATA_ARRAY = [
-  { id: "samco", ...CONTACT_DATA.samco },
-  { id: "monitoringCenter", ...CONTACT_DATA.monitoringCenter },
-  { id: "police", ...CONTACT_DATA.police },
-  { id: "firefighters", ...CONTACT_DATA.firefighters },
-  { id: "ambulance", ...CONTACT_DATA.ambulance },
-];
-
+// The seedDB function is no longer necessary as data is sourced differently.
+// We keep the function but leave it empty to avoid breaking calls to it.
 export async function seedDB() {
-  await db.contacts.bulkPut(CONTACT_DATA_ARRAY);
-  await db.protocols.bulkPut(
-    educationTopics.map((topic) => ({ id: topic.slug, ...topic }))
-  );
+  // console.log("Seeding logic has been deprecated. Data is now managed by Remote Config and local JSON.");
 }
 
 export default db;
