@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { AlertTriangle, Phone, MessageSquare, Ambulance, Stethoscope, MessageCircle, MapPin, Loader2, LocateFixed } from "lucide-react";
+import { AlertTriangle, Phone, MessageSquare, Stethoscope, MessageCircle, MapPin, Loader2, LocateFixed } from "lucide-react";
 import Link from 'next/link';
 import type { ContactData } from '@/lib/config';
 import { getDistance } from '@/lib/utils';
@@ -31,7 +31,10 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
     const [location, setLocation] = useState<{ latitude: number, longitude: number } | null>(null);
     const [geoStatus, setGeoStatus] = useState<GeolocationStatus>('pending');
     
-    const emergencyPhoneNumber = contactData.ambulance.phone;
+    const localAmbulanceNumber = contactData.ambulance.phone;
+    const nationalAmbulanceNumber = "107";
+    const emergencyPhoneNumber = geoStatus === 'success' ? localAmbulanceNumber : nationalAmbulanceNumber;
+    
     const smsRecipientNumber = contactData.samco.whatsapp;
     const whatsappTurnosNumber = contactData.samco.whatsapp;
     const centerPoint = contactData.geofence.center;
@@ -123,7 +126,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                                         <Button size="lg" variant="outline" className="w-full"><MapPin className="mr-2"/>Ver otros centros útiles</Button>
                                     </Link>
                                     <a href={`tel:${emergencyPhoneNumber}`} className="w-full">
-                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar de todas formas a ambulancia</Button>
+                                        <Button size="lg" className="w-full"><Phone className="mr-2"/> Llamar Ambulancia ({emergencyPhoneNumber})</Button>
                                     </a>
                                 </div>
                             </>
@@ -180,7 +183,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                             <span className={`font-bold mr-3 ${symptom.isUrgent ? 'text-primary' : 'text-blue-500'}`}>{index + 1}.</span>
                             <span className="font-medium">{symptom.text}</span>
                         </div>
-                        {symptom.isUrgent && <Ambulance className="w-5 h-5 text-primary" />}
+                        {symptom.isUrgent && <svg className="w-5 h-5 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.28 3.23a.75.75 0 0 0-1.56 0l-.83 4.93a.75.75 0 0 0 .74.83h5.74a.75.75 0 0 0 .74-.83l-.83-4.93ZM5.47 9h13.06l-1.8 10.84a2.25 2.25 0 0 1-2.23 2.16H9.5a2.25 2.25 0 0 1-2.23-2.16L5.47 9Z"/><path d="M12 12v5"/><path d="M14.5 14.5h-5"/></svg>}
                     </button>
                 ))}
             </div>
