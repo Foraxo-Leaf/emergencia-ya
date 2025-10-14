@@ -29,13 +29,14 @@ export default function Home() {
   const [ambulanceNumber, setAmbulanceNumber] = useState(nationalAmbulanceNumber);
 
   useEffect(() => {
-    if (configLoading) return;
-
-    if (!navigator.geolocation) {
+    if (configLoading || typeof navigator === 'undefined' || !navigator.geolocation) {
       setGeoStatus('error');
       setAmbulanceNumber(nationalAmbulanceNumber);
       return;
     }
+
+    // Immediately set loading status for UI feedback
+    setGeoStatus('loading');
 
     navigator.geolocation.getCurrentPosition(
       (position) => {

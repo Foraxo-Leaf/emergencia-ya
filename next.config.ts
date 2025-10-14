@@ -75,7 +75,7 @@ const withPWA = withPWAInit({
   ],
   fallbacks: {
     // Página personalizada para usar cuando no hay conexión
-    document: '/offline.html',
+    document: '/offline',
   }
 });
 

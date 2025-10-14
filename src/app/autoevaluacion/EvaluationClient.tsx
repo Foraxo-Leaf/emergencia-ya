@@ -140,38 +140,28 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
         );
     }
     
-    if (geoStatus === 'loading' || geoStatus === 'pending') {
-        return (
-            <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
-                 <Loader2 className="w-16 h-16 text-primary animate-spin" />
-                 <p className="text-lg font-medium text-muted-foreground">Verificando tu ubicación...</p>
-                 <p className="text-sm text-muted-foreground">Esta función solo está disponible en el área de cobertura.</p>
-            </div>
-        )
-    }
-
-    if (geoStatus !== 'success') {
-       return (
-            <div className="flex flex-col items-center justify-center text-center p-8 space-y-4">
-                <AlertTriangle className="w-16 h-16 text-destructive" />
-                <h2 className="text-xl font-bold">Función no disponible</h2>
-                {geoStatus === 'outside' && <p className="text-muted-foreground">Te encuentras fuera del área de cobertura de {radiusKm} km para esta función.</p>}
-                {geoStatus === 'denied' && <p className="text-muted-foreground">No has dado permiso para acceder a tu ubicación. Es necesaria para usar esta función.</p>}
-                {geoStatus === 'unsupported' && <p className="text-muted-foreground">Tu navegador no soporta la geolocalización.</p>}
-                {geoStatus === 'error' && <p className="text-muted-foreground">No se pudo obtener tu ubicación. Revisa la configuración de tu dispositivo.</p>}
-                <Button onClick={checkLocation}>
-                    <LocateFixed className="mr-2" />
-                    Reintentar
-                </Button>
-            </div>
-       )
-    }
-
     return (
-        <div className="p-4 md:p-6 text-center">
-            <AlertTriangle className="w-12 h-12 mx-auto text-primary mb-2" />
-            <h1 className="text-2xl font-bold mb-1">Auto Evaluación Rápida</h1>
-            <p className="text-muted-foreground mb-6">Seleccioná la opción que mejor describe tu situación</p>
+        <div className="p-4 md:p-6">
+            <div className="text-center">
+              <AlertTriangle className="w-12 h-12 mx-auto text-primary mb-2" />
+              <h1 className="text-2xl font-bold mb-1">Auto Evaluación Rápida</h1>
+              <p className="text-muted-foreground mb-6">Seleccioná la opción que mejor describe tu situación</p>
+            </div>
+            
+            {geoStatus === 'loading' && (
+                <div className="mb-4 text-center p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-center gap-2">
+                    <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
+                    <span className="text-sm text-blue-700">Verificando ubicación para optimizar la ayuda...</span>
+                </div>
+            )}
+            
+            {(geoStatus === 'denied' || geoStatus === 'error' || geoStatus === 'outside') && (
+                <div className="mb-4 text-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm text-yellow-800">No se pudo verificar la ubicación. Se usará el número de emergencia nacional (107).</p>
+                    {geoStatus === 'outside' && <p className="text-xs text-yellow-700 mt-1">Estás fuera del área de cobertura local.</p>}
+                </div>
+            )}
+
             <div className="space-y-3 text-left">
                 {allSymptoms.map((symptom, index) => (
                     <button
