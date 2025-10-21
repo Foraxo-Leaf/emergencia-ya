@@ -14,39 +14,38 @@ const RemoteConfigContext = createContext<RemoteConfigContextType | undefined>(u
 
 const STORAGE_KEY = "remoteConfig";
 
-// Build contact data from default values initially.
-// This ensures server and client render the same initial HTML.
-const initialDefaultData = buildContactData(defaultConfig);
+// This function now runs on the client, avoiding server-side execution of localStorage
+const getInitialContactData = (): ContactData => {
+  if (typeof window === "undefined") {
+    return buildContactData(defaultConfig);
+  }
+  const storedConfig = localStorage.getItem(STORAGE_KEY);
+  if (storedConfig) {
+    try {
+      const parsed = JSON.parse(storedConfig);
+      return buildContactData({ ...defaultConfig, ...parsed });
+    } catch (e) {
+      // If parsing fails, fall back to default
+      return buildContactData(defaultConfig);
+    }
+  }
+  return buildContactData(defaultConfig);
+};
+
 
 export function RemoteConfigProvider({ children }: { children: ReactNode }) {
-  // Start with default data to prevent hydration mismatch.
-  const [contactData, setContactData] = useState<ContactData>(initialDefaultData);
-  // Loading is true initially until we can check localStorage.
-  const [loading, setLoading] = useState(true);
+  // Initialize state with data from localStorage or defaults. This is synchronous.
+  const [contactData, setContactData] = useState<ContactData>(getInitialContactData);
+  // Loading is now primarily for indicating background fetches, not initial load.
+  // We'll set it to false initially because we have data to show right away.
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
+    
+    async function syncRemoteConfig() {
+      if (typeof window === "undefined") return;
 
-    async function loadAndSyncConfig() {
-      // Step 1: Immediately try to hydrate from localStorage for a fast UI update.
-      const storedConfig = localStorage.getItem(STORAGE_KEY);
-      if (storedConfig) {
-        try {
-          const parsed = JSON.parse(storedConfig) as Record<string, string>;
-          const fromStorageData = buildContactData({ ...defaultConfig, ...parsed });
-          if (isMounted) {
-            setContactData(fromStorageData);
-          }
-        } catch (e) {
-          console.warn("[RemoteConfig] Failed to parse stored config.", e);
-        }
-      }
-      
-      if (isMounted) {
-        setLoading(false); // We have either storage or default data, so UI is ready.
-      }
-
-      // Step 2: Fetch latest from Firebase in the background.
       try {
         await initialize();
         await fetchAndActivate();
@@ -54,33 +53,32 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
         if (isMounted) {
           const remoteValues = getAll();
           const newConfig: Record<string, string> = {};
-          for (const key in remoteValues) {
-            if (Object.prototype.hasOwnProperty.call(remoteValues, key)) {
-              newConfig[key] = remoteValues[key].asString();
-            }
-          }
+          Object.keys(remoteValues).forEach(key => {
+            newConfig[key] = remoteValues[key].asString();
+          });
 
           const finalConfig = { ...defaultConfig, ...newConfig };
           const finalContactData = buildContactData(finalConfig);
 
           setContactData(finalContactData);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(finalConfig));
-          console.log("[RemoteConfig] Background update successful.");
         }
       } catch (error) {
-        console.error("[RemoteConfig] Error during background update:", error);
+        console.error("[RemoteConfig] Error during background sync:", error);
       }
     }
 
-    loadAndSyncConfig();
+    // Run the sync in the background
+    syncRemoteConfig();
 
     return () => {
       isMounted = false;
     };
   }, []);
 
+  // loading is now false, as we render immediately with cached/default data
   return (
-    <RemoteConfigContext.Provider value={{ contactData, loading }}>
+    <RemoteConfigContext.Provider value={{ contactData, loading: false }}>
       {children}
     </RemoteConfigContext.Provider>
   );

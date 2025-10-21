@@ -1,3 +1,4 @@
+
 "use client";
 
 import { EvaluationClient } from "./EvaluationClient";
@@ -8,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function AutoEvaluacionPage() {
   const { contactData, loading } = useRemoteConfig();
 
+  // No loading skeleton needed as useRemoteConfig now loads synchronously
+  // from cache/defaults, preventing a flicker or loading state on initial render.
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header title="Auto-evaluación" backHref="/" />
