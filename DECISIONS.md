@@ -9,3 +9,4 @@
 2025-12-10 – **Datos locales y sincronización** – Dexie DB para almacenamiento offline y outbox; sync a Firestore con `sync()` (sin backoff).
 2025-12-10 – **Build tolerante a errores** – `typescript.ignoreBuildErrors` y `eslint.ignoreDuringBuilds` activados para no bloquear builds.
 2025-12-10 – **Distribución mobile-first** – PWA instalable (manifest, icons, theme_color) como base para empaquetar en tiendas a futuro.
+2025-12-10 – **Banners patrocinio Fundación Nazareno Crucianelli** – Imagen estática `public/logo-fundacion-blanca.jpeg` en home (top y pie) para crédito de patrocinio sin alterar CTA principal.
