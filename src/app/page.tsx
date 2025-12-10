@@ -2,12 +2,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Ambulance, Stethoscope, GraduationCap, Shield, Flame, MapPin, Loader2 } from "lucide-react";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 import { useState, useEffect } from "react";
 import { getDistance } from "@/lib/utils";
+import { Logo } from "@/components/shared/Logo";
 
 const navItems = [
   { href: "/autoevaluacion", label: "AUTOEVALUACION (TRIAGE)", icon: Stethoscope, color: "bg-green-500" },
@@ -17,6 +19,10 @@ const navItems = [
 ];
 
 const bottomNavItem = { href: "/centros", label: "CENTROS DE ATENCION Y TELEFONOS UTILES", icon: MapPin, color: "bg-cyan-400" };
+const sponsorLogo = {
+  src: "/logo-fundacion-blanca.jpeg",
+  alt: "Fundación Nazareno Crucianelli",
+};
 
 type GeoStatus = 'pending' | 'loading' | 'success' | 'outside' | 'error';
 
@@ -64,11 +70,26 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-dvh bg-background text-foreground">
-      
+      <div className="p-4">
+        <div className="rounded-2xl bg-black px-4 py-3 flex justify-center">
+          <Image
+            src={sponsorLogo.src}
+            alt={sponsorLogo.alt}
+            width={240}
+            height={92}
+            className="max-w-full h-auto"
+            priority
+          />
+        </div>
+      </div>
+
       <header className="p-4 w-full">
-        <div className="bg-primary text-primary-foreground font-bold p-3 rounded-lg text-center w-full">
-          <p className="text-sm tracking-widest">EMERGENCIAS</p>
-          <p className="text-sm tracking-widest">SUSAMCO</p>
+        <div className="bg-primary text-primary-foreground p-3 rounded-lg w-full flex items-center justify-between gap-3 shadow-md">
+          <Logo size={56} />
+          <div className="text-right leading-tight">
+            <p className="text-xs tracking-widest uppercase">Emergencias</p>
+            <p className="text-sm tracking-widest font-semibold uppercase">SUSAMCO</p>
+          </div>
         </div>
       </header>
       
@@ -113,6 +134,16 @@ export default function Home() {
               </div>
           </div>
         </Link>
+        <div className="mt-6 rounded-2xl bg-black px-4 py-6 flex justify-center">
+          <Image
+            src={sponsorLogo.src}
+            alt={sponsorLogo.alt}
+            width={320}
+            height={123}
+            className="max-w-full h-auto"
+            priority
+          />
+        </div>
       </footer>
     </main>
   );

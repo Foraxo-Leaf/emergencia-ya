@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">Emergencia Ya</title>
+  <desc id="desc">Cruz médica sobre fondo rojo</desc>
+  <circle cx="60" cy="60" r="52" fill="#DC2626" stroke="#F9EAEA" stroke-width="8"/>
+  <rect x="50" y="28" width="20" height="64" rx="6" fill="#FFFFFF"/>
+  <rect x="28" y="50" width="64" height="20" rx="6" fill="#FFFFFF"/>
+  <circle cx="60" cy="60" r="20" fill="#DC2626" opacity="0.1"/>
+</svg>
+

@@ -9,7 +9,7 @@ Emergencia Ya es una PWA (Next.js 15 App Router) para acceso rápido a emergenci
 - Config remota: Firebase Remote Config (default embebido + fetch/activate), datos en `localStorage` 24h.
 - Datos locales: Dexie DB (`contacts`, `protocols`, `incidents`, `attachments`, `outbox`, `secure`) + outbox hacia Firestore.
 - Pantallas principales:
-  - `/`: botón llamar ambulancia (elige número local vs 107 por geofence) + accesos rápidos a triage, educación, policía, bomberos, centros.
+  - `/`: botón llamar ambulancia (elige número local vs 107 por geofence) + accesos rápidos a triage, educación, policía, bomberos, centros. Incluye banners de patrocinio (Fundación Nazareno Crucianelli) arriba y en el pie.
   - `/autoevaluacion`: triage rápido con recomendaciones y acciones (llamada, SMS con ubicación, WhatsApp, centros).
   - `/centros`: tarjetas SAMCO/Monitoreo/Policía/Bomberos con llamada, WhatsApp, mapas.
   - `/policia`, `/bomberos`: llamada directa al número remoto configurado.
@@ -32,6 +32,7 @@ Emergencia Ya es una PWA (Next.js 15 App Router) para acceso rápido a emergenci
   - StaleWhileRevalidate Google Fonts.
   - CacheFirst navegación/estáticos (200 entries, 30 días).
   - Fallback offline: `/offline`.
+- Assets estáticos relevantes: `public/logo.svg` (app) y `public/logo-fundacion-blanca.jpeg` (banner patrocinio).
 - Manifest (`public/manifest.json`): name/short_name “Emergencia Ya”, theme_color `#DC2626`, icons 192/512 (maskable).
 - Lint/TS en build: `ignoreBuildErrors: true`, `ignoreDuringBuilds: true`.
 
