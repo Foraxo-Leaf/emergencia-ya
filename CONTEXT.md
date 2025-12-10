@@ -4,7 +4,7 @@
 Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergencias SUSAMCO: botón principal de ambulancia, triage guiado, contactos útiles (SAMCO, monitoreo, policía, bomberos), educación en primeros auxilios y soporte offline.
 
 ## Estado actual del sistema
-- Frontend: Next.js 16 (App Router), React 18, Tailwind, Radix UI, lucide-react.
+- Frontend: Next.js 16.0.8 (App Router), React 18, Tailwind, Radix UI, lucide-react.
 - PWA: next-pwa con caché de navegación/estáticos, cache-first de videos de Firebase Storage, offline fallback `/offline`.
 - Config remota: Firebase Remote Config (default embebido + fetch/activate), datos en `localStorage` 24h.
 - Datos locales: Dexie DB (`contacts`, `protocols`, `incidents`, `attachments`, `outbox`, `secure`) + outbox hacia Firestore.
@@ -32,6 +32,7 @@ Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergenci
   - StaleWhileRevalidate Google Fonts.
   - CacheFirst navegación/estáticos (200 entries, 30 días).
   - Fallback offline: `/offline`.
+- Config PWA centralizada en `next.config.ts` (raíz); duplicado en `src/next.config.ts` eliminado.
 - Assets estáticos relevantes: `public/logo.svg` (app) y `public/logo-fundacion-blanca.jpeg` (banner patrocinio).
 - Manifest (`public/manifest.json`): name/short_name “Emergencia Ya”, theme_color `#DC2626`, icons 192/512 (maskable).
 - Build: `npm run build --webpack`.

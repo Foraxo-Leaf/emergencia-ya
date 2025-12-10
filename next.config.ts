@@ -75,8 +75,8 @@ const withPWA = withPWAInit({
     },
   ],
   fallbacks: {
-    // Página personalizada para usar cuando no hay conexión
-    document: '/offline.html',
+    // Página offline servida desde App Router
+    document: '/offline',
   }
 });
 

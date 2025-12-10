@@ -1,6 +1,9 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
+2025-12-10 – **Next.js 16.0.8 (CVE-2025-66478)** – Actualizados `next` y `eslint-config-next` a 16.0.8 para cumplir el requisito de seguridad de Vercel; se regeneró `package-lock.json`.
+2025-12-10 – **Config PWA unificada** – Eliminado `src/next.config.ts` duplicado; se mantiene `next.config.ts` en raíz con fallback offline en `/offline` (App Router).
+2025-12-10 – **Deps Genkit/ESLint compatibles Next16** – Actualizadas dependencias @genkit-ai a 1.25.0 (core, next, googleai), ESLint a v9 y zod a ^3.25.x para alinear peer deps y permitir instalaciones/builds en Next 16 (Vercel).
 2025-12-10 – **Linting con ESLint CLI y typegen** – Se reemplazó `next lint` eliminado en v16 por `eslint . --max-warnings=0` usando configuración básica `eslint:recommended` + `@typescript-eslint/recommended`, ignorando artefactos generados (`public/**`, `.next`). Se añadió script `next typegen` para generar tipos en CI.
 2025-12-10 – **Next.js 16.0.7 (parche React2Shell)** – Actualizado Next a 16.0.7 para mitigar CVE-2025-55182; se fuerza webpack en dev/build (`next dev --webpack`, `next build --webpack`) por compatibilidad con `next-pwa`. Se eliminó `eslint` del `next.config` (ya no soportado en v16).
 2025-12-10 – **Next.js App Router + PWA** – Se usa Next.js 15 con App Router y next-pwa; navegación/estáticos en CacheFirst y fallback `/offline`.
