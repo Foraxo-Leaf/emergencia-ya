@@ -4,11 +4,10 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { AlertTriangle, Phone, MessageSquare, Stethoscope, MessageCircle, MapPin, Loader2, LocateFixed } from "lucide-react";
+import { AlertTriangle, Phone, MessageSquare, Stethoscope, MessageCircle, MapPin, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import type { ContactData } from '@/lib/config';
 import { getDistance } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const allSymptoms = [
     { text: "¿Tenés Dolor de pecho?", isUrgent: true },

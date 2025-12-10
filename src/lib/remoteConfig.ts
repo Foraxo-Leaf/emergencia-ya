@@ -6,10 +6,11 @@ import {
   getAll as firebaseGetAll,
   activate as firebaseActivate,
   isSupported,
+  type RemoteConfig,
 } from "firebase/remote-config";
 import { defaultConfig } from "./config";
 
-let remoteConfig: any;
+let remoteConfig: RemoteConfig | null = null;
 
 export async function initialize() {
   if (app && (await isSupported())) {

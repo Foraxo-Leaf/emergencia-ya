@@ -8,7 +8,6 @@ import { educationTopics } from "@/lib/data/educationData";
 import * as Icons from 'lucide-react';
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PlayCircle } from "lucide-react";
 
 const iconComponents = Icons;
 

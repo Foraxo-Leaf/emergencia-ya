@@ -1,4 +1,5 @@
 
+import path from 'path';
 import type {NextConfig} from 'next';
 import withPWAInit from 'next-pwa';
 
@@ -58,7 +59,7 @@ const withPWA = withPWAInit({
       // Strategy: Cache First (for app pages and assets)
       // This is the most important rule for offline functionality.
       // It caches all navigation requests and static assets.
-      urlPattern: ({request}) =>
+      urlPattern: ({request}: {request: {mode?: string; destination?: string}}) =>
         request.mode === 'navigate' ||
         request.destination === 'style' ||
         request.destination === 'script' ||
@@ -84,9 +85,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
       {

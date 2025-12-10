@@ -1,10 +1,10 @@
 # CONTEXT.md – Contexto del Proyecto
 
 ## Resumen del proyecto
-Emergencia Ya es una PWA (Next.js 15 App Router) para acceso rápido a emergencias SUSAMCO: botón principal de ambulancia, triage guiado, contactos útiles (SAMCO, monitoreo, policía, bomberos), educación en primeros auxilios y soporte offline.
+Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergencias SUSAMCO: botón principal de ambulancia, triage guiado, contactos útiles (SAMCO, monitoreo, policía, bomberos), educación en primeros auxilios y soporte offline.
 
 ## Estado actual del sistema
-- Frontend: Next.js 15 (App Router), React 18, Tailwind, Radix UI, lucide-react.
+- Frontend: Next.js 16 (App Router), React 18, Tailwind, Radix UI, lucide-react.
 - PWA: next-pwa con caché de navegación/estáticos, cache-first de videos de Firebase Storage, offline fallback `/offline`.
 - Config remota: Firebase Remote Config (default embebido + fetch/activate), datos en `localStorage` 24h.
 - Datos locales: Dexie DB (`contacts`, `protocols`, `incidents`, `attachments`, `outbox`, `secure`) + outbox hacia Firestore.
@@ -18,7 +18,7 @@ Emergencia Ya es una PWA (Next.js 15 App Router) para acceso rápido a emergenci
 - IA: carpeta `src/ai` con Genkit + GoogleAI (gemini-2.5-flash), sin flows definidos.
 
 ## Configuración relevante
-- Dev server: `npm run dev` => puerto 9002.
+- Dev server: `npm run dev --webpack -p 9002` (webpack forzado por compatibilidad con `next-pwa`).
 - Firebase (frontend): projectId `emergencia-ya`, appId `1:487397458821:web:d0267ceef85c9650d87aec`, storageBucket `emergencia-ya.firebasestorage.app`, apiKey expuesta (frontend).
 - Remote Config:
   - Claves: datos de SAMCO, monitoreo, policía, bomberos, ambulancia, geofence (lat/lon/radio km), URLs de videos `education_video_<slug>`.
@@ -34,7 +34,8 @@ Emergencia Ya es una PWA (Next.js 15 App Router) para acceso rápido a emergenci
   - Fallback offline: `/offline`.
 - Assets estáticos relevantes: `public/logo.svg` (app) y `public/logo-fundacion-blanca.jpeg` (banner patrocinio).
 - Manifest (`public/manifest.json`): name/short_name “Emergencia Ya”, theme_color `#DC2626`, icons 192/512 (maskable).
-- Lint/TS en build: `ignoreBuildErrors: true`, `ignoreDuringBuilds: true`.
+- Build: `npm run build --webpack`.
+- Lint/TS: `ignoreBuildErrors: true`; lint mediante `eslint . --max-warnings=0` (Next 16 sin `next lint`); script `next typegen` disponible para generar tipos.
 
 ## Deuda técnica
 - TS y ESLint ignorados en build: riesgo de acumular errores no detectados.

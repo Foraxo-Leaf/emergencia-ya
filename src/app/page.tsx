@@ -3,8 +3,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Ambulance, Stethoscope, GraduationCap, Shield, Flame, MapPin, Loader2 } from "lucide-react";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 import { useState, useEffect } from "react";
