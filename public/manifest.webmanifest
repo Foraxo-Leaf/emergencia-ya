@@ -1,21 +1,33 @@
 {
   "name": "Emergencia Ya",
-  "short_name": "EmergenciaYa",
-  "description": "Aplicación de emergencias SUSAMCO",
+  "short_name": "Emergencia Ya",
+  "description": "Aplicación de emergencias SUSAMCO para acceso rápido a números y guías de primeros auxilios.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#dc2626",
+  "background_color": "#FFFFFF",
+  "theme_color": "#DC2626",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /></svg>",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='white' /><path d='M40 20H60V40H80V60H60V80H40V60H20V40H40V20Z' fill='red' /></svg>",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

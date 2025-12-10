@@ -3,86 +3,114 @@
 
 import { useState, useEffect, createContext, useContext, ReactNode } from "react";
 import { initialize, fetchAndActivate, getAll } from "@/lib/remoteConfig";
-import { defaultConfig, buildContactData, ContactData } from "@/lib/config";
+import {
+  REMOTE_CONFIG_SCHEMA_VERSION,
+  REMOTE_CONFIG_TTL_MS,
+  defaultConfig,
+  buildContactData,
+  ContactData,
+} from "@/lib/config";
 
 type RemoteConfigContextType = {
   contactData: ContactData;
+  loading: boolean;
 };
 
 const RemoteConfigContext = createContext<RemoteConfigContextType | undefined>(undefined);
 
-const CONFIG_STORAGE_KEY = "remoteConfigData";
-const LAST_FETCH_STORAGE_KEY = "remoteConfigLastFetch";
-const CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+const LEGACY_CONFIG_KEY = "remoteConfigData";
+const LEGACY_LAST_FETCH_KEY = "remoteConfigLastFetch";
+const CONFIG_STORAGE_KEY = `remoteConfigData:v${REMOTE_CONFIG_SCHEMA_VERSION}`;
+const LAST_FETCH_STORAGE_KEY = `remoteConfigLastFetch:v${REMOTE_CONFIG_SCHEMA_VERSION}`;
+const FAILED_FETCH_RETRY_MS = 15 * 60 * 1000; // Retry in 15 minutes after a failure
+
+const parseStoredConfig = (raw: string | null): ContactData | null => {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    const configPayload = parsed?.config ?? parsed;
+    return buildContactData({ ...defaultConfig, ...configPayload });
+  } catch (error) {
+    console.error("[RemoteConfig] Failed to parse stored config, using defaults.", error);
+    return null;
+  }
+};
+
+const cleanupLegacyStorage = () => {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(LEGACY_CONFIG_KEY);
+  localStorage.removeItem(LEGACY_LAST_FETCH_KEY);
+};
 
 // This function now runs on the client, avoiding server-side execution of localStorage
 const getInitialContactData = (): ContactData => {
   if (typeof window === "undefined") {
     return buildContactData(defaultConfig);
   }
-  const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
-  if (storedConfig) {
-    try {
-      const parsed = JSON.parse(storedConfig);
-      return buildContactData({ ...defaultConfig, ...parsed });
-    } catch (e) {
-      console.error("[RemoteConfig] Failed to parse stored config, using defaults.", e);
-      return buildContactData(defaultConfig);
-    }
-  }
-  return buildContactData(defaultConfig);
+
+  const storedConfig = parseStoredConfig(localStorage.getItem(CONFIG_STORAGE_KEY));
+  if (storedConfig) return storedConfig;
+
+  // One-time migration from legacy key if present.
+  const legacyConfig = parseStoredConfig(localStorage.getItem(LEGACY_CONFIG_KEY));
+  return legacyConfig ?? buildContactData(defaultConfig);
 };
 
 
 export function RemoteConfigProvider({ children }: { children: ReactNode }) {
   // Initialize state with data from localStorage or defaults. This is synchronous.
   const [contactData, setContactData] = useState<ContactData>(getInitialContactData);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let isMounted = true;
-    
+
     const shouldFetch = () => {
       if (typeof window === 'undefined') return false;
       const lastFetchString = localStorage.getItem(LAST_FETCH_STORAGE_KEY);
       if (!lastFetchString) return true; // Never fetched before
 
       const lastFetchTime = parseInt(lastFetchString, 10);
-      return (Date.now() - lastFetchTime) > CACHE_DURATION_MS;
+      return (Date.now() - lastFetchTime) > REMOTE_CONFIG_TTL_MS;
     };
 
     async function syncRemoteConfig() {
+      cleanupLegacyStorage();
+
       if (!shouldFetch()) {
-        console.log("[RemoteConfig] Skipping fetch, cache is fresh.");
+        setLoading(false);
         return;
       }
-      
+
       console.log("[RemoteConfig] Cache is stale, fetching new data...");
       try {
         await initialize();
-        const activated = await fetchAndActivate();
-        
-        if (isMounted && activated) {
-          console.log("[RemoteConfig] Background update successful.");
-          const remoteValues = getAll();
-          const newConfig: Record<string, string> = {};
-          Object.keys(remoteValues).forEach(key => {
-            newConfig[key] = remoteValues[key].asString();
-          });
+        await fetchAndActivate();
 
-          const finalConfig = { ...defaultConfig, ...newConfig };
-          const finalContactData = buildContactData(finalConfig);
+        const remoteValues = getAll();
+        const newConfig: Record<string, string> = {};
+        Object.keys(remoteValues).forEach(key => {
+          newConfig[key] = remoteValues[key].asString();
+        });
 
+        const finalConfig = { ...defaultConfig, ...newConfig };
+        const finalContactData = buildContactData(finalConfig);
+
+        if (isMounted) {
           setContactData(finalContactData);
-          localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(finalConfig));
-          localStorage.setItem(LAST_FETCH_STORAGE_KEY, Date.now().toString());
-        } else if (isMounted) {
-          console.log("[RemoteConfig] No new data to activate, using cached values.");
-          // Update timestamp even if no new data, to avoid refetching for another 24h
+          localStorage.setItem(
+            CONFIG_STORAGE_KEY,
+            JSON.stringify({ version: REMOTE_CONFIG_SCHEMA_VERSION, config: finalConfig }),
+          );
           localStorage.setItem(LAST_FETCH_STORAGE_KEY, Date.now().toString());
         }
-
       } catch (error) {
         console.error("[RemoteConfig] Error during background sync:", error);
+        // Avoid tight retry loops when offline; retry sooner than full TTL.
+        const nextRetry = Date.now() - REMOTE_CONFIG_TTL_MS + FAILED_FETCH_RETRY_MS;
+        localStorage.setItem(LAST_FETCH_STORAGE_KEY, String(nextRetry));
+      } finally {
+        if (isMounted) setLoading(false);
       }
     }
 
@@ -95,7 +123,7 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <RemoteConfigContext.Provider value={{ contactData, loading: false }}>
+    <RemoteConfigContext.Provider value={{ contactData, loading }}>
       {children}
     </RemoteConfigContext.Provider>
   );

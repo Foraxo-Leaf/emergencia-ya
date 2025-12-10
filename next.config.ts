@@ -55,21 +55,41 @@ const withPWA = withPWAInit({
         },
       },
     },
-     {
-      // Strategy: Cache First (for app pages and assets)
-      // This is the most important rule for offline functionality.
-      // It caches all navigation requests and static assets.
-      urlPattern: ({request}: {request: {mode?: string; destination?: string}}) =>
-        request.mode === 'navigate' ||
+    {
+      // Strategy: Network First (for navigation requests)
+      // Prioritizes fresh HTML while still allowing offline fallback.
+      urlPattern: ({request}: {request: {mode?: string}}) =>
+        request.mode === 'navigate',
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'app-pages',
+        networkTimeoutSeconds: 5,
+        expiration: {
+          maxEntries: 50,
+          maxAgeSeconds: 7 * 24 * 60 * 60, // 7 Days
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
+        },
+      },
+    },
+    {
+      // Strategy: Stale-While-Revalidate (for static assets)
+      // Serves cached CSS/JS/fonts/images immediately and refreshes in background.
+      urlPattern: ({request}: {request: {destination?: string}}) =>
         request.destination === 'style' ||
         request.destination === 'script' ||
-        request.destination === 'image',
-      handler: 'CacheFirst',
+        request.destination === 'image' ||
+        request.destination === 'font',
+      handler: 'StaleWhileRevalidate',
       options: {
-        cacheName: 'app-assets-and-pages',
-         expiration: {
-          maxEntries: 200, // Increased to hold all app pages and assets
+        cacheName: 'app-static-assets',
+        expiration: {
+          maxEntries: 200,
           maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        },
+        cacheableResponse: {
+          statuses: [0, 200],
         },
       },
     },

@@ -2,6 +2,9 @@
 
 import { educationTopics } from "@/lib/data/educationData";
 
+export const REMOTE_CONFIG_SCHEMA_VERSION = 1;
+export const REMOTE_CONFIG_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
 // Generates keys with underscores for Firebase parameter names
 const generateEducationVideoKeys = () => {
     const keys: Record<string, string> = {};

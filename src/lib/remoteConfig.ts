@@ -8,24 +8,22 @@ import {
   isSupported,
   type RemoteConfig,
 } from "firebase/remote-config";
-import { defaultConfig } from "./config";
+import { REMOTE_CONFIG_TTL_MS, defaultConfig } from "./config";
 
 let remoteConfig: RemoteConfig | null = null;
 
 export async function initialize() {
-  if (app && (await isSupported())) {
-    remoteConfig = getRemoteConfig(app);
-    
-    // In development, fetch frequently. In production, use a longer interval.
-    if (process.env.NODE_ENV === 'development') {
-      remoteConfig.settings.minimumFetchIntervalMillis = 0; // Fetch every time on development
-    } else {
-      remoteConfig.settings.minimumFetchIntervalMillis = 3600000; // 1 hour for production
-    }
-    
-    remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
-    remoteConfig.defaultConfig = defaultConfig;
+  if (!app || !(await isSupported())) {
+    return;
   }
+
+  remoteConfig = getRemoteConfig(app);
+
+  // Keep cache TTL aligned with the app-side cache window.
+  remoteConfig.settings.minimumFetchIntervalMillis =
+    process.env.NODE_ENV === "development" ? 0 : REMOTE_CONFIG_TTL_MS;
+  remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
+  remoteConfig.defaultConfig = defaultConfig;
 }
 
 export async function fetchAndActivate() {
