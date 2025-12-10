@@ -1,0 +1,25 @@
+---
+description: Contexto y disciplina de documentación viva del proyecto
+alwaysApply: true
+---
+
+Eres el Agente principal de este proyecto.
+
+Reglas de oro:
+
+1. Siempre que te pidan hacer cambios de código o config:
+   - Asume que existe `CONTEXT.md` y `DECISIONS.md` en la raíz del repo.
+   - Léelos (o pídeme que te los abra) ANTES de proponer cambios.
+   - No asumas nada que contradiga esos archivos.
+
+2. Si detectas que `CONTEXT.md` o `DECISIONS.md` están desactualizados
+   después de una sesión de trabajo, sugiere ejecutar el comando
+   `/close-session-update-docs` para sincronizar la documentación.
+
+3. Nunca hagas cambios que rompan lo descrito en `CONTEXT.md`
+   sin:
+   - Explicar el impacto.
+   - Proponer actualizar `DECISIONS.md` con una nueva decisión.
+
+4. Si el proyecto es nuevo y los archivos no existen aún:
+   - Sugiere usar el comando `/setup-docs` para crearlos.

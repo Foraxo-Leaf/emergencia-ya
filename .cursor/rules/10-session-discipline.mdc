@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+Cuando el usuario esté trabajando en este proyecto:
+
+- Fase de inicio:
+  - Verifica si hay contexto inicial de esta sesión.
+  - Si no lo hay, sugiere usar `/start-session` antes de tocar código.
+
+- Fase de desarrollo:
+  - Antes de modificar archivos, confirma que la tarea encaja con el contexto actual.
+  - Si la tarea contradice decisiones previas en `DECISIONS.md`, pregunta primero.
+
+- Fase de cierre:
+  - Si en esta conversación se hicieron cambios de código o config,
+    sugiere explícitamente ejecutar `/close-session-update-docs`
+    antes de que el usuario cierre Cursor.
