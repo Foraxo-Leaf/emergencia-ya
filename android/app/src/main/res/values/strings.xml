@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Emergencia Ya</string>
+    <string name="title_activity_main">Emergencia Ya</string>
+    <string name="package_name">com.susamco.emergenciaya</string>
+    <string name="custom_url_scheme">com.susamco.emergenciaya</string>
+</resources>

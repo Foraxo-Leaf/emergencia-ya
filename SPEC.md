@@ -43,9 +43,9 @@ Brindar acceso inmediato a servicios de emergencia SUSAMCO, con guía rápida de
   - Opción de incluir Centro de Monitoreo con datos equivalentes.
 
 ## Requisitos no funcionales
-- Plataforma: Next.js 15, React 18, PWA installable (manifest/theme/iconos).
+- Plataforma: Next.js 16 (App Router), React 18, PWA installable (manifest/theme/iconos).
 - Rendimiento: carga rápida en móvil; caché estático y video para experiencia offline.
 - Confiabilidad: fallback a defaults cuando falle Remote Config; usar número nacional si no hay ubicación.
 - Accesibilidad: alto contraste (rojo primario, fondo claro) y tipografía Inter.
-- Seguridad: claves Firebase públicas solo para servicios frontend; no almacenar secretos sensibles en cliente.
+- Seguridad: claves Firebase públicas solo para servicios frontend; no almacenar secretos sensibles en cliente. Dependencias críticas fijadas con overrides y `patch-package` actualizado para mantener `npm audit` en 0.
 - Compatibilidad: mobile-first; funciona en navegadores modernos y PWA en iOS/Android.

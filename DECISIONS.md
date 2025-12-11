@@ -1,6 +1,11 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
+2025-12-11 – **Parche CVEs npm (overrides)** – Se fijan versiones seguras con overrides (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 + `body-parser` 2.2.1, `glob` 10.5.0, `brace-expansion` 2.0.2, `@babel/runtime` 7.28.4) y se sube `patch-package` a 8.0.1 para cerrar vulnerabilidades; `npm audit` queda en 0.
+2025-12-11 – **Capacitor Android base** – Añadidos @capacitor/core/cli/android, `capacitor.config.ts` (appId `com.susamco.emergenciaya`, webDir `.next`, server `https://emergencia-ya.vercel.app`) y proyecto `android/` para empaquetar APK/AAB offline.
+2025-12-11 – **Remote Config snapshot Dexie** – Dexie v4 agrega `remoteConfigSnapshots` y el hook adopta/actualiza snapshots hashados, permitiendo usar datos RC offline y actualizar solo si cambian.
+2025-12-11 – **Doc comandos Android** – `docs/appstore-packaging.md` incluye pasos rápidos (build, cap sync/open) para generar/aprobar APK/AAB.
+2025-12-11 – **ESLint ignora android/** – Se excluye `android/**` en la flat config para evitar falsos positivos sobre assets generados por Capacitor.
 2025-12-10 – **PWA caching nav NetworkFirst y assets SWR** – Ajustado runtime caching: navegación NetworkFirst (timeout 5s, 7d) y assets StaleWhileRevalidate manteniendo fallback `/offline`.
 2025-12-10 – **Fallback offline con números directos** – Página offline (React y HTML) ahora muestra botones de llamada a números críticos por defecto para uso sin datos.
 2025-12-10 – **Remote Config v1 versionada** – Claves y cache de Remote Config con versión v1, TTL 24h y limpieza de storage legacy para evitar datos viejos.

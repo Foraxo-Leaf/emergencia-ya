@@ -42,3 +42,10 @@ export default config;
 - Remote Config se cachea 24h y usa defaults embebidos si no hay red.
 - Mantén `skipWaiting` activo para que las nuevas versiones de SW se apliquen al reabrir la app.
 
+### Comandos rápidos Android (Capacitor)
+1) Instalar deps (ya añadidas): `npm install`
+2) Build prod: `npm run build --webpack`
+3) Sincronizar: `npx cap sync android`
+4) Abrir Android Studio: `npx cap open android`
+5) Probar modo avión desde el APK/emu; si cambias frontend, repite pasos 2–3.
+

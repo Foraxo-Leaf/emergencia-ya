@@ -17,13 +17,13 @@ export async function initialize() {
     return;
   }
 
-  remoteConfig = getRemoteConfig(app);
-
+    remoteConfig = getRemoteConfig(app);
+    
   // Keep cache TTL aligned with the app-side cache window.
   remoteConfig.settings.minimumFetchIntervalMillis =
     process.env.NODE_ENV === "development" ? 0 : REMOTE_CONFIG_TTL_MS;
-  remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
-  remoteConfig.defaultConfig = defaultConfig;
+    remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
+    remoteConfig.defaultConfig = defaultConfig;
 }
 
 export async function fetchAndActivate() {

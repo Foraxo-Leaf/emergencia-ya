@@ -3,6 +3,7 @@ import Dexie from "dexie";
 // as they are handled by Remote Config and a local JSON file respectively.
 
 const OUTBOX_SCHEMA = "++id,type,payload,created_at,nextAttemptAt,attempts";
+const REMOTE_CONFIG_SCHEMA = "id,updatedAt,hash";
 
 export const db = new Dexie("emergencia");
 
@@ -40,7 +41,17 @@ db.version(3)
         if (item.attempts === undefined) item.attempts = 0;
         if (item.nextAttemptAt === undefined) item.nextAttemptAt = 0;
       });
-  });
+});
+
+db.version(4).stores({
+  contacts: "id,updated_at,deleted",
+  protocols: "id,updated_at,deleted",
+  incidents: "id,updated_at,deleted",
+  attachments: "id,incidentId,updated_at,deleted",
+  outbox: OUTBOX_SCHEMA,
+  secure: "id",
+  remoteConfigSnapshots: REMOTE_CONFIG_SCHEMA,
+});
 
 // The seedDB function is no longer necessary as data is sourced differently.
 // We keep the function but leave it empty to avoid breaking calls to it.

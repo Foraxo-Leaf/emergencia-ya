@@ -55,7 +55,7 @@ const withPWA = withPWAInit({
         },
       },
     },
-    {
+     {
       // Strategy: Network First (for navigation requests)
       // Prioritizes fresh HTML while still allowing offline fallback.
       urlPattern: ({request}: {request: {mode?: string}}) =>
@@ -84,7 +84,7 @@ const withPWA = withPWAInit({
       handler: 'StaleWhileRevalidate',
       options: {
         cacheName: 'app-static-assets',
-        expiration: {
+         expiration: {
           maxEntries: 200,
           maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
         },

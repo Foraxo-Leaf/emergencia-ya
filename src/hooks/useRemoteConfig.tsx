@@ -10,6 +10,7 @@ import {
   buildContactData,
   ContactData,
 } from "@/lib/config";
+import { db } from "@/lib/db";
 
 type RemoteConfigContextType = {
   contactData: ContactData;
@@ -23,6 +24,7 @@ const LEGACY_LAST_FETCH_KEY = "remoteConfigLastFetch";
 const CONFIG_STORAGE_KEY = `remoteConfigData:v${REMOTE_CONFIG_SCHEMA_VERSION}`;
 const LAST_FETCH_STORAGE_KEY = `remoteConfigLastFetch:v${REMOTE_CONFIG_SCHEMA_VERSION}`;
 const FAILED_FETCH_RETRY_MS = 15 * 60 * 1000; // Retry in 15 minutes after a failure
+const REMOTE_CONFIG_SNAPSHOT_ID = "current";
 
 const parseStoredConfig = (raw: string | null): ContactData | null => {
   if (!raw) return null;
@@ -56,6 +58,37 @@ const getInitialContactData = (): ContactData => {
   return legacyConfig ?? buildContactData(defaultConfig);
 };
 
+const serializeConfig = (config: Record<string, string>) => {
+  const sortedEntries = Object.keys(config)
+    .sort()
+    .map((key) => [key, config[key]]);
+  return JSON.stringify(sortedEntries);
+};
+
+const saveSnapshotToDexie = async (config: Record<string, string>) => {
+  try {
+    const hash = serializeConfig(config);
+    await db.table("remoteConfigSnapshots").put({
+      id: REMOTE_CONFIG_SNAPSHOT_ID,
+      config,
+      hash,
+      updatedAt: Date.now(),
+    });
+  } catch (error) {
+    console.error("[RemoteConfig] Failed to persist snapshot in Dexie", error);
+  }
+};
+
+const loadSnapshotFromDexie = async (): Promise<Record<string, string> | null> => {
+  try {
+    const snapshot = await db.table("remoteConfigSnapshots").get(REMOTE_CONFIG_SNAPSHOT_ID);
+    return snapshot?.config ?? null;
+  } catch (error) {
+    console.error("[RemoteConfig] Failed to read snapshot from Dexie", error);
+    return null;
+  }
+};
+
 
 export function RemoteConfigProvider({ children }: { children: ReactNode }) {
   // Initialize state with data from localStorage or defaults. This is synchronous.
@@ -64,6 +97,13 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let isMounted = true;
+
+    const adoptSnapshot = async () => {
+      const snapshotConfig = await loadSnapshotFromDexie();
+      if (snapshotConfig && isMounted) {
+        setContactData(buildContactData({ ...defaultConfig, ...snapshotConfig }));
+      }
+    };
 
     const shouldFetch = () => {
       if (typeof window === 'undefined') return false;
@@ -78,26 +118,28 @@ export function RemoteConfigProvider({ children }: { children: ReactNode }) {
       cleanupLegacyStorage();
 
       if (!shouldFetch()) {
+        adoptSnapshot();
         setLoading(false);
         return;
       }
-
+      
       console.log("[RemoteConfig] Cache is stale, fetching new data...");
       try {
         await initialize();
         await fetchAndActivate();
+        
+          const remoteValues = getAll();
+          const newConfig: Record<string, string> = {};
+          Object.keys(remoteValues).forEach(key => {
+            newConfig[key] = remoteValues[key].asString();
+          });
 
-        const remoteValues = getAll();
-        const newConfig: Record<string, string> = {};
-        Object.keys(remoteValues).forEach(key => {
-          newConfig[key] = remoteValues[key].asString();
-        });
-
-        const finalConfig = { ...defaultConfig, ...newConfig };
-        const finalContactData = buildContactData(finalConfig);
+          const finalConfig = { ...defaultConfig, ...newConfig };
+          const finalContactData = buildContactData(finalConfig);
 
         if (isMounted) {
           setContactData(finalContactData);
+          await saveSnapshotToDexie(finalConfig);
           localStorage.setItem(
             CONFIG_STORAGE_KEY,
             JSON.stringify({ version: REMOTE_CONFIG_SCHEMA_VERSION, config: finalConfig }),
