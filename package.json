@@ -78,7 +78,7 @@
     "axios": "1.13.2",
     "@modelcontextprotocol/sdk": "1.24.3",
     "body-parser": "2.2.1",
-    "glob": "10.5.0",
+    "glob": "9.3.5",
     "brace-expansion@1": "1.1.12",
     "minimatch@8": {
       "brace-expansion": "2.0.2"

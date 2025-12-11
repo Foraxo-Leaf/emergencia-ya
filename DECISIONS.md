@@ -1,7 +1,9 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
-2025-12-11 – **Parche CVEs npm (overrides)** – Se fijan versiones seguras con overrides (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 + `body-parser` 2.2.1, `glob` 10.5.0, `brace-expansion` 2.0.2, `@babel/runtime` 7.28.4) y se sube `patch-package` a 8.0.1 para cerrar vulnerabilidades; `npm audit` queda en 0.
+2025-12-11 – **Parche CVEs npm (overrides)** – Se fijan versiones seguras con overrides (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 + `body-parser` 2.2.1, `glob` 10.5.0 → luego 9.3.5 por compat, `brace-expansion` 2.0.2, `@babel/runtime` 7.28.4) y se sube `patch-package` a 8.0.1 para cerrar vulnerabilidades; `npm audit` queda en 0.
+2025-12-11 – **Compat glob (build Next/PWA)** – Se ajusta override de `glob` a 9.3.5 (CJS) para evitar error `pify(...).bind` al cargar `next.config.ts`; build vuelve a pasar (`npm run build`).
+2025-12-11 – **Gitignore Android endurecido** – `android/.gitignore` ahora excluye keystores (`*.jks`, `*.keystore`, `*.p12`, `*.pem`) y `google-services.json` en cualquier ruta para prevenir filtrado de credenciales.
 2025-12-11 – **Capacitor Android base** – Añadidos @capacitor/core/cli/android, `capacitor.config.ts` (appId `com.susamco.emergenciaya`, webDir `.next`, server `https://emergencia-ya.vercel.app`) y proyecto `android/` para empaquetar APK/AAB offline.
 2025-12-11 – **Remote Config snapshot Dexie** – Dexie v4 agrega `remoteConfigSnapshots` y el hook adopta/actualiza snapshots hashados, permitiendo usar datos RC offline y actualizar solo si cambian.
 2025-12-11 – **Doc comandos Android** – `docs/appstore-packaging.md` incluye pasos rápidos (build, cap sync/open) para generar/aprobar APK/AAB.

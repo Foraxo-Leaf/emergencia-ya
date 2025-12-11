@@ -35,7 +35,7 @@ Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergenci
 - Manifest (`public/manifest.json` y `manifest.webmanifest`): name/short_name “Emergencia Ya”, theme_color `#DC2626`, icons PNG 192/512 (maskable).
 - Build: `npm run build --webpack`.
 - Lint/TS: `ignoreBuildErrors: true`; lint con ESLint 9 flat config (`eslint.config.mjs`, presets js/ts recomendados) vía `eslint . --max-warnings=0`; script `next typegen` disponible.
-- Seguridad de dependencias: `package.json` usa `overrides` para fijar versiones seguras (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 con `body-parser` 2.2.1, `glob` 10.5.0, `brace-expansion` 1.1.12/2.0.2, `@babel/runtime` 7.28.4) y `patch-package` 8.0.1; `npm audit` en 0 al 2025-12-11.
+- Seguridad de dependencias: `package.json` usa `overrides` para fijar versiones seguras (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 con `body-parser` 2.2.1, `glob` 9.3.5 para compat CJS, `brace-expansion` 1.1.12/2.0.2, `@babel.runtime` 7.28.4) y `patch-package` 8.0.1; `npm audit` en 0 al 2025-12-11.
 - Empaquetado móvil: Capacitor configurado (`capacitor.config.ts`, appId `com.susamco.emergenciaya`, webDir `.next`, server `https://emergencia-ya.vercel.app`) con proyecto Android generado (`android/`); sincronía con `npx cap sync android`.
 
 ## Deuda técnica
