@@ -32,6 +32,7 @@ Brindar acceso inmediato a servicios de emergencia SUSAMCO, con guía rápida de
 - Inicio:
   - Botón rojo grande “LLAMAR A LA AMBULANCIA” (logo ambulancia) marca `ambulance_phone` (ej: 462111); si geofence indica fuera de cobertura o no se pudo ubicar, usar `offline_ambulance_phone` (ej: 107).
   - Accesos directos cuadrados: autoevaluación, educación comunitaria, policía, bomberos, centros de atención y teléfonos útiles (este último en franja inferior, formato rectangular).
+  - Banner/Logo de patrocinio (Fundación Nazareno Crucianelli): se muestra **solo en la parte superior** de la pantalla de inicio (no se repite al pie).
 - Autoevaluación:
   - Preguntas fijas: (1) Dolor de pecho, (2) Dificultad para respirar, (3) Desmayo/pérdida de conciencia, (4) Accidente tránsito/doméstico, (5) Dolor abdominal leve/diarrea, (6) Dolor leve >1 semana, (7) Tos/resfrío/garganta.
   - Respuestas 1–4: llamar al número local si está dentro del radio (`ambulance_phone`) o al general si no (`offline_ambulance_phone`); compartir ubicación por SMS usando `samco_sms_phone` y `sms_help_body_template` (placeholders `{{mapsUrl}}/{{coords}}/{{lat}}/{{lon}}`).

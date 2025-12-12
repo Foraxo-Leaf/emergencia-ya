@@ -9,7 +9,7 @@ Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergenci
 - Config remota: Firebase Remote Config v1 (defaults embebidos, fetch/activate, TTL y cache local 24h, claves versionadas en `localStorage` con limpieza de legacy, y refresh forzado 1 vez por sesión al detectar conectividad) y snapshot persistido en Dexie para uso offline.
 - Datos locales: Dexie DB (`contacts`, `protocols`, `incidents`, `attachments`, `outbox`, `secure`, `remoteConfigSnapshots`) + outbox hacia Firestore con backoff exponencial y reintentos limitados.
 - Pantallas principales:
-  - `/`: botón llamar ambulancia (elige número local vs número general `offline_ambulance_phone` por geofence) + accesos rápidos a triage, educación, policía, bomberos, centros. Incluye banners de patrocinio (Fundación Nazareno Crucianelli) arriba y en el pie.
+  - `/`: botón llamar ambulancia (elige número local vs número general `offline_ambulance_phone` por geofence) + accesos rápidos a triage, educación, policía, bomberos, centros. Incluye banner de patrocinio (Fundación Nazareno Crucianelli) **solo arriba**.
   - `/autoevaluacion`: triage rápido con recomendaciones y acciones (llamada, SMS con ubicación, WhatsApp, centros).
   - `/centros`: tarjetas SAMCO/Monitoreo/Policía/Bomberos con llamada, WhatsApp, mapas (teléfonos conmutan por geofence: local vs `offline_*`).
   - `/policia`, `/bomberos`: llamada conmutada por geofence (local vs `offline_*`) configurada por Remote Config.

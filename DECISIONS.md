@@ -1,6 +1,7 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
+2025-12-12 – **Home: orden de pantalla + patrocinio solo superior** – Se reordena la pantalla principal para seguir el layout del prototipo (CTA ambulancia, grid 2x2, botón inferior de centros) y se elimina el banner/imagen de patrocinio del pie, dejando **solo el superior** (reemplaza la decisión 2025-12-10 de “top y pie”).
 2025-12-12 – **Seguridad deps: Next patch upgrade** – Se actualizan `next` y `eslint-config-next` a **16.0.10** para mantener parches al día y dejar `npm audit` en 0.
 2025-12-12 – **Remote Config: refresh al volver online** – Se fuerza un fetch/activate en background (1 vez por sesión) cuando hay internet al iniciar o cuando vuelve la conectividad, para aplicar cambios publicados sin esperar el TTL de 24h.
 2025-12-12 – **Remote Config: números `offline_*` + SMS configurable** – Se agregan claves `offline_*_phone`, `samco_sms_phone` y `sms_help_body_template` (placeholders) para controlar números “generales” y el cuerpo del SMS desde Remote Config, manteniendo cache offline.
