@@ -12,7 +12,7 @@ import { REMOTE_CONFIG_TTL_MS, defaultConfig } from "./config";
 
 let remoteConfig: RemoteConfig | null = null;
 
-export async function initialize() {
+export async function initialize(options?: { minimumFetchIntervalMillis?: number }) {
   if (!app || !(await isSupported())) {
     return;
   }
@@ -21,7 +21,8 @@ export async function initialize() {
     
   // Keep cache TTL aligned with the app-side cache window.
   remoteConfig.settings.minimumFetchIntervalMillis =
-    process.env.NODE_ENV === "development" ? 0 : REMOTE_CONFIG_TTL_MS;
+    options?.minimumFetchIntervalMillis ??
+    (process.env.NODE_ENV === "development" ? 0 : REMOTE_CONFIG_TTL_MS);
     remoteConfig.settings.fetchTimeoutMillis = 8000; // 8 seconds timeout
     remoteConfig.defaultConfig = defaultConfig;
 }

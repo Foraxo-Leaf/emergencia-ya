@@ -102,11 +102,18 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   /* config options here */
+  // Static export so Capacitor can bundle the app for offline-first usage.
+  output: 'export',
+  // Capacitor's local asset server doesn't reliably resolve `/route/` -> `/route/index.html`.
+  // Keep URLs without trailing slashes to match exported assets.
+  trailingSlash: false,
   typescript: {
     ignoreBuildErrors: true,
   },
   outputFileTracingRoot: path.join(__dirname),
   images: {
+    // next/image optimization requires a Next.js server, which isn't available in static export.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

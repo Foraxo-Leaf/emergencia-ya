@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { AlertTriangle, Phone, MessageSquare, Stethoscope, MessageCircle, MapPin, Loader2 } from "lucide-react";
 import Link from 'next/link';
-import type { ContactData } from '@/lib/config';
+import {
+    SMS_COORDS_PLACEHOLDER,
+    SMS_LAT_PLACEHOLDER,
+    SMS_LON_PLACEHOLDER,
+    SMS_MAPS_URL_PLACEHOLDER,
+    type ContactData,
+} from '@/lib/config';
 import { getDistance } from '@/lib/utils';
 
 const allSymptoms = [
@@ -31,13 +37,60 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
     const [geoStatus, setGeoStatus] = useState<GeolocationStatus>('pending');
     
     const localAmbulanceNumber = contactData.ambulance.phone;
-    const nationalAmbulanceNumber = "107";
-    const emergencyPhoneNumber = geoStatus === 'success' ? localAmbulanceNumber : nationalAmbulanceNumber;
+    const fallbackAmbulanceNumber = contactData.offlinePhones.ambulance;
+    const emergencyPhoneNumber = geoStatus === 'success' ? localAmbulanceNumber : fallbackAmbulanceNumber;
     
-    const smsRecipientNumber = contactData.samco.whatsapp;
+    const smsRecipientNumber = contactData.samco.smsPhone;
+    const smsBodyTemplate = contactData.sms.helpBodyTemplate;
     const whatsappTurnosNumber = contactData.samco.whatsapp;
-    const centerPoint = contactData.geofence.center;
-    const radiusKm = contactData.geofence.radiusKm;
+    const { center: centerPoint, radiusKm } = contactData.geofence;
+
+    const COORDINATE_DECIMALS = 5;
+
+    const formatCoordinate = (value: number) => value.toFixed(COORDINATE_DECIMALS);
+
+    const buildCoordinatesText = (coords: { latitude: number; longitude: number }) => {
+        const lat = formatCoordinate(coords.latitude);
+        const lon = formatCoordinate(coords.longitude);
+        return { lat, lon, coordsText: `${lat},${lon}` };
+    };
+
+    const buildMapsUrl = (coordsText: string) => `https://www.google.com/maps?q=${coordsText}`;
+
+    const buildSmsBody = (coords: { latitude: number; longitude: number }) => {
+        const { lat, lon, coordsText } = buildCoordinatesText(coords);
+        const mapsUrl = buildMapsUrl(coordsText);
+        const template = (smsBodyTemplate ?? "").trim();
+        const fallback = `Necesito ayuda.\nCoordenadas: ${coordsText}\nMapa: ${mapsUrl}`;
+
+        if (!template) return fallback;
+
+        const usesCoords =
+            template.includes(SMS_COORDS_PLACEHOLDER) ||
+            template.includes(SMS_LAT_PLACEHOLDER) ||
+            template.includes(SMS_LON_PLACEHOLDER);
+        const usesMaps = template.includes(SMS_MAPS_URL_PLACEHOLDER);
+
+        const resolved = template
+            .replaceAll(SMS_MAPS_URL_PLACEHOLDER, mapsUrl)
+            .replaceAll(SMS_COORDS_PLACEHOLDER, coordsText)
+            .replaceAll(SMS_LAT_PLACEHOLDER, lat)
+            .replaceAll(SMS_LON_PLACEHOLDER, lon)
+            .trim();
+
+        const parts: string[] = [resolved];
+
+        // Make it useful even if the receiver can't open Maps.
+        if (!usesCoords) parts.push(`Coordenadas: ${coordsText}`);
+        if (!usesMaps) parts.push(`Mapa: ${mapsUrl}`);
+
+        return parts.join("\n").trim();
+    };
+
+    const buildSmsHref = (coords: { latitude: number; longitude: number }) => {
+        const body = buildSmsBody(coords);
+        return `sms:${smsRecipientNumber}?body=${encodeURIComponent(body)}`;
+    };
 
     const checkLocation = () => {
         setGeoStatus('loading');
@@ -104,7 +157,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
                                         <Button size="lg" className="w-full bg-primary hover:bg-primary/90"><Phone className="mr-2"/> Llamar Ambulancia ({emergencyPhoneNumber})</Button>
                                     </a>
                                     {location && (
-                                     <a href={`sms:${smsRecipientNumber}?body=Necesito ayuda. Mi ubicación es: https://www.google.com/maps?q=${location.latitude},${location.longitude}`} className="w-full">
+                                     <a href={buildSmsHref(location)} className="w-full">
                                         <Button size="lg" variant="secondary" className="w-full"><MessageSquare className="mr-2"/> Compartir Ubicación por SMS</Button>
                                      </a>
                                     )}
@@ -156,7 +209,7 @@ export function EvaluationClient({ contactData }: EvaluationClientProps) {
             
             {(geoStatus === 'denied' || geoStatus === 'error' || geoStatus === 'outside') && (
                 <div className="mb-4 text-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-sm text-yellow-800">No se pudo verificar la ubicación. Se usará el número de emergencia nacional (107).</p>
+                    <p className="text-sm text-yellow-800">No se pudo verificar la ubicación. Se usará el número de emergencia general ({fallbackAmbulanceNumber}).</p>
                     {geoStatus === 'outside' && <p className="text-xs text-yellow-700 mt-1">Estás fuera del área de cobertura local.</p>}
                 </div>
             )}

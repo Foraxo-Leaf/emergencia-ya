@@ -29,13 +29,13 @@ export default function Home() {
   const [geoStatus, setGeoStatus] = useState<GeoStatus>('loading');
 
   const localAmbulanceNumber = contactData.ambulance.phone;
-  const nationalAmbulanceNumber = "107";
-  const [ambulanceNumber, setAmbulanceNumber] = useState(nationalAmbulanceNumber);
+  const fallbackAmbulanceNumber = contactData.offlinePhones.ambulance;
+  const [ambulanceNumber, setAmbulanceNumber] = useState(fallbackAmbulanceNumber);
 
   useEffect(() => {
     if (configLoading || typeof navigator === 'undefined' || !navigator.geolocation) {
       setGeoStatus('error');
-      setAmbulanceNumber(nationalAmbulanceNumber);
+      setAmbulanceNumber(fallbackAmbulanceNumber);
       return;
     }
 
@@ -55,16 +55,16 @@ export default function Home() {
           setAmbulanceNumber(localAmbulanceNumber);
         } else {
           setGeoStatus('outside');
-          setAmbulanceNumber(nationalAmbulanceNumber);
+          setAmbulanceNumber(fallbackAmbulanceNumber);
         }
       },
       () => {
         setGeoStatus('error');
-        setAmbulanceNumber(nationalAmbulanceNumber);
+        setAmbulanceNumber(fallbackAmbulanceNumber);
       },
       { timeout: 10000, enableHighAccuracy: true }
     );
-  }, [configLoading, contactData, localAmbulanceNumber]);
+  }, [configLoading, contactData, fallbackAmbulanceNumber, localAmbulanceNumber]);
 
   return (
     <main className="flex flex-col min-h-dvh bg-background text-foreground">

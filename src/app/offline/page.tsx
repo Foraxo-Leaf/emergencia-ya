@@ -1,13 +1,17 @@
-import { CONTACT_DATA } from "@/lib/config";
+"use client";
 
-const FALLBACK_NUMBERS = [
-  { label: "Ambulancia", phone: CONTACT_DATA.ambulance.phone },
-  { label: "Monitoreo", phone: CONTACT_DATA.monitoringCenter.phone },
-  { label: "Policía", phone: CONTACT_DATA.police.phone },
-  { label: "Bomberos", phone: CONTACT_DATA.firefighters.phone },
-];
+import { useRemoteConfig } from "@/hooks/useRemoteConfig";
 
 export default function OfflinePage() {
+  const { contactData } = useRemoteConfig();
+
+  const fallbackNumbers = [
+    { label: "Ambulancia", phone: contactData.offlinePhones.ambulance },
+    { label: "Monitoreo", phone: contactData.offlinePhones.monitoringCenter },
+    { label: "Policía", phone: contactData.offlinePhones.police },
+    { label: "Bomberos", phone: contactData.offlinePhones.firefighters },
+  ].filter(({ phone }) => Boolean(phone));
+
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center px-4 py-8 text-center">
       <h1 className="mb-3 text-2xl font-bold">Estás sin conexión</h1>
@@ -15,7 +19,7 @@ export default function OfflinePage() {
         No pudimos actualizar la información. Si necesitas ayuda urgente, usa los números directos.
       </p>
       <div className="grid w-full max-w-md gap-2">
-        {FALLBACK_NUMBERS.map(({ label, phone }) => (
+        {fallbackNumbers.map(({ label, phone }) => (
           <a
             key={label}
             href={`tel:${phone}`}

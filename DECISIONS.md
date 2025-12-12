@@ -1,10 +1,21 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
+2025-12-12 – **Seguridad deps: Next patch upgrade** – Se actualizan `next` y `eslint-config-next` a **16.0.10** para mantener parches al día y dejar `npm audit` en 0.
+2025-12-12 – **Remote Config: refresh al volver online** – Se fuerza un fetch/activate en background (1 vez por sesión) cuando hay internet al iniciar o cuando vuelve la conectividad, para aplicar cambios publicados sin esperar el TTL de 24h.
+2025-12-12 – **Remote Config: números `offline_*` + SMS configurable** – Se agregan claves `offline_*_phone`, `samco_sms_phone` y `sms_help_body_template` (placeholders) para controlar números “generales” y el cuerpo del SMS desde Remote Config, manteniendo cache offline.
+2025-12-12 – **Geofence multi-servicio** – Además de ambulancia, policía/bomberos/monitoreo cambian entre número local (`*_phone`) y general (`offline_*_phone`) según geofence.
+2025-12-12 – **SMS útil sin Maps** – El SMS siempre incluye coordenadas en texto plano y soporta placeholders `{{mapsUrl}}/{{coords}}/{{lat}}/{{lon}}` para que sea legible incluso sin internet.
+2025-12-12 – **ESLint ignora `out/**`** – Se excluye el export estático del lint para evitar errores sobre artefactos generados.
+2025-12-12 – **Deploy Android (WSL → emulador Windows)** – Para instalar en AVD de Windows desde WSL, se usa `adb.exe` del SDK de Windows; el build Gradle requiere JDK 17.
+2025-12-12 – **Capacitor offline-first (bundle local)** – Se adopta export estático de Next (`output: "export"` → `out/`) y Capacitor carga assets locales (`webDir: "out"`, sin `server.url`) para que la app funcione sin internet desde el primer arranque; `trailingSlash` se desactiva por compatibilidad con el asset server de Capacitor.
+2025-12-12 – **Rutas dinámicas exportables para stores** – Se adapta `/educacion/[slug]` a export estático (parámetros pre-generados + wrapper cliente) para que funcione en `out/` dentro de Capacitor (Android/iOS).
 2025-12-11 – **Parche CVEs npm (overrides)** – Se fijan versiones seguras con overrides (`axios` 1.13.2, `@modelcontextprotocol/sdk` 1.24.3 + `body-parser` 2.2.1, `glob` 10.5.0 → luego 9.3.5 por compat, `brace-expansion` 2.0.2, `@babel/runtime` 7.28.4) y se sube `patch-package` a 8.0.1 para cerrar vulnerabilidades; `npm audit` queda en 0.
 2025-12-11 – **Compat glob (build Next/PWA)** – Se ajusta override de `glob` a 9.3.5 (CJS) para evitar error `pify(...).bind` al cargar `next.config.ts`; build vuelve a pasar (`npm run build`).
 2025-12-11 – **Gitignore Android endurecido** – `android/.gitignore` ahora excluye keystores (`*.jks`, `*.keystore`, `*.p12`, `*.pem`) y `google-services.json` en cualquier ruta para prevenir filtrado de credenciales.
 2025-12-11 – **Capacitor Android base** – Añadidos @capacitor/core/cli/android, `capacitor.config.ts` (appId `com.susamco.emergenciaya`, webDir `.next`, server `https://emergencia-ya.vercel.app`) y proyecto `android/` para empaquetar APK/AAB offline.
+2025-12-11 – **Build Android con SDK local** – Generados APK debug y AAB release tras `npx cap sync android` y Gradle con JDK 17 (Zulu en `~/.jdks/...`) y Android SDK en `~/Android`; se añade `android/local.properties` con `sdk.dir` para compilar sin sudo; emulador con conectividad solo al arrancar sin snapshots (`-dns-server 8.8.8.8,1.1.1.1`, `-no-snapshot-load`).
+2025-12-11 – **Arranque emulador sin snapshots** – Para evitar pérdida de red en el AVD, se define flujo: iniciar por consola con `emulator.exe -avd <AVD> -dns-server 8.8.8.8,1.1.1.1 -no-snapshot-load -no-snapshot-save`; si se usa Device Manager, aplicar Wipe Data + Cold Boot y desactivar snapshots.
 2025-12-11 – **Remote Config snapshot Dexie** – Dexie v4 agrega `remoteConfigSnapshots` y el hook adopta/actualiza snapshots hashados, permitiendo usar datos RC offline y actualizar solo si cambian.
 2025-12-11 – **Doc comandos Android** – `docs/appstore-packaging.md` incluye pasos rápidos (build, cap sync/open) para generar/aprobar APK/AAB.
 2025-12-11 – **ESLint ignora android/** – Se excluye `android/**` en la flat config para evitar falsos positivos sobre assets generados por Capacitor.

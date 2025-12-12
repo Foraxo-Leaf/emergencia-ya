@@ -3,9 +3,10 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const config: CapacitorConfig = {
   appId: "com.susamco.emergenciaya",
   appName: "Emergencia Ya",
-  webDir: ".next",
+  // For offline-first, we bundle the static export output (Next.js `output: "export"`).
+  webDir: "out",
+  // No `server.url`: load the local bundle instead of a remote website.
   server: {
-    url: "https://emergencia-ya.vercel.app",
     cleartext: false,
     androidScheme: "https",
   },

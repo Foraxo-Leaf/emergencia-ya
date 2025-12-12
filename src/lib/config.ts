@@ -4,6 +4,10 @@ import { educationTopics } from "@/lib/data/educationData";
 
 export const REMOTE_CONFIG_SCHEMA_VERSION = 1;
 export const REMOTE_CONFIG_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+export const SMS_MAPS_URL_PLACEHOLDER = "{{mapsUrl}}";
+export const SMS_COORDS_PLACEHOLDER = "{{coords}}";
+export const SMS_LAT_PLACEHOLDER = "{{lat}}";
+export const SMS_LON_PLACEHOLDER = "{{lon}}";
 
 // Generates keys with underscores for Firebase parameter names
 const generateEducationVideoKeys = () => {
@@ -21,6 +25,12 @@ export const remoteConfigKeys = {
     samco_address: 'samco_address',
     samco_maps_query: 'samco_maps_query',
     samco_whatsapp: 'samco_whatsapp',
+    samco_sms_phone: 'samco_sms_phone',
+    sms_help_body_template: 'sms_help_body_template',
+    offline_ambulance_phone: 'offline_ambulance_phone',
+    offline_monitoring_center_phone: 'offline_monitoring_center_phone',
+    offline_police_phone: 'offline_police_phone',
+    offline_firefighters_phone: 'offline_firefighters_phone',
     monitoring_center_name: 'monitoring_center_name',
     monitoring_center_address: 'monitoring_center_address',
     monitoring_center_maps_query: 'monitoring_center_maps_query',
@@ -45,6 +55,12 @@ export const defaultConfig: Record<string, string> = {
     [remoteConfigKeys.samco_address]: "Pasaje Pedro Rolando 1590, Armstrong, Santa Fe",
     [remoteConfigKeys.samco_maps_query]: "SAMCO+Armstrong,+Pasaje+Pedro+Rolando+1590,+Armstrong,+Santa+Fe",
     [remoteConfigKeys.samco_whatsapp]: "543471533033",
+    [remoteConfigKeys.samco_sms_phone]: "543471533033",
+    [remoteConfigKeys.sms_help_body_template]: `Necesito ayuda. Mi ubicación es: ${SMS_MAPS_URL_PLACEHOLDER}`,
+    [remoteConfigKeys.offline_ambulance_phone]: "107",
+    [remoteConfigKeys.offline_monitoring_center_phone]: "109",
+    [remoteConfigKeys.offline_police_phone]: "101",
+    [remoteConfigKeys.offline_firefighters_phone]: "100",
     [remoteConfigKeys.monitoring_center_name]: "Centro de Monitoreo",
     [remoteConfigKeys.monitoring_center_address]: "Bv. Auden y Dante Alighieri",
     [remoteConfigKeys.monitoring_center_maps_query]: "Centro+de+Monitoreo+Armstrong",
@@ -73,6 +89,7 @@ type SamcoData = {
     address: string;
     mapsQuery: string;
     whatsapp: string;
+    smsPhone: string;
 };
 
 type CenterData = {
@@ -87,6 +104,17 @@ type GeofenceData = {
     radiusKm: number;
 }
 
+type OfflinePhonesData = {
+    ambulance: string;
+    monitoringCenter: string;
+    police: string;
+    firefighters: string;
+};
+
+type SmsConfig = {
+    helpBodyTemplate: string;
+};
+
 export type ContactData = {
     samco: SamcoData;
     monitoringCenter: CenterData;
@@ -95,6 +123,8 @@ export type ContactData = {
     ambulance: {
         phone: string;
     },
+    offlinePhones: OfflinePhonesData;
+    sms: SmsConfig;
     educationVideos: Record<string, string>;
     geofence: GeofenceData;
 };
@@ -105,6 +135,7 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
         address: config[remoteConfigKeys.samco_address],
         mapsQuery: config[remoteConfigKeys.samco_maps_query],
         whatsapp: config[remoteConfigKeys.samco_whatsapp],
+        smsPhone: config[remoteConfigKeys.samco_sms_phone] || config[remoteConfigKeys.samco_whatsapp],
     },
     monitoringCenter: {
         name: config[remoteConfigKeys.monitoring_center_name],
@@ -126,6 +157,15 @@ export const buildContactData = (config: Record<string, string>): ContactData =>
     },
     ambulance: {
         phone: config[remoteConfigKeys.ambulance_phone],
+    },
+    offlinePhones: {
+        ambulance: config[remoteConfigKeys.offline_ambulance_phone],
+        monitoringCenter: config[remoteConfigKeys.offline_monitoring_center_phone],
+        police: config[remoteConfigKeys.offline_police_phone],
+        firefighters: config[remoteConfigKeys.offline_firefighters_phone],
+    },
+    sms: {
+        helpBodyTemplate: config[remoteConfigKeys.sms_help_body_template],
     },
     educationVideos: educationTopics.reduce((acc, topic) => {
         const remoteConfigKey = `education_video_${topic.slug.replace(/-/g, '_')}`;

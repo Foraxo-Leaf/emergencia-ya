@@ -5,11 +5,15 @@ import { Header } from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
+import { useGeofenceStatus } from "@/hooks/useGeofenceStatus";
 import { Flame } from "lucide-react";
 
 export default function BomberosPage() {
   const { contactData, loading } = useRemoteConfig();
-  const phoneNumber = contactData.firefighters.phone;
+  const { inGeofence } = useGeofenceStatus(contactData.geofence);
+  const phoneNumber = inGeofence
+    ? contactData.firefighters.phone
+    : contactData.offlinePhones.firefighters;
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">

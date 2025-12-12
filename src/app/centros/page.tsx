@@ -6,16 +6,31 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 import { useRemoteConfig } from "@/hooks/useRemoteConfig";
+import { useGeofenceStatus } from "@/hooks/useGeofenceStatus";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CentrosPage() {
   const { contactData, loading } = useRemoteConfig();
+  const { inGeofence } = useGeofenceStatus(contactData.geofence);
 
   const usefulCenters = [
     contactData.samco,
-    contactData.monitoringCenter,
-    contactData.police,
-    contactData.firefighters,
+    {
+      ...contactData.monitoringCenter,
+      phone: inGeofence
+        ? contactData.monitoringCenter.phone
+        : contactData.offlinePhones.monitoringCenter,
+    },
+    {
+      ...contactData.police,
+      phone: inGeofence ? contactData.police.phone : contactData.offlinePhones.police,
+    },
+    {
+      ...contactData.firefighters,
+      phone: inGeofence
+        ? contactData.firefighters.phone
+        : contactData.offlinePhones.firefighters,
+    },
   ];
   
   if (loading) {
