@@ -9,6 +9,7 @@ export default [
       "node_modules/**",
       "public/**",
       "android/**",
+      "scripts/**",
       "next-env.d.ts",
       "workbox-*.js",
       "fallback-*.js",

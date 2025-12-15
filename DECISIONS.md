@@ -1,6 +1,9 @@
 # DECISIONS.md – Registro de Decisiones
 
 ## Cambios recientes
+2025-12-15 – **Icono final con ambulancia.png personalizada** – Se usa `assets/ambulancia.png` (imagen PNG negra) como fuente; sharp invierte colores (blanco) y compone sobre fondo rojo circular (#DC2626). Flujo: editar ambulancia.png → generar icon.png con script Node → ejecutar `npm run generate:assets`. Corrige la decisión anterior que usaba SVGs generados por código.
+2025-12-15 – **Iconos personalizados para PWA/Android/iOS** – Se implementan iconos personalizados (ambulancia blanca sobre fondo rojo #DC2626). Herramientas: sharp para procesar imágenes y `npm run generate:assets` (@capacitor/assets). PWA usa `public/icons/`, Android usa `mipmap-*/` con Adaptive Icons. Se agregan `favicon.ico` y `apple-touch-icon.png` en `public/`. Layout.tsx actualizado para usar `/icons/favicon.png`. ESLint ignora `scripts/**`. Documentación en `docs/appstore-packaging.md`.
+2025-12-15 – **Instalación APK desde WSL con wslpath** – Para instalar APKs en emulador Windows desde WSL, usar `wslpath -w <ruta>` para convertir rutas Linux a Windows (ej: `adb.exe install -r "$(wslpath -w /ruta.apk)"`). Recordar setear `JAVA_HOME` a JDK 17 para builds Gradle.
 2025-12-12 – **Home: orden de pantalla + patrocinio solo superior** – Se reordena la pantalla principal para seguir el layout del prototipo (CTA ambulancia, grid 2x2, botón inferior de centros) y se elimina el banner/imagen de patrocinio del pie, dejando **solo el superior** (reemplaza la decisión 2025-12-10 de “top y pie”).
 2025-12-12 – **Seguridad deps: Next patch upgrade** – Se actualizan `next` y `eslint-config-next` a **16.0.10** para mantener parches al día y dejar `npm audit` en 0.
 2025-12-12 – **Remote Config: refresh al volver online** – Se fuerza un fetch/activate en background (1 vez por sesión) cuando hay internet al iniciar o cuando vuelve la conectividad, para aplicar cambios publicados sin esperar el TTL de 24h.

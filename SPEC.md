@@ -52,5 +52,6 @@ Brindar acceso inmediato a servicios de emergencia SUSAMCO, con guía rápida de
 - Rendimiento: carga rápida en móvil; caché estático y video para experiencia offline.
 - Confiabilidad: fallback a defaults cuando falle Remote Config; usar números generales `offline_*` si no hay ubicación y usar el último snapshot cacheado cuando no haya internet.
 - Accesibilidad: alto contraste (rojo primario, fondo claro) y tipografía Inter.
+- Branding: icono de app personalizado (ambulancia blanca sobre fondo rojo #DC2626) visible en PWA, Android y iOS; favicon y apple-touch-icon para instalación web.
 - Seguridad: claves Firebase públicas solo para servicios frontend; no almacenar secretos sensibles en cliente. Dependencias críticas fijadas con overrides y `patch-package` actualizado para mantener `npm audit` en 0.
 - Compatibilidad: mobile-first; funciona en navegadores modernos y PWA en iOS/Android.

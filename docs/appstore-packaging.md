@@ -47,3 +47,70 @@ export default config;
 4) Abrir Android Studio: `npx cap open android`
 5) Probar modo avión desde el APK/emu; si cambias frontend, repite pasos 2–3.
 
+---
+
+## Iconos y Splash Screens
+
+### Estructura de assets
+
+Los archivos fuente para generar iconos se encuentran en `assets/`:
+
+| Archivo | Uso |
+|---------|-----|
+| `icon.png` (1024x1024) | Icono principal para todas las plataformas |
+| `icon-foreground.png` (1024x1024) | Capa frontal para Adaptive Icons (Android 8+) |
+| `icon-base.svg` | SVG fuente del icono (ambulancia blanca sobre fondo rojo) |
+| `splash.png` (2732x2732) | Splash screen para todas las plataformas |
+
+### Regenerar iconos
+
+Si modificas los SVGs o PNGs fuente, regenera todos los iconos:
+
+```bash
+# Generar iconos PWA y Android con script local
+npm run generate:icons
+
+# Regenerar con @capacitor/assets (recomendado para produccion)
+npm run generate:assets
+```
+
+### Ubicaciones de iconos generados
+
+**PWA (`public/icons/`):**
+- `icon-192x192.png` - Icono para manifest/instalacion
+- `icon-512x512.png` - Icono grande para manifest
+- `favicon.png` - Favicon
+
+**Android (`android/app/src/main/res/`):**
+- `mipmap-*/ic_launcher.png` - Icono principal (ldpi a xxxhdpi)
+- `mipmap-*/ic_launcher_round.png` - Icono redondo
+- `mipmap-*/ic_launcher_foreground.png` - Foreground para Adaptive Icons
+- `mipmap-*/ic_launcher_background.png` - Background para Adaptive Icons
+- `drawable-*/splash.png` - Splash screens en varias densidades
+
+**iOS (cuando se genere el proyecto):**
+- `ios/App/App/Assets.xcassets/AppIcon.appiconset/` - Set completo de iconos
+
+### Diseno del icono
+
+El icono de Emergencia Ya consiste en:
+- **Fondo**: Circulo rojo (#DC2626) - color primario de la app
+- **Icono**: Ambulancia blanca estilo lineal (basado en Lucide)
+- **Estilo**: Minimalista, alta visibilidad
+
+### Adaptive Icons (Android 8+)
+
+Los Adaptive Icons permiten que el sistema aplique diferentes formas al icono:
+- El **foreground** (ambulancia) se mueve con efecto parallax
+- El **background** (rojo #DC2626) permanece estatico
+- Los archivos XML en `mipmap-anydpi-v26/` configuran esta composicion
+
+### Notas para iOS
+
+Para generar iconos iOS:
+1. Generar proyecto iOS: `npx cap add ios`
+2. Ejecutar: `npm run generate:assets`
+3. Los iconos se crearan en `ios/App/App/Assets.xcassets/`
+
+**Importante**: La compilacion y publicacion en App Store requiere **macOS + Xcode**.
+
