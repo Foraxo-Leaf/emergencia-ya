@@ -26,7 +26,11 @@ Emergencia Ya es una PWA (Next.js 16 App Router) para acceso rápido a emergenci
   - Caché local 24h (`remoteConfigData`, `remoteConfigLastFetch` en localStorage) y snapshot persistido en Dexie (`remoteConfigSnapshots`).
   - Refresh: si hay internet al iniciar (o cuando vuelve con el evento `online`), se intenta un fetch/activate **forzado** en background (1 vez por sesión) para aplicar cambios recién publicados sin esperar 24h.
 - Geolocalización:
-  - Home/triage/centros/policía/bomberos usan `navigator.geolocation` para determinar si está dentro del geofence; si falla/deniega o está fuera de radio, se usan números generales (`offline_*`).
+  - Plugin `@capacitor/geolocation@6.1.1` para manejo nativo de permisos en Android/iOS.
+  - `LocationPermissionGate` en `layout.tsx` solicita permisos proactivamente al abrir la app nativa.
+  - `src/lib/geolocation.ts` abstrae `requestLocationPermission()` y `checkLocationPermission()` con fallback para web.
+  - `AndroidManifest.xml` declara `ACCESS_COARSE_LOCATION`, `ACCESS_FINE_LOCATION` y feature `android.hardware.location.gps`.
+  - Home/triage/centros/policía/bomberos usan geolocalización para determinar si está dentro del geofence; si falla/deniega o está fuera de radio, se usan números generales (`offline_*`).
 - PWA / caching (next.config.ts):
   - CacheFirst videos `firebasestorage.googleapis.com` (20 entries, 30 días).
   - NetworkFirst navegación (timeout 5s, 7 días); fallback offline `/offline`.

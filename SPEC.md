@@ -19,6 +19,7 @@ Brindar acceso inmediato a servicios de emergencia SUSAMCO, con guía rápida de
 ## Requisitos funcionales
 - Botón principal: `tel:` al número de ambulancia; cambia a local si dentro del radio configurado.
 - Geolocalización con timeout 10s; si falla/deniega o está fuera del radio, usar `offline_ambulance_phone` y mostrar aviso.
+- Permisos de ubicación: en apps nativas (Android/iOS) se solicitan proactivamente al abrir la app mediante `@capacitor/geolocation`; en web el navegador los solicita al usar la API.
 - Triage: selección de síntoma urgente/no urgente; muestra llamadas, SMS con ubicación, WhatsApp turnos, y link a centros.
 - Centros: tarjetas con dirección, cómo llegar (Maps), llamadas y WhatsApp cuando aplica.
 - Policía/Bomberos/Monitoreo: teléfono conmutado por geofence (dentro: `*_phone`, fuera/sin ubicación: `offline_*_phone`).

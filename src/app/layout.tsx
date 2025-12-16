@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { RemoteConfigProvider } from "@/hooks/useRemoteConfig";
 import { SeedDB } from "@/components/SeedDB";
+import { LocationPermissionGate } from "@/components/shared/LocationPermissionGate";
 
 const APP_NAME = "Emergencia Ya";
 const APP_DEFAULT_TITLE = "Emergencia Ya";
@@ -64,9 +65,11 @@ export default function RootLayout({
       </head>
       <body className={cn("min-h-screen bg-background font-body antialiased", inter.variable)}> 
         <SeedDB />
-        <RemoteConfigProvider>
-          {children}
-        </RemoteConfigProvider>
+        <LocationPermissionGate>
+          <RemoteConfigProvider>
+            {children}
+          </RemoteConfigProvider>
+        </LocationPermissionGate>
         <Toaster />
       </body>
     </html>
